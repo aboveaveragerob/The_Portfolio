@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alastair Zeved Designs &mdash; a field book</title>
+
+<!-- SEO -->
+<meta name="description" content="One framework. Four moves. Six domains. The portfolio and book precursor for With Love, Math: Gregorian Philosophy of Intentional Design, by Alastair Zeved.">
+<meta name="author" content="Alastair Zeved">
+
+<!-- Open Graph / social sharing — update og:url and og:image once your domain is live -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alastair Zeved Designs">
+<meta property="og:description" content="One framework. Four moves. Six domains. The home for With Love, Math: Gregorian Philosophy of Intentional Design.">
+<meta property="og:site_name" content="Alastair Zeved Designs">
+<!-- <meta property="og:url" content="https://yourdomain.com"> -->
+<!-- <meta property="og:image" content="https://yourdomain.com/og-image.png"> -->
+
+<!-- Canonical URL — uncomment and update once your domain is live -->
+<!-- <link rel="canonical" href="https://yourdomain.com"> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<style>
+:root{
+  --bg:#0b0912; --line:#ffffff14; --line-2:#ffffff22;
+  --bone-0:#f3eddf; --bone-1:#d2cad9; --bone-2:#938aa3;
+  --paper:#f3ecdd; --paper-2:#e9e0cd; --ink:#211b16; --ink-2:#5b5247; --ink-3:#8a7f6c;
+  --pink:#ff2d78; --violet:#b25cff;
+  --grad:linear-gradient(100deg,#ffb43d,#ff5a3d 26%,#ff2d78 50%,#b25cff 74%,#43b6ff);
+  --grad-ink:linear-gradient(100deg,#d9641a,#d62f5a 30%,#b3266e 52%,#7b3fd6 76%,#236fc9);
+  --serif:'Fraunces',Georgia,serif; --sans:'Switzer','Helvetica Neue',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:radial-gradient(120% 80% at 50% 0%, #1c1330 0%, var(--bg) 55%);color:var(--bone-1);
+  font-family:var(--sans);line-height:1.45;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+.gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stagegl{position:fixed;inset:0;width:100%;height:100%;opacity:.45;pointer-events:none;z-index:0}
+.stagegl svg{width:100%;height:100%}
+
+/* top bar (only when open) */
+.topbar{position:sticky;top:0;z-index:30;display:none;align-items:center;gap:10px;flex-wrap:nowrap;
+  padding:10px clamp(12px,4vw,36px);background:#0b0912d9;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body[data-open="1"] .topbar{display:flex}
+.tb-brand{display:flex;align-items:center;gap:9px;flex:none}
+.tb-brand svg{width:30px;height:30px;display:block}
+.tb-brand span{font-family:var(--serif);font-weight:500;font-size:1.05rem}
+.tb-nav{display:flex;gap:2px;flex:1 1 auto;min-width:0;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-ms-overflow-style:none}
+.tb-nav::-webkit-scrollbar{display:none}
+.tb-nav>button{flex:none}
+.tb-nav button{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--sans);font-weight:500;
+  font-size:.86rem;color:var(--bone-2);padding:9px 11px;min-height:40px;border-radius:6px;position:relative;transition:color .16s,background .16s}
+.tb-nav button:hover{color:var(--bone-0);background:#ffffff0a}
+.tb-nav button[aria-current="true"]{color:var(--bone-0)}
+.tb-nav button[aria-current="true"]::after{content:"";position:absolute;left:11px;right:11px;bottom:3px;height:2px;border-radius:2px;background:var(--grad)}
+.tb-close{appearance:none;background:none;border:1px solid var(--line-2);color:var(--bone-1);cursor:pointer;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:8px 12px;border-radius:6px;min-height:40px;flex:none}
+.tb-close:hover{color:var(--bone-0);border-color:var(--violet)}
+
+/* stage */
+.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(20px,4vw,48px) 16px 60px;gap:18px}
+
+/* book */
+.book-wrap{perspective:2400px}
+.book{position:relative;width:min(94vw,540px);height:min(760px,calc(100vh - 140px));height:min(760px,calc(100dvh - 140px));transform-style:preserve-3d}
+.back-cover{position:absolute;inset:0;border-radius:7px 12px 12px 7px;background:#0d0a14;
+  box-shadow:0 40px 90px -30px #000,0 0 0 1px #ffffff10;transform:translateZ(-10px)}
+/* the reading page */
+.page{position:absolute;inset:0;border-radius:6px 11px 11px 6px;overflow:hidden;background:
+  linear-gradient(90deg,#d9d0bd 0 16px,var(--paper) 26px) , var(--paper);
+  box-shadow:inset 22px 0 36px -28px #00000055, inset -6px 0 14px -10px #00000022;
+  display:flex;flex-direction:column;z-index:1}
+.page-inner{flex:1;overflow-y:auto;padding:clamp(26px,5%,46px) clamp(22px,7%,52px) 10px clamp(34px,9%,64px);color:var(--ink)}
+.page-inner::-webkit-scrollbar{width:9px}.page-inner::-webkit-scrollbar-thumb{background:#0000001f;border-radius:8px;border:3px solid transparent;background-clip:padding-box}
+.page-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px clamp(22px,7%,52px) 14px clamp(34px,9%,64px);border-top:1px solid #00000016;background:#00000006}
+.pf-btn,.pf-turn button{appearance:none;background:none;border:1px solid #0000001f;color:var(--ink-2);cursor:pointer;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;padding:8px 12px;border-radius:6px;min-height:40px}
+.pf-btn:hover,.pf-turn button:hover{color:var(--ink);border-color:var(--pink)}
+.pf-turn{display:flex;align-items:center;gap:10px}
+.folio{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);min-width:3.5em;text-align:center}
+button[disabled]{opacity:.35;cursor:default}
+
+/* page content */
+.ch-eyebrow{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#a06a2e}
+.ch-title{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,6vw,2.9rem);line-height:1.02;letter-spacing:-.015em;margin:.35rem 0 0;
+  background:var(--grad-ink);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ch-desc{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.6vw,1.28rem);color:var(--ink-2);margin-top:.6rem;max-width:46ch}
+.ch-body{margin-top:1.5rem;max-width:60ch;color:#3a322a;font-size:1.0rem}
+.ch-body p+p{margin-top:.8rem}
+.tag{display:inline-flex;align-items:center;gap:.5em;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-2);padding:5px 11px;border-radius:999px;border:1px solid #0000002a;background:#00000008;margin-top:1rem}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.scaffold{margin-top:1.6rem;display:grid;gap:11px;max-width:60ch}
+.sk{height:13px;border-radius:7px;background:#00000010}
+.sk.w90{width:90%}.sk.w80{width:80%}.sk.w70{width:70%}.sk.w50{width:50%}
+.sk-block{height:110px;border-radius:9px;border:1px dashed #0000002e;background:#00000005;display:flex;align-items:center;justify-content:center;
+  color:var(--ink-3);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+/* domain cards */
+.dgrid{margin-top:1.6rem;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:520px){.dgrid{grid-template-columns:1fr 1fr}}
+.dcard{border:1px solid #0000001f;border-radius:11px;padding:16px 15px;background:#00000006;display:flex;flex-direction:column;gap:8px}
+.dc-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.dcard h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--ink)}
+.dc-dom{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);flex:none}
+.dc-desc{color:#3a322a;font-size:.9rem;flex:1}.dcard .tag{align-self:flex-start;margin-top:.2rem}
+/* advert (Chapter 1) */
+.advert{display:grid;grid-template-columns:1fr;gap:22px;margin-top:1.3rem}
+@media(min-width:560px){.advert{grid-template-columns:150px 1fr;gap:30px;align-items:start}}
+.ad-cover{aspect-ratio:3/4;border-radius:4px 8px 8px 4px;background:radial-gradient(70% 50% at 50% 28%,#2a1d3f,#140d22 72%);
+  box-shadow:0 18px 42px -18px #00000099, inset 0 0 0 1px #ffffff16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;text-align:center}
+.ad-cover .act{font-family:var(--serif);font-weight:600;font-size:1.12rem;line-height:1.02;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ad-cover .acn{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-2)}
+.ad-cover .acstub{margin-top:auto;font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff55}
+.book-title{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,2.9rem);line-height:1;letter-spacing:-.02em;background:var(--grad-ink);-webkit-background-clip:text;background-clip:text;color:transparent}
+.book-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.6vw,1.3rem);color:var(--ink-2);margin-top:.5rem;max-width:40ch}
+.book-by{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:.8rem}
+.ad-blurb{color:#3a322a;font-size:1rem;margin-top:1.1rem;max-width:46ch}
+.ad-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.2rem}
+.ad-cta .cta{appearance:none;border:none;cursor:default;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border-radius:8px;color:#fff;background:linear-gradient(100deg,#ff5a3d,#ff2d78 55%,#b25cff);min-height:44px;box-shadow:0 8px 22px -10px #ff2d7866}
+.ad-cta .cta.ghost{background:none;color:var(--ink-2);border:1px solid #0000002e;box-shadow:none}
+/* steps (The Approach) */
+.steps{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column}
+.step{display:flex;gap:16px;align-items:flex-start;padding:16px 4px;border-bottom:1px solid #00000014}
+.step:last-child{border-bottom:none}
+.step .num{font-family:var(--serif);font-weight:600;font-size:1.7rem;line-height:1;background:var(--grad-ink);-webkit-background-clip:text;background-clip:text;color:transparent;flex:none;min-width:1.7em}
+.step .stxt{flex:1}
+.step .st-t{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--ink);display:flex;align-items:baseline;gap:.6em}
+.step .st-tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.step .st-desc{display:block;margin-top:9px;color:#3a322a;font-size:.92rem;line-height:1.55;max-width:44ch}
+
+/* contents page */
+.toc-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid #0000001a;padding-bottom:16px;margin-bottom:8px}
+.toc-head svg{width:46px;height:46px;flex:none}
+.toc-head .th-t{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--ink);line-height:1}
+.toc-head .th-s{font-family:var(--mono);font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
+.toc-epi{font-family:var(--serif);font-style:italic;color:var(--ink-2);font-size:1.02rem;margin:14px 0 22px;max-width:44ch}
+.toc-h{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.toc-list{list-style:none;display:flex;flex-direction:column}
+.toc-item{width:100%;appearance:none;background:none;border:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;
+  padding:14px 4px;border-bottom:1px solid #00000014;text-align:left;min-height:48px}
+.toc-item:hover .tt{color:#000}.toc-item:hover .ch{color:var(--pink)}
+.toc-item .ch{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);flex:none;transition:color .16s}
+.toc-item .tt{font-family:var(--serif);font-weight:500;font-size:1.3rem;color:var(--ink);transition:color .16s}
+.toc-item .dots{flex:1;border-bottom:1px dotted #00000040;transform:translateY(-4px)}
+.toc-item .pg{font-family:var(--mono);font-size:.8rem;color:var(--ink-3);flex:none}
+
+/* the cover (front) */
+.cover{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;z-index:5;cursor:pointer;
+  transition:transform 1.05s cubic-bezier(.2,.02,.12,1)}
+body[data-open="1"] .cover{transform:rotateY(-162deg)}
+.cover .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:6px 11px 11px 6px;overflow:hidden}
+.cover .front{background:
+  radial-gradient(70% 50% at 50% 30%, #2a1d3f 0%, #140d22 60%, #0d0917 100%);
+  box-shadow:inset 0 0 0 1px #ffffff14, 0 40px 90px -30px #000}
+.cover .back{transform:rotateY(180deg);background:linear-gradient(120deg,#15101f,#0d0a14);
+  box-shadow:inset 0 0 0 1px #ffffff10}
+.cover-gl{position:absolute;inset:0;opacity:.5;pointer-events:none}.cover-gl svg{width:100%;height:100%}
+.cover-frame{position:absolute;inset:16px;border-radius:5px;border:1px solid #ffffff1f;
+  box-shadow:inset 0 0 0 1px #00000040}
+.cover-frame::before{content:"";position:absolute;inset:5px;border-radius:3px;border:1px solid #ffffff10}
+.cover-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:clamp(40px,9%,70px) 24px;text-align:center;z-index:2}
+.cv-top{font-family:var(--mono);font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;color:var(--bone-2);text-indent:.4em}
+.cv-mid{display:flex;flex-direction:column;align-items:center;gap:10px}
+.cv-name{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.1rem);line-height:.98;letter-spacing:-.02em}
+.cv-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.5em;text-transform:uppercase;color:var(--bone-2);text-indent:.5em}
+/* lock + key */
+.lock{display:flex;flex-direction:column;align-items:center;gap:12px}
+.keybtn{appearance:none;background:none;border:none;cursor:pointer;width:clamp(96px,26%,128px);aspect-ratio:1;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;position:relative;transition:transform .5s cubic-bezier(.3,.1,.2,1);
+  box-shadow:0 0 0 1px #ffffff1f, inset 0 0 30px #00000060}
+.keybtn::before{content:"";position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#ffd23d,#ff2d78,#7c5cff,#22d3ee,#ffd23d);
+  opacity:.5;filter:blur(7px);z-index:-1;transition:opacity .3s}
+.keybtn:hover::before{opacity:.85}
+.keybtn svg{width:84%;height:84%;display:block}
+body[data-open="1"] .keybtn{transform:rotate(90deg)}
+.keybtn:focus-visible{outline:2px solid var(--violet);outline-offset:4px}
+.cv-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-1);display:flex;align-items:center;gap:.6em}
+.cv-hint .pulse{width:7px;height:7px;border-radius:50%;background:var(--grad);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+body[data-open="1"] .cv-hint{opacity:0}
+
+/* page-turn leaf */
+.leaf{position:absolute;inset:0;transform-origin:left center;z-index:8;border-radius:6px 11px 11px 6px;
+  background:linear-gradient(105deg,#efe7d6,#f4ecdd 60%,#e6dcc8);box-shadow:0 18px 40px -16px #00000066, inset 22px 0 30px -26px #00000055;
+  backface-visibility:hidden;opacity:0;pointer-events:none}
+.leaf.turn{animation:turn .72s cubic-bezier(.4,.05,.25,1) both}
+@keyframes turn{0%{opacity:1;transform:rotateY(0)}100%{opacity:1;transform:rotateY(-176deg)}}
+
+.foot{position:relative;z-index:1;text-align:center;padding:18px 16px 30px;font-family:var(--mono);font-size:.7rem;color:var(--bone-2)}
+body[data-open="1"] .foot{display:none}
+
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:3px}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .leaf.turn{display:none}
+}
+@media(max-width:680px){
+  .tb-brand span{display:none}
+  .topbar{flex-wrap:wrap;gap:8px;padding-bottom:6px}
+  .tb-brand{order:1}
+  .tb-close{order:2;margin-left:auto;padding:8px 10px;font-size:.66rem}
+  .tb-nav{order:3;flex:1 1 100%;width:100%;justify-content:flex-start;gap:2px}
+  .tb-nav button{padding:9px 11px;font-size:.84rem}
+}
+@media(max-width:480px){
+  .stage{padding:14px 10px 18px}
+  .foot{padding:12px 12px 18px}
+  .page-inner{padding:20px 18px 8px 26px}
+  .page-foot{padding:8px 18px 12px 26px}
+  .pf-btn,.pf-turn button{padding:8px 9px;font-size:.64rem}
+  .pf-turn{gap:7px}.folio{min-width:2.3em}
+  .cover-inner{padding:clamp(24px,6%,70px) 18px}
+  .cv-name{font-size:clamp(1.7rem,8.5vw,3.1rem)}
+  .ad-cover{max-width:160px}
+}
+@media(max-width:360px){
+  .page-foot{flex-wrap:wrap;justify-content:center;gap:8px;padding:8px 14px 10px 20px}
+  .page-inner{padding:16px 14px 6px 20px}
+  .cv-top{font-size:.58rem;letter-spacing:.3em}
+}
+</style>
+</head>
+<body data-open="0">
+<div class="stagegl"><svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="149.0" cy="117.7" r="0.61" fill="#fff" opacity="0.58"/><circle cx="176.6" cy="145.9" r="0.26" fill="#fff" opacity="0.38"/><circle cx="224.6" cy="103.2" r="0.66" fill="#fff" opacity="0.23"/><circle cx="112.7" cy="40.5" r="0.49" fill="#fff" opacity="0.42"/><circle cx="5.1" cy="35.8" r="0.38" fill="#fff" opacity="0.56"/><circle cx="182.7" cy="26.9" r="0.61" fill="#fff" opacity="0.24"/><circle cx="147.7" cy="21.8" r="0.25" fill="#fff" opacity="0.55"/><circle cx="51.4" cy="35.6" r="0.69" fill="#fff" opacity="0.55"/><circle cx="70.3" cy="152.0" r="0.49" fill="#fff" opacity="0.46"/><circle cx="50.3" cy="148.8" r="0.56" fill="#fff" opacity="0.59"/><circle cx="212.9" cy="48.6" r="0.41" fill="#fff" opacity="0.25"/><circle cx="36.4" cy="12.2" r="0.39" fill="#fff" opacity="0.43"/><circle cx="2.8" cy="107.8" r="0.40" fill="#fff" opacity="0.31"/><circle cx="195.2" cy="77.0" r="0.39" fill="#fff" opacity="0.38"/><circle cx="168.3" cy="10.9" r="0.69" fill="#fff" opacity="0.19"/><circle cx="179.0" cy="133.8" r="0.26" fill="#fff" opacity="0.51"/><circle cx="88.4" cy="92.2" r="0.25" fill="#fff" opacity="0.20"/><circle cx="44.7" cy="151.0" r="0.34" fill="#fff" opacity="0.50"/><circle cx="221.4" cy="149.0" r="0.40" fill="#fff" opacity="0.33"/><circle cx="125.8" cy="123.0" r="0.30" fill="#fff" opacity="0.49"/><circle cx="190.1" cy="136.1" r="0.27" fill="#fff" opacity="0.58"/><circle cx="23.5" cy="55.2" r="0.52" fill="#fff" opacity="0.57"/><circle cx="82.2" cy="146.2" r="0.50" fill="#fff" opacity="0.31"/><circle cx="76.8" cy="29.7" r="0.29" fill="#fff" opacity="0.24"/><circle cx="164.6" cy="157.5" r="0.32" fill="#fff" opacity="0.20"/><circle cx="234.9" cy="85.2" r="0.43" fill="#fff" opacity="0.28"/><circle cx="142.2" cy="130.9" r="0.46" fill="#fff" opacity="0.36"/><circle cx="15.1" cy="144.9" r="0.26" fill="#fff" opacity="0.39"/><circle cx="199.9" cy="22.4" r="0.58" fill="#fff" opacity="0.58"/><circle cx="150.8" cy="124.9" r="0.30" fill="#fff" opacity="0.36"/><circle cx="37.2" cy="133.8" r="0.38" fill="#fff" opacity="0.37"/><circle cx="237.8" cy="135.0" r="0.69" fill="#fff" opacity="0.37"/><circle cx="117.2" cy="115.8" r="0.47" fill="#fff" opacity="0.30"/><circle cx="97.3" cy="24.9" r="0.42" fill="#fff" opacity="0.60"/><circle cx="228.5" cy="99.8" r="0.47" fill="#fff" opacity="0.32"/><circle cx="23.0" cy="44.5" r="0.60" fill="#fff" opacity="0.54"/><circle cx="87.3" cy="124.6" r="0.60" fill="#fff" opacity="0.47"/><circle cx="158.7" cy="120.5" r="0.41" fill="#fff" opacity="0.48"/><circle cx="68.3" cy="77.8" r="0.60" fill="#fff" opacity="0.47"/><circle cx="71.3" cy="149.5" r="0.54" fill="#fff" opacity="0.42"/><circle cx="4.7" cy="87.3" r="0.36" fill="#fff" opacity="0.46"/><circle cx="111.3" cy="129.4" r="0.54" fill="#fff" opacity="0.52"/><circle cx="84.1" cy="102.5" r="0.58" fill="#fff" opacity="0.53"/><circle cx="84.6" cy="133.5" r="0.64" fill="#fff" opacity="0.47"/><circle cx="232.4" cy="151.2" r="0.48" fill="#fff" opacity="0.40"/><circle cx="41.2" cy="132.5" r="0.67" fill="#fff" opacity="0.38"/><circle cx="165.2" cy="114.3" r="0.58" fill="#fff" opacity="0.25"/><circle cx="186.2" cy="92.6" r="0.55" fill="#fff" opacity="0.36"/><circle cx="149.2" cy="122.9" r="0.54" fill="#fff" opacity="0.48"/><circle cx="8.5" cy="27.0" r="0.45" fill="#fff" opacity="0.45"/><circle cx="53.7" cy="109.0" r="0.53" fill="#fff" opacity="0.20"/><circle cx="113.3" cy="37.3" r="0.27" fill="#fff" opacity="0.24"/><circle cx="76.9" cy="30.3" r="0.34" fill="#fff" opacity="0.19"/><circle cx="111.8" cy="61.3" r="0.53" fill="#fff" opacity="0.43"/><circle cx="58.1" cy="142.9" r="0.25" fill="#fff" opacity="0.35"/><circle cx="67.7" cy="66.0" r="0.30" fill="#fff" opacity="0.53"/><circle cx="90.2" cy="7.6" r="0.53" fill="#fff" opacity="0.22"/><circle cx="130.7" cy="54.9" r="0.51" fill="#fff" opacity="0.58"/><circle cx="195.2" cy="67.4" r="0.62" fill="#fff" opacity="0.45"/><circle cx="89.2" cy="24.2" r="0.52" fill="#fff" opacity="0.42"/><circle cx="227.9" cy="153.0" r="0.52" fill="#fff" opacity="0.33"/><circle cx="212.9" cy="2.1" r="0.30" fill="#fff" opacity="0.42"/><circle cx="147.2" cy="23.9" r="0.53" fill="#fff" opacity="0.55"/><circle cx="90.7" cy="69.3" r="0.35" fill="#fff" opacity="0.30"/><circle cx="231.5" cy="61.2" r="0.68" fill="#fff" opacity="0.56"/><circle cx="142.6" cy="42.5" r="0.69" fill="#fff" opacity="0.39"/><circle cx="100.1" cy="51.8" r="0.69" fill="#fff" opacity="0.39"/><circle cx="69.6" cy="76.4" r="0.30" fill="#fff" opacity="0.44"/><circle cx="106.7" cy="47.7" r="0.60" fill="#fff" opacity="0.53"/><circle cx="5.1" cy="85.1" r="0.37" fill="#fff" opacity="0.57"/><circle cx="186.5" cy="40.3" r="0.37" fill="#fff" opacity="0.25"/><circle cx="235.4" cy="47.7" r="0.52" fill="#fff" opacity="0.38"/><circle cx="154.2" cy="96.2" r="0.58" fill="#fff" opacity="0.23"/><circle cx="181.5" cy="48.9" r="0.49" fill="#fff" opacity="0.32"/><circle cx="72.1" cy="84.7" r="0.46" fill="#fff" opacity="0.33"/><circle cx="177.8" cy="94.2" r="0.27" fill="#fff" opacity="0.29"/><circle cx="109.5" cy="145.0" r="0.65" fill="#fff" opacity="0.41"/><circle cx="5.4" cy="123.4" r="0.44" fill="#fff" opacity="0.42"/><circle cx="169.1" cy="100.6" r="0.47" fill="#fff" opacity="0.56"/><circle cx="93.0" cy="63.1" r="0.63" fill="#fff" opacity="0.26"/><circle cx="72.0" cy="131.5" r="0.28" fill="#fff" opacity="0.53"/><circle cx="165.9" cy="69.5" r="0.38" fill="#fff" opacity="0.51"/><circle cx="216.9" cy="24.3" r="0.47" fill="#fff" opacity="0.41"/><circle cx="119.5" cy="53.6" r="0.32" fill="#fff" opacity="0.43"/><circle cx="193.6" cy="12.7" r="0.35" fill="#fff" opacity="0.52"/><circle cx="188.9" cy="105.5" r="0.26" fill="#fff" opacity="0.48"/><circle cx="233.0" cy="157.7" r="0.57" fill="#fff" opacity="0.20"/><circle cx="200.7" cy="36.2" r="0.54" fill="#fff" opacity="0.58"/><circle cx="170.1" cy="23.0" r="0.38" fill="#fff" opacity="0.57"/><circle cx="37.3" cy="97.3" r="0.44" fill="#fff" opacity="0.25"/><path d="M148.4 9.6 L148.6 10.5 L149.4 10.6 L148.6 10.8 L148.4 11.6 L148.2 10.8 L147.4 10.6 L148.2 10.5 Z" fill="#fff" opacity="0.48"/><path d="M20.7 11.4 L20.9 12.5 L22.1 12.7 L20.9 13.0 L20.7 14.1 L20.5 13.0 L19.4 12.7 L20.5 12.5 Z" fill="#fff" opacity="0.61"/><path d="M207.8 23.2 L208.0 24.2 L209.0 24.4 L208.0 24.6 L207.8 25.7 L207.6 24.6 L206.6 24.4 L207.6 24.2 Z" fill="#fff" opacity="0.46"/><path d="M143.3 76.8 L143.5 78.2 L144.9 78.4 L143.5 78.7 L143.3 80.0 L143.0 78.7 L141.6 78.4 L143.0 78.2 Z" fill="#fff" opacity="0.48"/><path d="M16.9 109.0 L17.1 109.8 L18.0 110.0 L17.1 110.2 L16.9 111.0 L16.8 110.2 L15.9 110.0 L16.8 109.8 Z" fill="#fff" opacity="0.57"/><path d="M121.4 141.0 L121.6 142.2 L122.7 142.4 L121.6 142.6 L121.4 143.7 L121.1 142.6 L120.0 142.4 L121.1 142.2 Z" fill="#fff" opacity="0.57"/><path d="M65.1 86.7 L65.3 87.7 L66.2 87.9 L65.3 88.0 L65.1 89.0 L64.9 88.0 L64.0 87.9 L64.9 87.7 Z" fill="#fff" opacity="0.61"/><path d="M123.9 23.2 L124.1 24.2 L125.0 24.3 L124.1 24.5 L123.9 25.4 L123.8 24.5 L122.9 24.3 L123.8 24.2 Z" fill="#fff" opacity="0.48"/><path d="M174.9 29.8 L175.2 31.0 L176.4 31.3 L175.2 31.5 L174.9 32.7 L174.7 31.5 L173.5 31.3 L174.7 31.0 Z" fill="#fff" opacity="0.58"/><path d="M23.8 104.5 L23.9 105.4 L24.8 105.5 L23.9 105.7 L23.8 106.5 L23.6 105.7 L22.8 105.5 L23.6 105.4 Z" fill="#fff" opacity="0.39"/><path d="M141.8 38.7 L142.1 40.0 L143.4 40.3 L142.1 40.5 L141.8 41.9 L141.5 40.5 L140.2 40.3 L141.5 40.0 Z" fill="#fff" opacity="0.52"/><path d="M79.0 124.1 L79.2 124.9 L79.9 125.1 L79.2 125.2 L79.0 126.0 L78.9 125.2 L78.1 125.1 L78.9 124.9 Z" fill="#fff" opacity="0.60"/><path d="M16.4 25.3 L16.7 26.7 L18.1 26.9 L16.7 27.2 L16.4 28.6 L16.2 27.2 L14.8 26.9 L16.2 26.7 Z" fill="#fff" opacity="0.59"/><path d="M55.8 20.0 L56.0 21.4 L57.4 21.6 L56.0 21.9 L55.8 23.3 L55.5 21.9 L54.1 21.6 L55.5 21.4 Z" fill="#fff" opacity="0.58"/><path d="M194.4 23.9 L194.6 25.0 L195.8 25.2 L194.6 25.5 L194.4 26.6 L194.2 25.5 L193.0 25.2 L194.2 25.0 Z" fill="#fff" opacity="0.47"/></svg></div>
+
+<header class="topbar" aria-label="Chapters">
+  <div class="tb-brand"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><span class="gradtext">Alastair Zeved Designs</span></div>
+  <nav class="tb-nav" aria-label="Chapters">
+    <button data-go="contents">Contents</button>
+    <button data-go="book">The Book</button>
+    <button data-go="approach">The Approach</button>
+    <button data-go="applications">The Applications</button>
+    <button data-go="self">The Self</button>
+  </nav>
+  <button class="tb-close" data-close>Close the book &#8629;</button>
+</header>
+
+<main class="stage">
+  <div class="book-wrap">
+    <div class="book" id="book">
+      <div class="back-cover" aria-hidden="true"></div>
+
+      <!-- reading page -->
+      <div class="page" id="page" role="region" aria-label="Open book">
+        <div class="page-inner" id="pageInner" tabindex="0"></div>
+        <div class="page-foot">
+          <button class="pf-btn" data-go="contents">&#8592; Contents</button>
+          <div class="pf-turn">
+            <button data-prev aria-label="Previous chapter">&#8249; Prev</button>
+            <span class="folio" id="folio"></span>
+            <button data-next aria-label="Next chapter">Next &#8250;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- page-turn leaf -->
+      <div class="leaf" id="leaf" aria-hidden="true"></div>
+
+      <!-- front cover -->
+      <div class="cover" id="cover">
+        <div class="face front">
+          <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
+          <div class="cover-frame"></div>
+          <div class="cover-inner">
+            <div class="cv-top">Vol. I &middot; A Field Book</div>
+            <div class="cv-mid">
+              <div class="cv-name gradtext">Alastair&nbsp;Zeved</div>
+              <div class="cv-sub">Designs</div>
+            </div>
+            <div class="lock">
+              <button class="keybtn" id="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="key-sunG" cx="42%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff1b8"/><stop offset="32%" stop-color="#ffd23d"/>
+      <stop offset="62%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#ff3d6e"/></radialGradient><linearGradient id="key-moonG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5ef2e8"/><stop offset="55%" stop-color="#22a7f0"/>
+      <stop offset="100%" stop-color="#7c5cff"/></linearGradient><linearGradient id="key-axisG" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#7c5cff"/><stop offset="45%" stop-color="#3b82f6"/>
+      <stop offset="78%" stop-color="#e83e8c"/><stop offset="100%" stop-color="#ff2d78"/></linearGradient><radialGradient id="key-seedG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#ffe79a"/>
+      <stop offset="100%" stop-color="#ffb24d"/></radialGradient><radialGradient id="key-glit" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff" stop-opacity="1"/><stop offset="40%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom0" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffd23d"/><stop offset="100%" stop-color="#ff5a3d" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom1" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="100%" stop-color="#7c5cff" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom2" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ff5ea8"/><stop offset="100%" stop-color="#ffd23d" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom3" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#9b5cff"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></radialGradient><filter id="key-wc" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency="0.013 0.017" numOctaves="3" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="0.7"/></filter><filter id="key-grain"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="4" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 7 -3.2"/><feComposite operator="in" in2="SourceGraphic"/></filter><filter id="key-spray" x="0%" y="0%" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="8" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 7 -4.2" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="key-rough"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="2" seed="6" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="key-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4"/></filter></defs><g filter="url(#key-wc)"><ellipse cx="50" cy="34" rx="31" ry="28.5" fill="url(#key-bloom0)" opacity="0.62"/><ellipse cx="63" cy="33" rx="19" ry="17.5" fill="url(#key-bloom1)" opacity="0.58"/><ellipse cx="50" cy="66" rx="17" ry="15.6" fill="url(#key-bloom2)" opacity="0.56"/><ellipse cx="56" cy="52" rx="21" ry="19.3" fill="url(#key-bloom3)" opacity="0.48"/><ellipse cx="40" cy="30" rx="17" ry="15.6" fill="url(#key-bloom0)" opacity="0.46"/></g><g opacity="0.40"><rect x="30" y="18" width="42" height="40" fill="#ff8a2b" filter="url(#key-spray)"/></g><g opacity="0.38"><rect x="44" y="62" width="30" height="26" fill="#ff2d78" filter="url(#key-spray)"/></g><g opacity="0.34"><rect x="56" y="22" width="26" height="30" fill="#22d3ee" filter="url(#key-spray)"/></g><g filter="url(#key-glow)" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"><circle cx="50" cy="36" r="15" stroke="#ff8a2b" stroke-width="7"/><path d="M50 51 L50 72 C50 81 56 83 62 79" stroke="#ff2d78" stroke-width="7"/></g><g filter="url(#key-rough)" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="36" r="15" stroke="url(#key-sunG)" stroke-width="6.6"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke="url(#key-moonG)" stroke-width="4" fill="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79" stroke="url(#key-axisG)" stroke-width="6.6"/><circle cx="50" cy="36" r="3.0" fill="url(#key-seedG)" stroke="none"/></g><g><circle cx="56.0" cy="81.8" r="0.61" fill="url(#key-glit)"/><circle cx="58.1" cy="33.3" r="0.58" fill="url(#key-glit)"/><circle cx="50.5" cy="39.6" r="1.26" fill="url(#key-glit)"/><circle cx="61.8" cy="39.5" r="0.56" fill="url(#key-glit)"/><circle cx="45.9" cy="33.9" r="1.48" fill="url(#key-glit)"/><circle cx="42.4" cy="26.1" r="1.35" fill="url(#key-glit)"/><circle cx="64.1" cy="33.6" r="0.88" fill="url(#key-glit)"/><circle cx="60.9" cy="31.3" r="1.44" fill="url(#key-glit)"/><circle cx="58.6" cy="41.3" r="0.85" fill="url(#key-glit)"/><circle cx="55.0" cy="29.2" r="1.09" fill="url(#key-glit)"/><circle cx="50.5" cy="38.5" r="1.48" fill="url(#key-glit)"/><circle cx="60.9" cy="78.5" r="1.51" fill="url(#key-glit)"/><circle cx="54.3" cy="81.6" r="1.28" fill="url(#key-glit)"/><circle cx="62.2" cy="35.2" r="0.53" fill="url(#key-glit)"/><circle cx="59.9" cy="75.6" r="0.84" fill="url(#key-glit)"/><circle cx="66.3" cy="30.3" r="1.04" fill="url(#key-glit)"/><circle cx="62.7" cy="34.2" r="1.35" fill="url(#key-glit)"/><circle cx="57.7" cy="75.4" r="0.68" fill="url(#key-glit)"/><circle cx="63.9" cy="31.6" r="0.50" fill="url(#key-glit)"/><circle cx="57.8" cy="74.5" r="1.53" fill="url(#key-glit)"/><circle cx="62.4" cy="39.2" r="1.64" fill="url(#key-glit)"/><circle cx="62.1" cy="30.5" r="1.26" fill="url(#key-glit)"/><circle cx="47.8" cy="21.3" r="1.22" fill="url(#key-glit)"/><circle cx="45.6" cy="34.5" r="0.53" fill="url(#key-glit)"/><circle cx="47.3" cy="34.3" r="0.94" fill="url(#key-glit)"/><circle cx="60.4" cy="35.6" r="0.87" fill="url(#key-glit)"/><circle cx="46.0" cy="41.6" r="0.69" fill="url(#key-glit)"/><circle cx="44.9" cy="43.0" r="1.60" fill="url(#key-glit)"/><circle cx="57.8" cy="38.4" r="1.12" fill="url(#key-glit)"/><circle cx="50.6" cy="36.0" r="1.26" fill="url(#key-glit)"/><circle cx="69.3" cy="39.4" r="1.48" fill="url(#key-glit)"/><circle cx="63.0" cy="35.4" r="1.69" fill="url(#key-glit)"/><circle cx="60.6" cy="78.1" r="1.47" fill="url(#key-glit)"/><circle cx="60.7" cy="29.2" r="0.77" fill="url(#key-glit)"/><circle cx="60.5" cy="38.4" r="0.50" fill="url(#key-glit)"/><circle cx="67.2" cy="29.2" r="0.97" fill="url(#key-glit)"/><circle cx="59.8" cy="36.9" r="0.90" fill="url(#key-glit)"/><circle cx="67.0" cy="36.0" r="0.70" fill="url(#key-glit)"/><circle cx="49.1" cy="39.9" r="1.23" fill="url(#key-glit)"/><circle cx="61.1" cy="34.6" r="0.66" fill="url(#key-glit)"/><circle cx="38.3" cy="43.3" r="0.67" fill="url(#key-glit)"/><circle cx="46.8" cy="33.3" r="0.79" fill="url(#key-glit)"/><circle cx="66.7" cy="29.1" r="1.39" fill="url(#key-glit)"/><circle cx="60.3" cy="84.0" r="1.55" fill="url(#key-glit)"/><circle cx="39.0" cy="34.6" r="0.72" fill="url(#key-glit)"/><circle cx="46.1" cy="37.3" r="0.64" fill="url(#key-glit)"/><path d="M44.1 34.1 L44.5 36.2 L46.6 36.6 L44.5 37.0 L44.1 39.1 L43.7 37.0 L41.6 36.6 L43.7 36.2 Z" fill="#fff" opacity="0.94"/><path d="M63.0 19.0 L63.3 20.6 L64.9 20.9 L63.3 21.2 L63.0 22.8 L62.7 21.2 L61.1 20.9 L62.7 20.6 Z" fill="#fff" opacity="0.71"/><path d="M50.3 35.3 L50.7 37.6 L53.1 38.1 L50.7 38.5 L50.3 40.9 L49.8 38.5 L47.4 38.1 L49.8 37.6 Z" fill="#fff" opacity="0.97"/><path d="M57.2 84.0 L57.6 86.2 L59.8 86.6 L57.6 87.0 L57.2 89.1 L56.8 87.0 L54.6 86.6 L56.8 86.2 Z" fill="#fff" opacity="0.76"/><path d="M59.2 77.2 L59.6 79.2 L61.6 79.5 L59.6 79.9 L59.2 81.9 L58.9 79.9 L56.9 79.5 L58.9 79.2 Z" fill="#fff" opacity="0.98"/><path d="M63.4 36.9 L63.9 39.5 L66.5 40.0 L63.9 40.5 L63.4 43.1 L62.9 40.5 L60.3 40.0 L62.9 39.5 Z" fill="#fff" opacity="0.98"/><path d="M61.6 21.9 L61.8 23.4 L63.4 23.7 L61.8 23.9 L61.6 25.5 L61.3 23.9 L59.8 23.7 L61.3 23.4 Z" fill="#fff" opacity="0.83"/><path d="M55.8 31.6 L56.1 33.3 L57.8 33.6 L56.1 33.9 L55.8 35.5 L55.5 33.9 L53.9 33.6 L55.5 33.3 Z" fill="#fff" opacity="0.79"/><path d="M63.5 21.5 L63.9 23.8 L66.2 24.3 L63.9 24.7 L63.5 27.0 L63.1 24.7 L60.8 24.3 L63.1 23.8 Z" fill="#fff" opacity="0.90"/></g></svg></button>
+              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
+            </div>
+          </div>
+        </div>
+        <div class="face back" aria-hidden="true"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="foot">Alastair Zeved Designs &middot; a field book in progress</footer>
+
+<!-- page templates -->
+<template id="tpl-contents">
+  <div class="toc-head"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgT)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgT)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><div><div class="th-t">Alastair Zeved</div><div class="th-s">Designs</div></div></div>
+  <p class="toc-epi">&ldquo;One framework, running quietly across six domains &mdash; written down, at last.&rdquo;</p>
+  <p class="toc-h">Contents</p>
+  <ol class="toc-list">
+    <li><button class="toc-item" data-go="book"><span class="ch">Ch. 1</span><span class="tt">The Book</span><span class="dots"></span><span class="pg">1</span></button></li>
+    <li><button class="toc-item" data-go="approach"><span class="ch">Ch. 2</span><span class="tt">The Approach</span><span class="dots"></span><span class="pg">2</span></button></li>
+    <li><button class="toc-item" data-go="applications"><span class="ch">Ch. 3</span><span class="tt">The Applications</span><span class="dots"></span><span class="pg">3</span></button></li>
+    <li><button class="toc-item" data-go="self"><span class="ch">Ch. 4</span><span class="tt">The Self</span><span class="dots"></span><span class="pg">4</span></button></li>
+  </ol>
+</template>
+
+<template id="tpl-book">
+  <p class="ch-eyebrow">Chapter 1 &middot; The Book</p>
+  <div class="advert">
+    <div class="ad-cover">
+      <div class="act">With Love,&nbsp;Math.</div>
+      <div class="acn">Alastair Zeved</div>
+      <div class="acstub">Cover &mdash; to come</div>
+    </div>
+    <div class="ad-body">
+      <h2 class="book-title">With Love, Math.</h2>
+      <p class="book-sub">Gregorian Philosophy of Intentional Design</p>
+      <p class="book-by">by Alastair Zeved</p>
+      <p class="ad-blurb">One framework running quietly across six domains &mdash; now written down. <em>With Love, Math.</em> names the method beneath the making: four moves, applied deliberately, until the seams between disciplines disappear.</p>
+      <div class="ad-cta">
+        <button class="cta" type="button" aria-disabled="true">Coming soon</button>
+        <button class="cta ghost" type="button" aria-disabled="true">Read an excerpt</button>
+      </div>
+      <span class="tag">In progress</span>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-approach">
+  <p class="ch-eyebrow">Chapter 2 &middot; The Approach</p>
+  <h2 class="ch-title">The Approach</h2>
+  <p class="ch-desc">The four-step framework at the heart of &ldquo;With Love, Math.&rdquo;</p>
+  <div class="ch-body">
+    <p>Four moves, run in sequence, across any domain. The method doesn&rsquo;t care what you&rsquo;re making &mdash; only that you&rsquo;re making it on purpose.</p>
+  </div>
+  <ol class="steps">
+    <li class="step">
+      <span class="num">01</span>
+      <span class="stxt">
+        <span class="st-t">Design <span class="st-tag">the what &amp; why</span></span>
+        <p class="st-desc">The initiating act. Before material is touched or tools are raised, the work is named &mdash; what it is, what it must do, and why it deserves to exist. Everything downstream follows from this moment of definition.</p>
+      </span>
+    </li>
+    <li class="step">
+      <span class="num">02</span>
+      <span class="stxt">
+        <span class="st-t">Wonder <span class="st-tag">the question</span></span>
+        <p class="st-desc">The generative inquiry you bring to the domain. Not what is unknown &mdash; what is worth knowing. Wonder is directional: it orients attention before the first move is made.</p>
+      </span>
+    </li>
+    <li class="step">
+      <span class="num">03</span>
+      <span class="stxt">
+        <span class="st-t">Curiosity <span class="st-tag">the pursuit</span></span>
+        <p class="st-desc">Sustained attention following the thread. Where Wonder asks the question, Curiosity keeps asking it &mdash; through the material, past the obvious answer, into the structure beneath.</p>
+      </span>
+    </li>
+    <li class="step">
+      <span class="num">04</span>
+      <span class="stxt">
+        <span class="st-t">Plan <span class="st-tag">the commitment</span></span>
+        <p class="st-desc">The translation of insight into commitment. Not a schedule &mdash; the specific, intentional sequence of moves that converts accumulated understanding into a made thing.</p>
+      </span>
+    </li>
+  </ol>
+</template>
+
+<template id="tpl-applications">
+  <p class="ch-eyebrow">Chapter 3</p>
+  <h2 class="ch-title">The Applications</h2>
+  <p class="ch-desc">Where the framework already lives &mdash; six domains, one hand.</p>
+  <div class="ch-body"><p>Each domain is a place the same method has been put to work. The detail pages are still being written; the shape of the set is below.</p></div>
+  <div class="dgrid">
+    <article class="dcard">
+      <div class="dc-top"><h3>Writing</h3><span class="dc-dom">Language</span></div>
+      <p class="dc-desc">The voice where the framework first found form.</p>
+      <span class="tag">In progress</span>
+    </article>
+    <article class="dcard">
+      <div class="dc-top"><h3>UMA Execution</h3><span class="dc-dom">Markets</span></div>
+      <p class="dc-desc">Observation and decisive intervention, in real time.</p>
+      <span class="tag">In progress</span>
+    </article>
+    <article class="dcard">
+      <div class="dc-top"><h3>Tech Hardware</h3><span class="dc-dom">Electronics</span></div>
+      <p class="dc-desc">Where analog adjacency first opened the method to matter.</p>
+      <span class="tag">In progress</span>
+    </article>
+    <article class="dcard">
+      <div class="dc-top"><h3>Horticulture</h3><span class="dc-dom">Living systems</span></div>
+      <p class="dc-desc">Arrived by accident; cultivated across seasons.</p>
+      <span class="tag">In progress</span>
+    </article>
+    <article class="dcard">
+      <div class="dc-top"><h3>Woodworking</h3><span class="dc-dom">Analog material</span></div>
+      <p class="dc-desc">Unlocked through hardware, four boards at a time.</p>
+      <span class="tag">In progress</span>
+    </article>
+    <article class="dcard">
+      <div class="dc-top"><h3>Audio Production</h3><span class="dc-dom">Sound</span></div>
+      <p class="dc-desc">The newest domain &mdash; two albums in a year.</p>
+      <span class="tag">In progress</span>
+    </article>
+  </div>
+</template>
+
+<template id="tpl-self">
+  <p class="ch-eyebrow">Chapter 4</p>
+  <h2 class="ch-title">The Self</h2>
+  <p class="ch-desc">The person doing the work.</p>
+  <div class="ch-body">
+    <p>A systems thinker who works in trade execution and builds everywhere else. Six domains, one framework &mdash; designed once, applied deliberately across writing, markets, hardware, wood, soil, and sound.</p>
+    <span class="tag">Portrait &amp; extended bio to come</span>
+  </div>
+  <div class="scaffold" aria-hidden="true">
+    <div class="sk-block">Portrait &mdash; to come</div>
+  </div>
+</template>
+
+<script>
+(function(){
+  var ORDER=['contents','book','approach','applications','self'];
+  var LABEL={contents:'Contents',book:'The Book',approach:'The Approach',applications:'The Applications',self:'The Self'};
+  var FOLIO={contents:'—',book:'1',approach:'2',applications:'3',self:'4'};
+  var body=document.body, bookEl=document.getElementById('book'), cover=document.getElementById('cover'),
+      keybtn=document.getElementById('keybtn'), pageInner=document.getElementById('pageInner'),
+      leaf=document.getElementById('leaf'), folio=document.getElementById('folio');
+  var cur='contents';
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setContent(name){
+    var t=document.getElementById('tpl-'+name);
+    pageInner.innerHTML=''; pageInner.appendChild(t.content.cloneNode(true)); pageInner.scrollTop=0;
+    folio.textContent=FOLIO[name];
+    document.querySelectorAll('.tb-nav button').forEach(function(b){ b.setAttribute('aria-current', b.dataset.go===name?'true':'false'); });
+    var idx=ORDER.indexOf(name);
+    var prev=document.querySelector('[data-prev]'), next=document.querySelector('[data-next]');
+    prev.disabled = idx<=1; next.disabled = idx>=ORDER.length-1;
+    var cb=document.querySelector('.pf-btn'); cb.style.visibility = name==='contents'?'hidden':'visible';
+  }
+  function go(name, animate){
+    if(ORDER.indexOf(name)<0) return;
+    if(body.dataset.open!=='1'){ open(); }
+    if(name===cur){ return; }
+    if(animate && !reduce){
+      leaf.classList.remove('turn'); void leaf.offsetWidth; leaf.classList.add('turn');
+      setTimeout(function(){ setContent(name); }, 120);
+    } else { setContent(name); }
+    cur=name;
+    if(location.hash.replace('#','')!==name) history.replaceState(null,'','#'+name);
+  }
+  function open(){
+    body.dataset.open='1'; keybtn.setAttribute('aria-expanded','true');
+    if(cur) setContent(cur);
+    setTimeout(function(){ document.querySelector('.tb-nav button[data-go="contents"]').focus(); }, reduce?0:1000);
+  }
+  function close(){
+    body.dataset.open='0'; keybtn.setAttribute('aria-expanded','false'); keybtn.focus();
+    history.replaceState(null,'','#');
+  }
+
+  keybtn.addEventListener('click', function(e){ e.stopPropagation(); if(!reduce){ setTimeout(open,360);} else {open();} });
+  cover.addEventListener('click', function(){ if(body.dataset.open!=='1'){ if(!reduce){setTimeout(open,360);}else{open();} } });
+  keybtn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(!reduce){setTimeout(open,360);}else{open();} }});
+
+  document.addEventListener('click', function(e){
+    var g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go, true); return; }
+    if(e.target.closest('[data-close]')) close();
+    if(e.target.closest('[data-prev]')){ var i=ORDER.indexOf(cur); if(i>1) go(ORDER[i-1],true); }
+    if(e.target.closest('[data-next]')){ var j=ORDER.indexOf(cur); if(j<ORDER.length-1) go(ORDER[j+1],true); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(body.dataset.open!=='1') return;
+    if(e.target.matches('input,textarea')) return;
+    if(e.key==='ArrowRight'){ var j=ORDER.indexOf(cur); if(j<ORDER.length-1){e.preventDefault();go(ORDER[j+1],true);} }
+    else if(e.key==='ArrowLeft'){ var i=ORDER.indexOf(cur); if(i>1){e.preventDefault();go(ORDER[i-1],true);} }
+    else if(e.key==='Escape'){ close(); }
+  });
+  window.addEventListener('hashchange', function(){ var n=location.hash.replace('#',''); if(ORDER.indexOf(n)>=0){ if(body.dataset.open!=='1')open(); go(n,false);} });
+
+  setContent('contents');
+  var init=location.hash.replace('#','');
+  if(ORDER.indexOf(init)>=0){ open(); go(init,false); }
+})();
+</script>
+</body>
+</html>
