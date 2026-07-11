@@ -14,11 +14,11 @@
 <meta property="og:title" content="Alastair Zeved Designs">
 <meta property="og:description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
 <meta property="og:site_name" content="Alastair Zeved Designs">
-<!-- <meta property="og:url" content="https://yourdomain.com"> -->
-<!-- <meta property="og:image" content="https://yourdomain.com/og-image.png"> -->
+<meta property="og:url" content="https://alastairzeved.com">
+<meta property="og:image" content="https://alastairzeved.com/og-image.png">
 
-<!-- Canonical URL — uncomment and update once your domain is live -->
-<!-- <link rel="canonical" href="https://yourdomain.com"> -->
+<!-- Canonical URL -->
+<link rel="canonical" href="https://alastairzeved.com">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -316,13 +316,44 @@ body[data-open="1"] .foot{display:none}
     <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
   </nav>
   <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Philly Plant Dads</h3><span class="dc-dom">Active</span></div>
+        <p class="dc-desc">A home-run plant nursery specializing in tropical aroids and semi-hydroponic growing &mdash; propagating, converting, and selling plants alongside a small vending operation at local farmers markets.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Community Composting Crew</h3><span class="dc-dom">Ongoing</span></div>
+        <p class="dc-desc">Volunteer composting for a South Philadelphia community garden &mdash; processing food scraps into finished compost for the beds, and building the signage and training materials that keep contributions sorted right.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Planting in Pon</h3></div>
+        <p class="dc-desc">A step-by-step guide to moving a plant from soil into pon, a semi-hydroponic stone substrate &mdash; root washing, removing the nursery plug, potting, and the saturation period that gets it established.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Why Pon Works</h3></div>
+        <p class="dc-desc">The science behind semi-hydroponics &mdash; how roots adapt from soil to water, what pumice, lava rock, and zeolite each do, and how capillary action wicks moisture up to the roots.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Philly Plant Dads</h3></div>
+        <p class="dc-desc">Semi-hydroponic growing, plant propagation, tropical aroid care, farmers-market vending</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Community Composting Crew</h3></div>
+        <p class="dc-desc">Compost management (greens vs. browns), community education, signage and handout design</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Planting in Pon</h3></div>
+        <p class="dc-desc">Soil-to-substrate conversion, root washing, wicking-system setup, semi-hydro fertilization</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -336,13 +367,48 @@ body[data-open="1"] .foot{display:none}
     <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
   </nav>
   <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Joystick Desolder &amp; Resolder Repair</h3><span class="dc-dom">Completed</span></div>
+        <p class="dc-desc">Diagnosed and repaired a failing joystick connection on a circuit board &mdash; desoldering the damaged joint and resoldering a clean one without bridging neighboring pads.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Home NAS for Photo Backup</h3><span class="dc-dom">On hold</span></div>
+        <p class="dc-desc">Designed several builds for a local network-attached storage box to back up years of phone photos outside of iCloud &mdash; weighing mini-PC, drive, and enclosure options against cost and reliability.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Hardening a Home WiFi Router</h3></div>
+        <p class="dc-desc">A practical, no-jargon walkthrough for locking down a home network &mdash; new admin credentials, firmware updates, WPA3, disabling UPnP/WPS, and setting up a guest network for smart devices.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Learning Android App Development from Zero</h3></div>
+        <p class="dc-desc">An eight-week, project-based path into Android development &mdash; from "Hello World" to a working app with local storage, background scraping, and push notifications, published to an internal test track.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Joystick Desolder &amp; Resolder Repair</h3></div>
+        <p class="dc-desc">Soldering, desoldering, circuit board diagnostics</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Home NAS for Photo Backup</h3></div>
+        <p class="dc-desc">NAS architecture, drive and hardware selection, server OS setup, network storage</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Hardening a Home WiFi Router</h3></div>
+        <p class="dc-desc">Router administration, network security fundamentals</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Learning Android App Development</h3></div>
+        <p class="dc-desc">Android/Kotlin fundamentals, background job scheduling, app publishing</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -376,13 +442,52 @@ body[data-open="1"] .foot{display:none}
     <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
   </nav>
   <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Basement Studio Build-Out</h3><span class="dc-dom">In progress</span></div>
+        <p class="dc-desc">Converting an unfinished basement corner into a working studio and office &mdash; framing new stud walls, building a paneled bump-out to mount monitors and a desk, and reworking the finishes and airflow around it.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Trash Can Enclosures</h3><span class="dc-dom">Completed</span></div>
+        <p class="dc-desc">Built a pair of pressure-treated wood enclosures from scratch &mdash; slatted siding, a drained slat roof, and hinged doors designed to weather the outdoors for years.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Front of House Refresh</h3><span class="dc-dom">Completed</span></div>
+        <p class="dc-desc">A round of small exterior fixes &mdash; swapping a light fixture, repainting the front door, and planning enclosures and plantings to frame the entryway.</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Powder Room Renovation</h3><span class="dc-dom">In progress</span></div>
+        <p class="dc-desc">Stripping decades-old wallpaper and primer down to bare wall, skim coating for a smooth finish, and rebuilding the room's fixtures, art, and door from scratch.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Building a Weatherproof Outdoor Enclosure</h3></div>
+        <p class="dc-desc">A step-by-step walkthrough for framing, siding, and finishing a pressure-treated outdoor enclosure that can take the weather &mdash; from cut list to final coat of sealant.</p>
+      </div>
+    </div>
   </div>
   <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dc-top"><h3>Basement Studio Build-Out</h3></div>
+        <p class="dc-desc">Framing, stud layout, panel seaming and filling, priming, painting, cable management</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Trash Can Enclosures</h3></div>
+        <p class="dc-desc">Measuring and cutting, pocket-hole joinery, exterior priming and sealing, hardware fitting</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Front of House Refresh</h3></div>
+        <p class="dc-desc">Fixture removal and wiring, exterior painting</p>
+      </div>
+      <div class="dcard">
+        <div class="dc-top"><h3>Powder Room Renovation</h3></div>
+        <p class="dc-desc">Wallpaper removal, skim coating, priming, painting, fixture selection</p>
+      </div>
+    </div>
   </div>
 </template>
 
