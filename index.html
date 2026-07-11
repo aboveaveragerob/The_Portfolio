@@ -42,6 +42,7 @@ body{background:radial-gradient(120% 80% at 50% 0%, #1c1330 0%, var(--bg) 55%);c
   font-family:var(--sans);line-height:1.45;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
 .gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gradtext-cool{background:linear-gradient(100deg,#5ef2e8,#3b82f6 55%,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stagegl{position:fixed;inset:0;width:100%;height:100%;opacity:.45;pointer-events:none;z-index:0}
 .stagegl svg{width:100%;height:100%}
 
@@ -362,7 +363,7 @@ body[data-open="1"] .vol-tag{opacity:0}
           <div class="cover-inner">
             <div class="cv-top">Vol. II &middot; A Career</div>
             <div class="cv-mid">
-              <div class="cv-name gradtext">Robert&nbsp;Gregory</div>
+              <div class="cv-name gradtext-cool">Robert&nbsp;Gregory</div>
               <div class="cv-sub">A Career</div>
             </div>
             <div class="lock">
@@ -449,12 +450,52 @@ body[data-open="1"] .vol-tag{opacity:0}
     },
     career:{
       brand:'Robert Gregory',
-      toc:{title:'Robert Gregory',sub:'A Career',epi:'A working life in systems, operations, and problem-solving. In progress.'},
-      about:{eyebrow:'About',title:'Robert Gregory',desc:'The career volume.',
-        body:["This volume is being written — a record of professional work and the systems thinking behind it. Check back soon."],method:null},
+      toc:{title:'Robert Gregory',sub:'A Career',epi:'A working life in financial operations — trade execution, workflow design, and the analytics infrastructure built to support both.'},
+      about:{eyebrow:'About Robert Gregory',title:'About',desc:'The person behind the desk.',
+        body:[
+          "I've spent my career in financial operations — starting in retail banking, moving into trust administration, and landing on a trading desk where the real work turned out to be systems, not spreadsheets: mapping how a process actually moves, finding where it breaks, and building the guardrails and dashboards that keep it from breaking again.",
+          "A B.S. in Accounting gave me the vocabulary; years on a regulated trading desk gave me the instinct for where risk actually hides. Somewhere along the way I stopped treating &ldquo;the numbers&rdquo; and &ldquo;the workflow that produces them&rdquo; as two different jobs.",
+          "It's the same instinct behind Alastair Zeved — notice how a thing wants to work, then build with the grain of it. This volume is that instinct applied to a career instead of a workshop."
+        ],
+        method:['Map the process','Find the failure points','Build the guardrails','Scale the system']},
       chapters:[
-        {id:'overview',title:'Overview',desc:'Career details coming soon.',hero:'Coming soon',
-          cats:[{id:'soon',label:'Coming soon',h:'Coming soon',img:'',body:["This volume is in progress."]}]}
+        {id:'brinker',title:'Brinker Capital',desc:'Senior Portfolio Specialist — trade execution, workflow design, and the analytics infrastructure built to support both.',hero:'Brinker Capital · trade desk',
+          cats:[
+            {id:'workflow',label:'Workflow & Automation',h:'Workflow Design & Process Automation',img:'KPI dashboard',body:["Mapped the firm's full multi-sleeve trade-execution workflow across its regulated platforms — every handoff, trigger, and failure point — then used that map to scope and build the firm's first trading KPI dashboard from raw operational data.","Designed the pre-trade validation checks and standardized operating procedures that catch problems before they reach execution, and wrote the exception-tracking protocols that keep a growing multi-trader desk running consistently."]},
+            {id:'execution',label:'Trade Execution',h:'Trade Execution & Risk Control',img:'Trade desk',body:["Executes daily equity trades across multi-sleeve portfolios under tight service-level windows — rebalancing, liquidity events, model delivery, tax-sensitive transitions, and custom blends for high-net-worth accounts.","Leads block-order execution for proprietary fund holdings via auction, and serves as the desk's escalation point for reconciliation breaks, drift exceptions, and liquidity constraints — partnering across Compliance, Operations, and Technology."]},
+            {id:'scaling',label:'Scaling & Training',h:'Scaling & Cross-Training',img:'Cross-training',body:["Originated and solo-traded a new product queue at launch, then designed and ran the cross-training program that grew the desk from a single trader into a full team handling multi-sleeve execution.","Extended coverage to the firm's highest-complexity accounts by onboarding and training additional traders into that book."]},
+            {id:'analytics',label:'Analytics & Oversight',h:'Operational Analytics & AI-Agent Oversight',img:'Analytics build',body:["Built the analytical model behind the desk's KPI dashboard independently — segmenting request types, tracking queue-time service levels, and modeling trade flow and staffing capacity for leadership decisions.","Now extending that dashboard into a monitoring layer for AI-agent-driven workflow automation — watching for bottlenecks and exceptions as the firm scales agentic tooling on the trading desk."]}
+          ]},
+        {id:'pnc',title:'PNC Wealth Management',desc:'Trust administration, then retail branch banking — the foundation the trade desk work was built on.',hero:'PNC · Philadelphia',
+          cats:[
+            {id:'trust',label:'Trust Administration',h:'Portfolio & Trust Administrator, Irrevocable Trust Specialty Group',img:'Trust administration',body:["Administered trust portfolios through tax-loss harvesting, liquidity management, and regulatory compliance workflows, and presented compliance exceptions to the Investment Committee.","Produced ad hoc performance reporting and asset-allocation analysis to support portfolio reviews."]},
+            {id:'branch',label:'Branch Banking',h:'Financial Services Associate, Branch Banking',img:'Branch banking',body:["Supported advisors across personal banking, lending, and account maintenance at a high-volume retail branch, partnering with Mortgage, Investments, Business Banking, and Wealth Management on integrated client financial plans."]}
+          ]},
+        {id:'eddiebauer',title:'Eddie Bauer',desc:'Assistant Manager — visual merchandising, team leadership, and multi-store expansion at one of the country’s highest-volume locations.',hero:'Eddie Bauer · King of Prussia',
+          cats:[
+            {id:'visual',label:'Visual Merchandising',h:'Visual Merchandising',img:'Floor move · King of Prussia',body:["Ran visual merchandising at the King of Prussia store — one of the highest-volume locations in the country — translating corporate directives onto the floor every month and working with payroll to execute each reset on time and to a standard high enough to make the store a proving ground for others."]},
+            {id:'team',label:'Team Leadership',h:'Team Leadership & Training',img:'Visual team',body:["Hired and trained a visual team from the ground up, building the bench needed to hit a demanding monthly reset cycle without letting the standard slip."]},
+            {id:'expansion',label:'Store Openings',h:'Store Openings & Expansion',img:'Montgomeryville build-out',body:["Helped open two additional stores, then relocated to Montgomeryville to close the outgoing location and help open its replacement — carrying the same visual standard into a new build from day one."]},
+            {id:'sales',label:'Sales Performance',h:'Sales Performance',img:'Sales recognition',body:["Closed out one year as the top salesperson in the Northeast region, on the way to promotion into assistant manager."]}
+          ]},
+        {id:'education',title:'Education & Licensing',desc:'The credentials underneath the work.',hero:'Diploma · Series 65',
+          cats:[
+            {id:'creds',label:'Credentials',h:'Education & Licensing',img:'Maryville University · Series 65',body:["A Bachelor of Science in Accounting, magna cum laude, from Maryville University — the foundation for a career that turned out to be less about the numbers themselves and more about the systems that produce them.","Series 65 licensed, with a working knowledge of Python built through continued self-study."]}
+          ]},
+        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in Vol. I.",hero:'Street trees · South Philadelphia',
+          cats:[
+            {id:'treetenders',label:'PHS Tree Tenders',h:'PHS Tree Tenders',img:'Street tree planting',body:["Volunteers with PHS Tree Tenders, planting and establishing street trees as part of the citywide effort to grow Philadelphia's urban canopy. It's civic work with a documented return: a growing body of urban research ties expanded tree cover to measurably safer, more stable blocks, alongside the more familiar gains in air quality, cooler streets, and stormwater management."]},
+            {id:'flowershow',label:'PHS Flower Show',h:'PHS Flower Show',img:'PHS Flower Show',body:["Volunteers each year at the PHS Flower Show, the Society's flagship public event and one of the largest horticultural exhibitions in the country — direct, hands-on support for the organization behind the city's tree-planting and greening work."]},
+            {id:'composting',label:'Composting Committee',h:'Growing Together Community Garden — Composting Committee',img:'Composting systems',body:["Serves on the Composting Committee at Growing Together Community Garden, helping run the systems — collection, education, signage — that keep a shared South Philadelphia composting program functioning at neighborhood scale rather than as one-off volunteering."]}
+          ]},
+        {id:'skillset',title:'Skillset & Technologies',desc:'The skills and platforms behind the work — built across a trading desk, a bank, and a sales floor.',hero:'Dashboards · workstation',
+          cats:[
+            {id:'workflow',label:'Workflow & Automation',h:'Workflow & Automation',img:'Process map',body:["Mapping a process end to end — every handoff, every trigger, every place it can fail — before building the standard operating procedures, validation checks, and automation that make it repeatable."]},
+            {id:'analytics',label:'Analytics & Oversight',h:'Analytics & Oversight',img:'Power BI dashboard',body:["Turning raw operational data into decision-ready dashboards: Power BI built from live API feeds, Tableau, advanced Excel and Python in Excel, and the KPI architecture that ties it all to a business question worth answering."]},
+            {id:'execution',label:'Trade Execution',h:'Trade Execution',img:'Execution screens',body:["The mechanics of moving client assets correctly — multi-sleeve rebalancing, model alignment, tax-aware liquidations, and block-order auction trading — under service-level windows that don't move."]},
+            {id:'risk',label:'Risk & Compliance',h:'Risk & Compliance',img:'Compliance review',body:["The guardrails around execution: regulatory review, trade suitability, audit preparation, and the escalation judgment to know when something needs a second set of eyes."]},
+            {id:'platforms',label:'Platforms & Tools',h:'Platforms & Tools',img:'Platform logos',body:["Wealthscape, Eclipse, Orion, and Docupace for execution; Salesforce, Bloomberg Terminal, FactSet, and Morningstar for everything around it."]}
+          ]}
       ]
     }
   };
