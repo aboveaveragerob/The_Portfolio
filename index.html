@@ -135,8 +135,6 @@ button[disabled]{opacity:.35;cursor:default}
 .step .stxt{flex:1}
 .step .st-t{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--ink);display:flex;align-items:baseline;gap:.6em}
 .step .st-tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.step .st-desc{display:block;margin-top:9px;color:#3a322a;font-size:.92rem;line-height:1.55;max-width:44ch}
-
 /* contents page */
 .toc-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid #0000001a;padding-bottom:16px;margin-bottom:8px}
 .toc-head svg{width:46px;height:46px;flex:none}
@@ -325,12 +323,12 @@ body[data-open="1"] .foot{display:none}
       <h2 class="book-title">With Love, Math.</h2>
       <p class="book-sub">Gregorian Philosophy of Intentional Design</p>
       <p class="book-by">by Alastair Zeved</p>
-      <p class="ad-blurb">One framework running quietly across six domains &mdash; now written down. <em>With Love, Math.</em> names the method beneath the making: four moves, applied deliberately, until the seams between disciplines disappear.</p>
+      <div class="sk-block" style="min-height:80px;margin-top:1.1rem">Book description &mdash; to come</div>
       <div class="ad-cta">
         <button class="cta" type="button" aria-disabled="true">Coming soon</button>
         <button class="cta ghost" type="button" aria-disabled="true">Read an excerpt</button>
       </div>
-      <span class="tag">In progress</span>
+      <span class="tag">Description to come</span>
     </div>
   </div>
 </template>
@@ -345,31 +343,19 @@ body[data-open="1"] .foot{display:none}
   <ol class="steps">
     <li class="step">
       <span class="num">01</span>
-      <span class="stxt">
-        <span class="st-t">Design <span class="st-tag">the what &amp; why</span></span>
-        <p class="st-desc">The initiating act. Before material is touched or tools are raised, the work is named &mdash; what it is, what it must do, and why it deserves to exist. Everything downstream follows from this moment of definition.</p>
-      </span>
+      <span class="stxt"><span class="st-t">Design</span></span>
     </li>
     <li class="step">
       <span class="num">02</span>
-      <span class="stxt">
-        <span class="st-t">Wonder <span class="st-tag">the question</span></span>
-        <p class="st-desc">The generative inquiry you bring to the domain. Not what is unknown &mdash; what is worth knowing. Wonder is directional: it orients attention before the first move is made.</p>
-      </span>
+      <span class="stxt"><span class="st-t">Wonder</span></span>
     </li>
     <li class="step">
       <span class="num">03</span>
-      <span class="stxt">
-        <span class="st-t">Curiosity <span class="st-tag">the pursuit</span></span>
-        <p class="st-desc">Sustained attention following the thread. Where Wonder asks the question, Curiosity keeps asking it &mdash; through the material, past the obvious answer, into the structure beneath.</p>
-      </span>
+      <span class="stxt"><span class="st-t">Curiosity</span></span>
     </li>
     <li class="step">
       <span class="num">04</span>
-      <span class="stxt">
-        <span class="st-t">Plan <span class="st-tag">the commitment</span></span>
-        <p class="st-desc">The translation of insight into commitment. Not a schedule &mdash; the specific, intentional sequence of moves that converts accumulated understanding into a made thing.</p>
-      </span>
+      <span class="stxt"><span class="st-t">Plan</span></span>
     </li>
   </ol>
 </template>
@@ -382,32 +368,32 @@ body[data-open="1"] .foot{display:none}
   <div class="dgrid">
     <article class="dcard">
       <div class="dc-top"><h3>Writing</h3><span class="dc-dom">Language</span></div>
-      <p class="dc-desc">The voice where the framework first found form.</p>
+      <p class="dc-desc">The longest-standing voice, and the first domain where the framework found language. Writing is where Design, Wonder, Curiosity, and Plan are most legible &mdash; each sentence a commitment, each paragraph a made thing with intent.</p>
       <span class="tag">In progress</span>
     </article>
     <article class="dcard">
       <div class="dc-top"><h3>UMA Execution</h3><span class="dc-dom">Markets</span></div>
-      <p class="dc-desc">Observation and decisive intervention, in real time.</p>
+      <p class="dc-desc">Trade execution running on the same four moves: read the market, form the question, follow it until the pattern is clear, commit. One of the least forgiving domains &mdash; where indecision is itself a decision.</p>
       <span class="tag">In progress</span>
     </article>
     <article class="dcard">
       <div class="dc-top"><h3>Tech Hardware</h3><span class="dc-dom">Electronics</span></div>
-      <p class="dc-desc">Where analog adjacency first opened the method to matter.</p>
+      <p class="dc-desc">The domain that opened the door to material work. When electronics demanded attention to the physical &mdash; tolerances, components, what fits and why &mdash; it unlocked the analog adjacencies that followed: wood, soil, sound.</p>
       <span class="tag">In progress</span>
     </article>
     <article class="dcard">
       <div class="dc-top"><h3>Horticulture</h3><span class="dc-dom">Living systems</span></div>
-      <p class="dc-desc">Arrived by accident; cultivated across seasons.</p>
+      <p class="dc-desc">Arrived by accident; stayed because the method fit. Growing things requires the same sequence as making things &mdash; intention before action, sustained attention through the season, a plan that accounts for what you cannot control.</p>
       <span class="tag">In progress</span>
     </article>
     <article class="dcard">
       <div class="dc-top"><h3>Woodworking</h3><span class="dc-dom">Analog material</span></div>
-      <p class="dc-desc">Unlocked through hardware, four boards at a time.</p>
+      <p class="dc-desc">Unlocked through hardware: once the hand was used to working in matter, wood was the natural next material. Four boards at a time, the same framework that works in markets works in a workshop &mdash; define, ask, follow, commit.</p>
       <span class="tag">In progress</span>
     </article>
     <article class="dcard">
       <div class="dc-top"><h3>Audio Production</h3><span class="dc-dom">Sound</span></div>
-      <p class="dc-desc">The newest domain &mdash; two albums in a year.</p>
+      <p class="dc-desc">The newest domain, and the fastest entry: two albums in a year. Audio production compresses the framework into sessions &mdash; each track a design problem, each mix a plan executed in real time.</p>
       <span class="tag">In progress</span>
     </article>
   </div>
@@ -418,10 +404,9 @@ body[data-open="1"] .foot{display:none}
   <h2 class="ch-title">The Self</h2>
   <p class="ch-desc">The person doing the work.</p>
   <div class="ch-body">
-    <p>A systems thinker who works in trade execution and builds everywhere else. Six domains, one framework &mdash; designed once, applied deliberately across writing, markets, hardware, wood, soil, and sound.</p>
-    <span class="tag">Portrait &amp; extended bio to come</span>
+    <div class="sk-block" style="min-height:80px">About Alastair &mdash; to come</div>
   </div>
-  <div class="scaffold" aria-hidden="true">
+  <div class="scaffold" aria-hidden="true" style="margin-top:1rem">
     <div class="sk-block">Portrait &mdash; to come</div>
   </div>
 </template>
