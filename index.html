@@ -500,7 +500,7 @@ body[data-open="1"] .vol-tag{opacity:0}
     var bk=book(curVol); if(!bk) return;
     var L=bk.querySelector('.page-l .page-inner'), R=bk.querySelector('.page-r .page-inner');
     var ks=keys(curVol), key=ks[curIdx], lh, rh;
-    if(key==='front'){ lh=tocHTML(curVol); rh=aboutHTML(curVol); }
+    if(key==='front'){ lh=aboutHTML(curVol); rh=tocHTML(curVol); }
     else { var ci=curIdx-1; lh=openerHTML(curVol,ci); rh=rightChapterHTML(curVol,ci); }
     if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; }
     else { L.innerHTML=''; R.innerHTML=lh+rh; }
