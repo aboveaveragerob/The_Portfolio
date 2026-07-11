@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alastair Zeved Designs &mdash; a field book</title>
+<title>Alastair Zeved Designs &mdash; a portfolio</title>
 
 <!-- SEO -->
-<meta name="description" content="One framework. Four moves. Six domains. The portfolio and book precursor for With Love, Math: Gregorian Philosophy of Intentional Design, by Alastair Zeved.">
+<meta name="description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
 <meta name="author" content="Alastair Zeved">
 
 <!-- Open Graph / social sharing — update og:url and og:image once your domain is live -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Alastair Zeved Designs">
-<meta property="og:description" content="One framework. Four moves. Six domains. The home for With Love, Math: Gregorian Philosophy of Intentional Design.">
+<meta property="og:description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
 <meta property="og:site_name" content="Alastair Zeved Designs">
 <!-- <meta property="og:url" content="https://yourdomain.com"> -->
 <!-- <meta property="og:image" content="https://yourdomain.com/og-image.png"> -->
@@ -112,21 +112,14 @@ button[disabled]{opacity:.35;cursor:default}
 .dcard h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--ink)}
 .dc-dom{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);flex:none}
 .dc-desc{color:#3a322a;font-size:.9rem;flex:1}.dcard .tag{align-self:flex-start;margin-top:.2rem}
-/* advert (Chapter 1) */
-.advert{display:grid;grid-template-columns:1fr;gap:22px;margin-top:1.3rem}
-@media(min-width:560px){.advert{grid-template-columns:150px 1fr;gap:30px;align-items:start}}
-.ad-cover{aspect-ratio:3/4;border-radius:4px 8px 8px 4px;background:radial-gradient(70% 50% at 50% 28%,#2a1d3f,#140d22 72%);
-  box-shadow:0 18px 42px -18px #00000099, inset 0 0 0 1px #ffffff16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;text-align:center}
-.ad-cover .act{font-family:var(--serif);font-weight:600;font-size:1.12rem;line-height:1.02;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.ad-cover .acn{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-2)}
-.ad-cover .acstub{margin-top:auto;font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff55}
-.book-title{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,2.9rem);line-height:1;letter-spacing:-.02em;background:var(--grad-ink);-webkit-background-clip:text;background-clip:text;color:transparent}
-.book-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.6vw,1.3rem);color:var(--ink-2);margin-top:.5rem;max-width:40ch}
-.book-by{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:.8rem}
-.ad-blurb{color:#3a322a;font-size:1rem;margin-top:1.1rem;max-width:46ch}
-.ad-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.2rem}
-.ad-cta .cta{appearance:none;border:none;cursor:default;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border-radius:8px;color:#fff;background:linear-gradient(100deg,#ff5a3d,#ff2d78 55%,#b25cff);min-height:44px;box-shadow:0 8px 22px -10px #ff2d7866}
-.ad-cta .cta.ghost{background:none;color:var(--ink-2);border:1px solid #0000002e;box-shadow:none}
+/* chapter tabs */
+.ch-tabs{display:flex;gap:2px;margin-top:1.4rem;border-bottom:1px solid #00000014;padding-bottom:0}
+.ch-tab{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);padding:9px 13px 11px;border-radius:6px 6px 0 0;position:relative;transition:color .15s,background .15s}
+.ch-tab:hover{color:var(--ink);background:#00000008}
+.ch-tab[aria-selected="true"]{color:var(--ink)}
+.ch-tab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px 2px 0 0;background:var(--grad-ink)}
+.ch-panel{margin-top:1.2rem}
 /* steps (The Approach) */
 .steps{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column}
 .step{display:flex;gap:16px;align-items:flex-start;padding:16px 4px;border-bottom:1px solid #00000014}
@@ -235,10 +228,11 @@ body[data-open="1"] .foot{display:none}
   <div class="tb-brand"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><span class="gradtext">Alastair Zeved Designs</span></div>
   <nav class="tb-nav" aria-label="Chapters">
     <button data-go="contents">Contents</button>
-    <button data-go="book">The Book</button>
-    <button data-go="approach">The Approach</button>
-    <button data-go="applications">The Applications</button>
-    <button data-go="self">The Self</button>
+    <button data-go="horticulture">Horticulture</button>
+    <button data-go="technology">Technology</button>
+    <button data-go="music">Music</button>
+    <button data-go="woodworking">Woodworking</button>
+    <button data-go="about">About</button>
   </nav>
   <button class="tb-close" data-close>Close the book &#8629;</button>
 </header>
@@ -270,7 +264,7 @@ body[data-open="1"] .foot{display:none}
           <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
           <div class="cover-frame"></div>
           <div class="cover-inner">
-            <div class="cv-top">Vol. I &middot; A Field Book</div>
+            <div class="cv-top">Vol. I &middot; A Portfolio</div>
             <div class="cv-mid">
               <div class="cv-name gradtext">Alastair&nbsp;Zeved</div>
               <div class="cv-sub">Designs</div>
@@ -296,112 +290,105 @@ body[data-open="1"] .foot{display:none}
   </div>
 </main>
 
-<footer class="foot">Alastair Zeved Designs &middot; a field book in progress</footer>
+<footer class="foot">Alastair Zeved Designs &middot; portfolio in progress</footer>
 
 <!-- page templates -->
 <template id="tpl-contents">
   <div class="toc-head"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgT)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgT)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><div><div class="th-t">Alastair Zeved</div><div class="th-s">Designs</div></div></div>
-  <p class="toc-epi">&ldquo;One framework, running quietly across six domains &mdash; written down, at last.&rdquo;</p>
+  <p class="toc-epi">Four domains. Completed work, step-by-step guides, and the skills each one demands.</p>
   <p class="toc-h">Contents</p>
   <ol class="toc-list">
-    <li><button class="toc-item" data-go="book"><span class="ch">Ch. 1</span><span class="tt">The Book</span><span class="dots"></span><span class="pg">1</span></button></li>
-    <li><button class="toc-item" data-go="approach"><span class="ch">Ch. 2</span><span class="tt">The Approach</span><span class="dots"></span><span class="pg">2</span></button></li>
-    <li><button class="toc-item" data-go="applications"><span class="ch">Ch. 3</span><span class="tt">The Applications</span><span class="dots"></span><span class="pg">3</span></button></li>
-    <li><button class="toc-item" data-go="self"><span class="ch">Ch. 4</span><span class="tt">The Self</span><span class="dots"></span><span class="pg">4</span></button></li>
+    <li><button class="toc-item" data-go="horticulture"><span class="ch">Ch. 1</span><span class="tt">Horticulture</span><span class="dots"></span><span class="pg">1</span></button></li>
+    <li><button class="toc-item" data-go="technology"><span class="ch">Ch. 2</span><span class="tt">Technology</span><span class="dots"></span><span class="pg">2</span></button></li>
+    <li><button class="toc-item" data-go="music"><span class="ch">Ch. 3</span><span class="tt">Music</span><span class="dots"></span><span class="pg">3</span></button></li>
+    <li><button class="toc-item" data-go="woodworking"><span class="ch">Ch. 4</span><span class="tt">Woodworking</span><span class="dots"></span><span class="pg">4</span></button></li>
+    <li><button class="toc-item" data-go="about"><span class="ch">Ch. 5</span><span class="tt">About</span><span class="dots"></span><span class="pg">5</span></button></li>
   </ol>
 </template>
 
-<template id="tpl-book">
-  <p class="ch-eyebrow">Chapter 1 &middot; The Book</p>
-  <div class="advert">
-    <div class="ad-cover">
-      <div class="act">With Love,&nbsp;Math.</div>
-      <div class="acn">Alastair Zeved</div>
-      <div class="acstub">Cover &mdash; to come</div>
-    </div>
-    <div class="ad-body">
-      <h2 class="book-title">With Love, Math.</h2>
-      <p class="book-sub">Gregorian Philosophy of Intentional Design</p>
-      <p class="book-by">by Alastair Zeved</p>
-      <div class="sk-block" style="min-height:80px;margin-top:1.1rem">Book description &mdash; to come</div>
-      <div class="ad-cta">
-        <button class="cta" type="button" aria-disabled="true">Coming soon</button>
-        <button class="cta ghost" type="button" aria-disabled="true">Read an excerpt</button>
-      </div>
-      <span class="tag">Description to come</span>
-    </div>
+<template id="tpl-horticulture">
+  <p class="ch-eyebrow">Chapter 1 &middot; Horticulture</p>
+  <h2 class="ch-title">Horticulture</h2>
+  <p class="ch-desc">Growing things with intention &mdash; season by season, decision by decision.</p>
+  <nav class="ch-tabs" role="tablist" aria-label="Horticulture sections">
+    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
+  </nav>
+  <div class="ch-panel" data-panel="projects">
+    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="guides" hidden>
+    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="skills" hidden>
+    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
   </div>
 </template>
 
-<template id="tpl-approach">
-  <p class="ch-eyebrow">Chapter 2 &middot; The Approach</p>
-  <h2 class="ch-title">The Approach</h2>
-  <p class="ch-desc">The four-step framework at the heart of &ldquo;With Love, Math.&rdquo;</p>
-  <div class="ch-body">
-    <p>Four moves, run in sequence, across any domain. The method doesn&rsquo;t care what you&rsquo;re making &mdash; only that you&rsquo;re making it on purpose.</p>
+<template id="tpl-technology">
+  <p class="ch-eyebrow">Chapter 2 &middot; Technology</p>
+  <h2 class="ch-title">Technology</h2>
+  <p class="ch-desc">Hardware, electronics, and the physical demands of making things work.</p>
+  <nav class="ch-tabs" role="tablist" aria-label="Technology sections">
+    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
+  </nav>
+  <div class="ch-panel" data-panel="projects">
+    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
   </div>
-  <ol class="steps">
-    <li class="step">
-      <span class="num">01</span>
-      <span class="stxt"><span class="st-t">Design</span></span>
-    </li>
-    <li class="step">
-      <span class="num">02</span>
-      <span class="stxt"><span class="st-t">Wonder</span></span>
-    </li>
-    <li class="step">
-      <span class="num">03</span>
-      <span class="stxt"><span class="st-t">Curiosity</span></span>
-    </li>
-    <li class="step">
-      <span class="num">04</span>
-      <span class="stxt"><span class="st-t">Plan</span></span>
-    </li>
-  </ol>
-</template>
-
-<template id="tpl-applications">
-  <p class="ch-eyebrow">Chapter 3</p>
-  <h2 class="ch-title">The Applications</h2>
-  <p class="ch-desc">Where the framework already lives &mdash; six domains, one hand.</p>
-  <div class="ch-body"><p>Each domain is a place the same method has been put to work. The detail pages are still being written; the shape of the set is below.</p></div>
-  <div class="dgrid">
-    <article class="dcard">
-      <div class="dc-top"><h3>Writing</h3><span class="dc-dom">Language</span></div>
-      <p class="dc-desc">The longest-standing voice, and the first domain where the framework found language. Writing is where Design, Wonder, Curiosity, and Plan are most legible &mdash; each sentence a commitment, each paragraph a made thing with intent.</p>
-      <span class="tag">In progress</span>
-    </article>
-    <article class="dcard">
-      <div class="dc-top"><h3>UMA Execution</h3><span class="dc-dom">Markets</span></div>
-      <p class="dc-desc">Trade execution running on the same four moves: read the market, form the question, follow it until the pattern is clear, commit. One of the least forgiving domains &mdash; where indecision is itself a decision.</p>
-      <span class="tag">In progress</span>
-    </article>
-    <article class="dcard">
-      <div class="dc-top"><h3>Tech Hardware</h3><span class="dc-dom">Electronics</span></div>
-      <p class="dc-desc">The domain that opened the door to material work. When electronics demanded attention to the physical &mdash; tolerances, components, what fits and why &mdash; it unlocked the analog adjacencies that followed: wood, soil, sound.</p>
-      <span class="tag">In progress</span>
-    </article>
-    <article class="dcard">
-      <div class="dc-top"><h3>Horticulture</h3><span class="dc-dom">Living systems</span></div>
-      <p class="dc-desc">Arrived by accident; stayed because the method fit. Growing things requires the same sequence as making things &mdash; intention before action, sustained attention through the season, a plan that accounts for what you cannot control.</p>
-      <span class="tag">In progress</span>
-    </article>
-    <article class="dcard">
-      <div class="dc-top"><h3>Woodworking</h3><span class="dc-dom">Analog material</span></div>
-      <p class="dc-desc">Unlocked through hardware: once the hand was used to working in matter, wood was the natural next material. Four boards at a time, the same framework that works in markets works in a workshop &mdash; define, ask, follow, commit.</p>
-      <span class="tag">In progress</span>
-    </article>
-    <article class="dcard">
-      <div class="dc-top"><h3>Audio Production</h3><span class="dc-dom">Sound</span></div>
-      <p class="dc-desc">The newest domain, and the fastest entry: two albums in a year. Audio production compresses the framework into sessions &mdash; each track a design problem, each mix a plan executed in real time.</p>
-      <span class="tag">In progress</span>
-    </article>
+  <div class="ch-panel" data-panel="guides" hidden>
+    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="skills" hidden>
+    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
   </div>
 </template>
 
-<template id="tpl-self">
-  <p class="ch-eyebrow">Chapter 4</p>
-  <h2 class="ch-title">The Self</h2>
+<template id="tpl-music">
+  <p class="ch-eyebrow">Chapter 3 &middot; Music</p>
+  <h2 class="ch-title">Music</h2>
+  <p class="ch-desc">Audio production &mdash; each track a design problem, each mix a plan executed in real time.</p>
+  <nav class="ch-tabs" role="tablist" aria-label="Music sections">
+    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
+  </nav>
+  <div class="ch-panel" data-panel="projects">
+    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="guides" hidden>
+    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="skills" hidden>
+    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
+  </div>
+</template>
+
+<template id="tpl-woodworking">
+  <p class="ch-eyebrow">Chapter 4 &middot; Woodworking</p>
+  <h2 class="ch-title">Woodworking</h2>
+  <p class="ch-desc">Working in matter &mdash; four boards at a time, the same framework that works anywhere.</p>
+  <nav class="ch-tabs" role="tablist" aria-label="Woodworking sections">
+    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
+    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
+  </nav>
+  <div class="ch-panel" data-panel="projects">
+    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="guides" hidden>
+    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
+  </div>
+  <div class="ch-panel" data-panel="skills" hidden>
+    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
+  </div>
+</template>
+
+<template id="tpl-about">
+  <p class="ch-eyebrow">Chapter 5 &middot; About</p>
+  <h2 class="ch-title">About</h2>
   <p class="ch-desc">The person doing the work.</p>
   <div class="ch-body">
     <div class="sk-block" style="min-height:80px">About Alastair &mdash; to come</div>
@@ -409,14 +396,21 @@ body[data-open="1"] .foot{display:none}
   <div class="scaffold" aria-hidden="true" style="margin-top:1rem">
     <div class="sk-block">Portrait &mdash; to come</div>
   </div>
+  <p class="ch-eyebrow" style="margin-top:2rem">The Method</p>
+  <ol class="steps">
+    <li class="step"><span class="num">01</span><span class="stxt"><span class="st-t">Design</span></span></li>
+    <li class="step"><span class="num">02</span><span class="stxt"><span class="st-t">Wonder</span></span></li>
+    <li class="step"><span class="num">03</span><span class="stxt"><span class="st-t">Curiosity</span></span></li>
+    <li class="step"><span class="num">04</span><span class="stxt"><span class="st-t">Plan</span></span></li>
+  </ol>
 </template>
 
 <script>
 (function(){
-  var ORDER=['contents','book','approach','applications','self'];
-  var LABEL={contents:'Contents',book:'The Book',approach:'The Approach',applications:'The Applications',self:'The Self'};
-  var FOLIO={contents:'—',book:'1',approach:'2',applications:'3',self:'4'};
-  var body=document.body, bookEl=document.getElementById('book'), cover=document.getElementById('cover'),
+  var ORDER=['contents','horticulture','technology','music','woodworking','about'];
+  var LABEL={contents:'Contents',horticulture:'Horticulture',technology:'Technology',music:'Music',woodworking:'Woodworking',about:'About'};
+  var FOLIO={contents:'—',horticulture:'1',technology:'2',music:'3',woodworking:'4',about:'5'};
+  var body=document.body, cover=document.getElementById('cover'),
       keybtn=document.getElementById('keybtn'), pageInner=document.getElementById('pageInner'),
       leaf=document.getElementById('leaf'), folio=document.getElementById('folio');
   var cur='contents';
@@ -453,16 +447,25 @@ body[data-open="1"] .foot{display:none}
     history.replaceState(null,'','#');
   }
 
-  keybtn.addEventListener('click', function(e){ e.stopPropagation(); if(!reduce){ setTimeout(open,360);} else {open();} });
-  cover.addEventListener('click', function(){ if(body.dataset.open!=='1'){ if(!reduce){setTimeout(open,360);}else{open();} } });
-  keybtn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(!reduce){setTimeout(open,360);}else{open();} }});
-
   document.addEventListener('click', function(e){
+    var tab=e.target.closest('[data-tab]');
+    if(tab){
+      var panel=tab.dataset.tab;
+      tab.closest('.ch-tabs').querySelectorAll('.ch-tab').forEach(function(b){ b.setAttribute('aria-selected','false'); });
+      tab.setAttribute('aria-selected','true');
+      pageInner.querySelectorAll('.ch-panel').forEach(function(p){ p.hidden = p.dataset.panel!==panel; });
+      return;
+    }
     var g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go, true); return; }
     if(e.target.closest('[data-close]')) close();
     if(e.target.closest('[data-prev]')){ var i=ORDER.indexOf(cur); if(i>1) go(ORDER[i-1],true); }
     if(e.target.closest('[data-next]')){ var j=ORDER.indexOf(cur); if(j<ORDER.length-1) go(ORDER[j+1],true); }
   });
+
+  keybtn.addEventListener('click', function(e){ e.stopPropagation(); if(!reduce){ setTimeout(open,360);} else {open();} });
+  cover.addEventListener('click', function(){ if(body.dataset.open!=='1'){ if(!reduce){setTimeout(open,360);}else{open();} } });
+  keybtn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(!reduce){setTimeout(open,360);}else{open();} }});
+
   document.addEventListener('keydown', function(e){
     if(body.dataset.open!=='1') return;
     if(e.target.matches('input,textarea')) return;
