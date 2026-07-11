@@ -14,11 +14,11 @@
 <meta property="og:title" content="Alastair Zeved Designs">
 <meta property="og:description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
 <meta property="og:site_name" content="Alastair Zeved Designs">
-<!-- <meta property="og:url" content="https://yourdomain.com"> -->
-<!-- <meta property="og:image" content="https://yourdomain.com/og-image.png"> -->
+<meta property="og:url" content="https://alastairzeved.com">
+<meta property="og:image" content="https://alastairzeved.com/og-image.png">
 
-<!-- Canonical URL — uncomment and update once your domain is live -->
-<!-- <link rel="canonical" href="https://yourdomain.com"> -->
+<!-- Canonical URL -->
+<link rel="canonical" href="https://alastairzeved.com">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,15 +70,27 @@ body[data-open="1"] .topbar{display:flex}
 
 /* book */
 .book-wrap{perspective:2400px}
-.book{position:relative;width:min(94vw,540px);height:min(760px,calc(100vh - 140px));height:min(760px,calc(100dvh - 140px));transform-style:preserve-3d}
+.book{position:relative;--pw:min(94vw,540px);width:var(--pw);height:min(760px,calc(100vh - 140px));height:min(760px,calc(100dvh - 140px));transform-style:preserve-3d;
+  transition:width 1.05s cubic-bezier(.2,.02,.12,1)}
 .back-cover{position:absolute;inset:0;border-radius:7px 12px 12px 7px;background:#0d0a14;
   box-shadow:0 40px 90px -30px #000,0 0 0 1px #ffffff10;transform:translateZ(-10px)}
-/* the reading page */
-.page{position:absolute;inset:0;border-radius:6px 11px 11px 6px;overflow:hidden;background:
-  linear-gradient(90deg,#d9d0bd 0 16px,var(--paper) 26px) , var(--paper);
-  box-shadow:inset 22px 0 36px -28px #00000055, inset -6px 0 14px -10px #00000022;
-  display:flex;flex-direction:column;z-index:1}
+/* the reading pages */
+.page{position:absolute;top:0;bottom:0;width:var(--pw);overflow:hidden;background:var(--paper);
+  display:flex;flex-direction:column}
+.page-r{right:0;z-index:2;border-radius:6px 11px 11px 6px;
+  background:linear-gradient(90deg,#d9d0bd 0 16px,var(--paper) 26px), var(--paper);
+  box-shadow:inset 22px 0 36px -28px #00000055, inset -6px 0 14px -10px #00000022}
+.page-l{left:0;z-index:1;border-radius:11px 6px 6px 11px;
+  background:linear-gradient(270deg,#d9d0bd 0 16px,var(--paper) 26px), var(--paper);
+  box-shadow:inset -22px 0 36px -28px #00000055, inset 6px 0 14px -10px #00000022}
+/* two-page spread on wider screens once open */
+@media(min-width:820px){
+  .book{--pw:min(46vw,468px)}
+  body[data-open="1"] .book{width:calc(2*var(--pw))}
+}
+@media(max-width:819px){ .page-l{display:none} }
 .page-inner{flex:1;overflow-y:auto;padding:clamp(26px,5%,46px) clamp(22px,7%,52px) 10px clamp(34px,9%,64px);color:var(--ink)}
+.page-l .page-inner{padding:clamp(26px,5%,46px) clamp(34px,9%,64px) 10px clamp(22px,7%,52px)}
 .page-inner::-webkit-scrollbar{width:9px}.page-inner::-webkit-scrollbar-thumb{background:#0000001f;border-radius:8px;border:3px solid transparent;background-clip:padding-box}
 .page-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
   padding:10px clamp(22px,7%,52px) 14px clamp(34px,9%,64px);border-top:1px solid #00000016;background:#00000006}
@@ -107,6 +119,7 @@ button[disabled]{opacity:.35;cursor:default}
 /* domain cards */
 .dgrid{margin-top:1.6rem;display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:520px){.dgrid{grid-template-columns:1fr 1fr}}
+.page .dgrid{grid-template-columns:1fr}
 .dcard{border:1px solid #0000001f;border-radius:11px;padding:16px 15px;background:#00000006;display:flex;flex-direction:column;gap:8px}
 .dc-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .dcard h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--ink)}
@@ -145,9 +158,10 @@ button[disabled]{opacity:.35;cursor:default}
 .toc-item .pg{font-family:var(--mono);font-size:.8rem;color:var(--ink-3);flex:none}
 
 /* the cover (front) */
-.cover{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;z-index:5;cursor:pointer;
+.cover{position:absolute;right:0;top:0;bottom:0;width:var(--pw);transform-origin:left center;transform-style:preserve-3d;z-index:5;cursor:pointer;
   transition:transform 1.05s cubic-bezier(.2,.02,.12,1)}
-body[data-open="1"] .cover{transform:rotateY(-162deg)}
+body[data-open="1"] .cover{transform:rotateY(-162deg);opacity:0;pointer-events:none;
+  transition:transform 1.05s cubic-bezier(.2,.02,.12,1),opacity .12s 1s}
 .cover .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:6px 11px 11px 6px;overflow:hidden}
 .cover .front{background:
   radial-gradient(70% 50% at 50% 30%, #2a1d3f 0%, #140d22 60%, #0d0917 100%);
@@ -181,7 +195,7 @@ body[data-open="1"] .keybtn{transform:rotate(90deg)}
 body[data-open="1"] .cv-hint{opacity:0}
 
 /* page-turn leaf */
-.leaf{position:absolute;inset:0;transform-origin:left center;z-index:8;border-radius:6px 11px 11px 6px;
+.leaf{position:absolute;right:0;top:0;bottom:0;width:var(--pw);transform-origin:left center;z-index:8;border-radius:6px 11px 11px 6px;
   background:linear-gradient(105deg,#efe7d6,#f4ecdd 60%,#e6dcc8);box-shadow:0 18px 40px -16px #00000066, inset 22px 0 30px -26px #00000055;
   backface-visibility:hidden;opacity:0;pointer-events:none}
 .leaf.turn{animation:turn .72s cubic-bezier(.4,.05,.25,1) both}
@@ -219,47 +233,85 @@ body[data-open="1"] .foot{display:none}
   .page-inner{padding:16px 14px 6px 20px}
   .cv-top{font-size:.58rem;letter-spacing:.3em}
 }
+
+/* ===== two-volume shelf ===== */
+.shelf{display:flex;gap:clamp(18px,4vw,48px);align-items:center;justify-content:center;flex-wrap:wrap}
+.book{--pw:min(94vw,400px)}
+@media(min-width:820px){
+  .book{--pw:min(42vw,362px)}
+  body[data-open="1"] .book[data-active]{width:calc(2*var(--pw))}
+}
+@media(max-width:819px){ .shelf{flex-direction:column} }
+/* once a volume is open, hide the shelf-mate and the closed instructions */
+body[data-open="1"] .book:not([data-active]){display:none}
+.vol-tag{position:absolute;top:-26px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--bone-2)}
+body[data-open="1"] .vol-tag{opacity:0}
+/* Vol. II cover uses the compact emblem instead of the key */
+.emblem-lg{width:clamp(84px,24%,116px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.emblem-lg svg{width:100%;height:100%}
+.cover .front.rg{background:radial-gradient(70% 50% at 50% 30%, #14233a 0%, #0e1626 60%, #0b111d 100%)}
+
+/* ===== chapter editorial layout ===== */
+.hero-ph{margin-top:1.5rem;min-height:210px}
+.ph{border:1px dashed #00000030;border-radius:10px;background:#0000000a;display:flex;align-items:center;justify-content:center;
+  text-align:center;color:var(--ink-3);font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:16px;min-height:150px}
+/* category sub-navigation */
+.catnav{display:flex;flex-wrap:wrap;gap:7px;padding-bottom:14px;border-bottom:1px solid #00000016;margin-bottom:2px}
+.catnav button{appearance:none;background:#00000008;border:1px solid #0000001f;border-radius:999px;cursor:pointer;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
+  padding:7px 12px;min-height:34px;transition:color .15s,background .15s,border-color .15s}
+.catnav button:hover{color:var(--ink);border-color:var(--pink)}
+.catnav button[aria-selected="true"]{color:#fff;background:var(--grad-ink);border-color:transparent}
+/* a prose section */
+.sec{margin-top:1.4rem}
+.sec-k{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#a06a2e}
+.sec h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3.4vw,1.7rem);line-height:1.04;color:var(--ink);margin:.3rem 0 .1rem}
+.sec p{color:#3a322a;font-size:1rem;max-width:62ch;margin-top:.7rem}
+.sec .ph{margin-top:1.1rem}
+/* front-matter table of contents (left) reuses .toc-* ; about (right) reuses .ch-body/.steps */
+.fm-portrait{margin-top:0}
 </style>
 </head>
 <body data-open="0">
 <div class="stagegl"><svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="149.0" cy="117.7" r="0.61" fill="#fff" opacity="0.58"/><circle cx="176.6" cy="145.9" r="0.26" fill="#fff" opacity="0.38"/><circle cx="224.6" cy="103.2" r="0.66" fill="#fff" opacity="0.23"/><circle cx="112.7" cy="40.5" r="0.49" fill="#fff" opacity="0.42"/><circle cx="5.1" cy="35.8" r="0.38" fill="#fff" opacity="0.56"/><circle cx="182.7" cy="26.9" r="0.61" fill="#fff" opacity="0.24"/><circle cx="147.7" cy="21.8" r="0.25" fill="#fff" opacity="0.55"/><circle cx="51.4" cy="35.6" r="0.69" fill="#fff" opacity="0.55"/><circle cx="70.3" cy="152.0" r="0.49" fill="#fff" opacity="0.46"/><circle cx="50.3" cy="148.8" r="0.56" fill="#fff" opacity="0.59"/><circle cx="212.9" cy="48.6" r="0.41" fill="#fff" opacity="0.25"/><circle cx="36.4" cy="12.2" r="0.39" fill="#fff" opacity="0.43"/><circle cx="2.8" cy="107.8" r="0.40" fill="#fff" opacity="0.31"/><circle cx="195.2" cy="77.0" r="0.39" fill="#fff" opacity="0.38"/><circle cx="168.3" cy="10.9" r="0.69" fill="#fff" opacity="0.19"/><circle cx="179.0" cy="133.8" r="0.26" fill="#fff" opacity="0.51"/><circle cx="88.4" cy="92.2" r="0.25" fill="#fff" opacity="0.20"/><circle cx="44.7" cy="151.0" r="0.34" fill="#fff" opacity="0.50"/><circle cx="221.4" cy="149.0" r="0.40" fill="#fff" opacity="0.33"/><circle cx="125.8" cy="123.0" r="0.30" fill="#fff" opacity="0.49"/><circle cx="190.1" cy="136.1" r="0.27" fill="#fff" opacity="0.58"/><circle cx="23.5" cy="55.2" r="0.52" fill="#fff" opacity="0.57"/><circle cx="82.2" cy="146.2" r="0.50" fill="#fff" opacity="0.31"/><circle cx="76.8" cy="29.7" r="0.29" fill="#fff" opacity="0.24"/><circle cx="164.6" cy="157.5" r="0.32" fill="#fff" opacity="0.20"/><circle cx="234.9" cy="85.2" r="0.43" fill="#fff" opacity="0.28"/><circle cx="142.2" cy="130.9" r="0.46" fill="#fff" opacity="0.36"/><circle cx="15.1" cy="144.9" r="0.26" fill="#fff" opacity="0.39"/><circle cx="199.9" cy="22.4" r="0.58" fill="#fff" opacity="0.58"/><circle cx="150.8" cy="124.9" r="0.30" fill="#fff" opacity="0.36"/><circle cx="37.2" cy="133.8" r="0.38" fill="#fff" opacity="0.37"/><circle cx="237.8" cy="135.0" r="0.69" fill="#fff" opacity="0.37"/><circle cx="117.2" cy="115.8" r="0.47" fill="#fff" opacity="0.30"/><circle cx="97.3" cy="24.9" r="0.42" fill="#fff" opacity="0.60"/><circle cx="228.5" cy="99.8" r="0.47" fill="#fff" opacity="0.32"/><circle cx="23.0" cy="44.5" r="0.60" fill="#fff" opacity="0.54"/><circle cx="87.3" cy="124.6" r="0.60" fill="#fff" opacity="0.47"/><circle cx="158.7" cy="120.5" r="0.41" fill="#fff" opacity="0.48"/><circle cx="68.3" cy="77.8" r="0.60" fill="#fff" opacity="0.47"/><circle cx="71.3" cy="149.5" r="0.54" fill="#fff" opacity="0.42"/><circle cx="4.7" cy="87.3" r="0.36" fill="#fff" opacity="0.46"/><circle cx="111.3" cy="129.4" r="0.54" fill="#fff" opacity="0.52"/><circle cx="84.1" cy="102.5" r="0.58" fill="#fff" opacity="0.53"/><circle cx="84.6" cy="133.5" r="0.64" fill="#fff" opacity="0.47"/><circle cx="232.4" cy="151.2" r="0.48" fill="#fff" opacity="0.40"/><circle cx="41.2" cy="132.5" r="0.67" fill="#fff" opacity="0.38"/><circle cx="165.2" cy="114.3" r="0.58" fill="#fff" opacity="0.25"/><circle cx="186.2" cy="92.6" r="0.55" fill="#fff" opacity="0.36"/><circle cx="149.2" cy="122.9" r="0.54" fill="#fff" opacity="0.48"/><circle cx="8.5" cy="27.0" r="0.45" fill="#fff" opacity="0.45"/><circle cx="53.7" cy="109.0" r="0.53" fill="#fff" opacity="0.20"/><circle cx="113.3" cy="37.3" r="0.27" fill="#fff" opacity="0.24"/><circle cx="76.9" cy="30.3" r="0.34" fill="#fff" opacity="0.19"/><circle cx="111.8" cy="61.3" r="0.53" fill="#fff" opacity="0.43"/><circle cx="58.1" cy="142.9" r="0.25" fill="#fff" opacity="0.35"/><circle cx="67.7" cy="66.0" r="0.30" fill="#fff" opacity="0.53"/><circle cx="90.2" cy="7.6" r="0.53" fill="#fff" opacity="0.22"/><circle cx="130.7" cy="54.9" r="0.51" fill="#fff" opacity="0.58"/><circle cx="195.2" cy="67.4" r="0.62" fill="#fff" opacity="0.45"/><circle cx="89.2" cy="24.2" r="0.52" fill="#fff" opacity="0.42"/><circle cx="227.9" cy="153.0" r="0.52" fill="#fff" opacity="0.33"/><circle cx="212.9" cy="2.1" r="0.30" fill="#fff" opacity="0.42"/><circle cx="147.2" cy="23.9" r="0.53" fill="#fff" opacity="0.55"/><circle cx="90.7" cy="69.3" r="0.35" fill="#fff" opacity="0.30"/><circle cx="231.5" cy="61.2" r="0.68" fill="#fff" opacity="0.56"/><circle cx="142.6" cy="42.5" r="0.69" fill="#fff" opacity="0.39"/><circle cx="100.1" cy="51.8" r="0.69" fill="#fff" opacity="0.39"/><circle cx="69.6" cy="76.4" r="0.30" fill="#fff" opacity="0.44"/><circle cx="106.7" cy="47.7" r="0.60" fill="#fff" opacity="0.53"/><circle cx="5.1" cy="85.1" r="0.37" fill="#fff" opacity="0.57"/><circle cx="186.5" cy="40.3" r="0.37" fill="#fff" opacity="0.25"/><circle cx="235.4" cy="47.7" r="0.52" fill="#fff" opacity="0.38"/><circle cx="154.2" cy="96.2" r="0.58" fill="#fff" opacity="0.23"/><circle cx="181.5" cy="48.9" r="0.49" fill="#fff" opacity="0.32"/><circle cx="72.1" cy="84.7" r="0.46" fill="#fff" opacity="0.33"/><circle cx="177.8" cy="94.2" r="0.27" fill="#fff" opacity="0.29"/><circle cx="109.5" cy="145.0" r="0.65" fill="#fff" opacity="0.41"/><circle cx="5.4" cy="123.4" r="0.44" fill="#fff" opacity="0.42"/><circle cx="169.1" cy="100.6" r="0.47" fill="#fff" opacity="0.56"/><circle cx="93.0" cy="63.1" r="0.63" fill="#fff" opacity="0.26"/><circle cx="72.0" cy="131.5" r="0.28" fill="#fff" opacity="0.53"/><circle cx="165.9" cy="69.5" r="0.38" fill="#fff" opacity="0.51"/><circle cx="216.9" cy="24.3" r="0.47" fill="#fff" opacity="0.41"/><circle cx="119.5" cy="53.6" r="0.32" fill="#fff" opacity="0.43"/><circle cx="193.6" cy="12.7" r="0.35" fill="#fff" opacity="0.52"/><circle cx="188.9" cy="105.5" r="0.26" fill="#fff" opacity="0.48"/><circle cx="233.0" cy="157.7" r="0.57" fill="#fff" opacity="0.20"/><circle cx="200.7" cy="36.2" r="0.54" fill="#fff" opacity="0.58"/><circle cx="170.1" cy="23.0" r="0.38" fill="#fff" opacity="0.57"/><circle cx="37.3" cy="97.3" r="0.44" fill="#fff" opacity="0.25"/><path d="M148.4 9.6 L148.6 10.5 L149.4 10.6 L148.6 10.8 L148.4 11.6 L148.2 10.8 L147.4 10.6 L148.2 10.5 Z" fill="#fff" opacity="0.48"/><path d="M20.7 11.4 L20.9 12.5 L22.1 12.7 L20.9 13.0 L20.7 14.1 L20.5 13.0 L19.4 12.7 L20.5 12.5 Z" fill="#fff" opacity="0.61"/><path d="M207.8 23.2 L208.0 24.2 L209.0 24.4 L208.0 24.6 L207.8 25.7 L207.6 24.6 L206.6 24.4 L207.6 24.2 Z" fill="#fff" opacity="0.46"/><path d="M143.3 76.8 L143.5 78.2 L144.9 78.4 L143.5 78.7 L143.3 80.0 L143.0 78.7 L141.6 78.4 L143.0 78.2 Z" fill="#fff" opacity="0.48"/><path d="M16.9 109.0 L17.1 109.8 L18.0 110.0 L17.1 110.2 L16.9 111.0 L16.8 110.2 L15.9 110.0 L16.8 109.8 Z" fill="#fff" opacity="0.57"/><path d="M121.4 141.0 L121.6 142.2 L122.7 142.4 L121.6 142.6 L121.4 143.7 L121.1 142.6 L120.0 142.4 L121.1 142.2 Z" fill="#fff" opacity="0.57"/><path d="M65.1 86.7 L65.3 87.7 L66.2 87.9 L65.3 88.0 L65.1 89.0 L64.9 88.0 L64.0 87.9 L64.9 87.7 Z" fill="#fff" opacity="0.61"/><path d="M123.9 23.2 L124.1 24.2 L125.0 24.3 L124.1 24.5 L123.9 25.4 L123.8 24.5 L122.9 24.3 L123.8 24.2 Z" fill="#fff" opacity="0.48"/><path d="M174.9 29.8 L175.2 31.0 L176.4 31.3 L175.2 31.5 L174.9 32.7 L174.7 31.5 L173.5 31.3 L174.7 31.0 Z" fill="#fff" opacity="0.58"/><path d="M23.8 104.5 L23.9 105.4 L24.8 105.5 L23.9 105.7 L23.8 106.5 L23.6 105.7 L22.8 105.5 L23.6 105.4 Z" fill="#fff" opacity="0.39"/><path d="M141.8 38.7 L142.1 40.0 L143.4 40.3 L142.1 40.5 L141.8 41.9 L141.5 40.5 L140.2 40.3 L141.5 40.0 Z" fill="#fff" opacity="0.52"/><path d="M79.0 124.1 L79.2 124.9 L79.9 125.1 L79.2 125.2 L79.0 126.0 L78.9 125.2 L78.1 125.1 L78.9 124.9 Z" fill="#fff" opacity="0.60"/><path d="M16.4 25.3 L16.7 26.7 L18.1 26.9 L16.7 27.2 L16.4 28.6 L16.2 27.2 L14.8 26.9 L16.2 26.7 Z" fill="#fff" opacity="0.59"/><path d="M55.8 20.0 L56.0 21.4 L57.4 21.6 L56.0 21.9 L55.8 23.3 L55.5 21.9 L54.1 21.6 L55.5 21.4 Z" fill="#fff" opacity="0.58"/><path d="M194.4 23.9 L194.6 25.0 L195.8 25.2 L194.6 25.5 L194.4 26.6 L194.2 25.5 L193.0 25.2 L194.2 25.0 Z" fill="#fff" opacity="0.47"/></svg></div>
 
 <header class="topbar" aria-label="Chapters">
-  <div class="tb-brand"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><span class="gradtext">Alastair Zeved Designs</span></div>
-  <nav class="tb-nav" aria-label="Chapters">
-    <button data-go="contents">Contents</button>
-    <button data-go="horticulture">Horticulture</button>
-    <button data-go="technology">Technology</button>
-    <button data-go="music">Music</button>
-    <button data-go="woodworking">Woodworking</button>
-    <button data-go="about">About</button>
-  </nav>
+  <div class="tb-brand"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><span class="gradtext" id="tbBrand">Alastair Zeved Designs</span></div>
+  <nav class="tb-nav" id="tbNav" aria-label="Chapters"></nav>
   <button class="tb-close" data-close>Close the book &#8629;</button>
 </header>
 
 <main class="stage">
   <div class="book-wrap">
-    <div class="book" id="book">
+    <div class="shelf" id="shelf">
+    <div class="book" id="bookP" data-vol="portfolio">
       <div class="back-cover" aria-hidden="true"></div>
 
-      <!-- reading page -->
-      <div class="page" id="page" role="region" aria-label="Open book">
-        <div class="page-inner" id="pageInner" tabindex="0"></div>
+      <!-- left reading page -->
+      <div class="page page-l">
+        <div class="page-inner"></div>
+      </div>
+
+      <!-- right reading page -->
+      <div class="page page-r" role="region" aria-label="Open book">
+        <div class="page-inner" tabindex="0"></div>
         <div class="page-foot">
-          <button class="pf-btn" data-go="contents">&#8592; Contents</button>
+          <button class="pf-btn" data-go="front">&#8592; Contents</button>
           <div class="pf-turn">
-            <button data-prev aria-label="Previous chapter">&#8249; Prev</button>
-            <span class="folio" id="folio"></span>
-            <button data-next aria-label="Next chapter">Next &#8250;</button>
+            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <span class="folio"></span>
+            <button data-next aria-label="Next page">Next &#8250;</button>
           </div>
         </div>
       </div>
 
       <!-- page-turn leaf -->
-      <div class="leaf" id="leaf" aria-hidden="true"></div>
+      <div class="leaf" aria-hidden="true"></div>
 
       <!-- front cover -->
-      <div class="cover" id="cover">
+      <div class="cover">
         <div class="face front">
           <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
           <div class="cover-frame"></div>
@@ -270,7 +322,7 @@ body[data-open="1"] .foot{display:none}
               <div class="cv-sub">Designs</div>
             </div>
             <div class="lock">
-              <button class="keybtn" id="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="key-sunG" cx="42%" cy="38%" r="75%">
+              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="key-sunG" cx="42%" cy="38%" r="75%">
       <stop offset="0%" stop-color="#fff1b8"/><stop offset="32%" stop-color="#ffd23d"/>
       <stop offset="62%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#ff3d6e"/></radialGradient><linearGradient id="key-moonG" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#5ef2e8"/><stop offset="55%" stop-color="#22a7f0"/>
@@ -287,197 +339,230 @@ body[data-open="1"] .foot{display:none}
       </div>
 
     </div>
+
+    <!-- Volume II -->
+    <div class="book" id="bookC" data-vol="career">
+      <div class="back-cover" aria-hidden="true"></div>
+      <div class="page page-l"><div class="page-inner"></div></div>
+      <div class="page page-r" role="region" aria-label="Open book">
+        <div class="page-inner" tabindex="0"></div>
+        <div class="page-foot">
+          <button class="pf-btn" data-go="front">&#8592; Contents</button>
+          <div class="pf-turn">
+            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <span class="folio"></span>
+            <button data-next aria-label="Next page">Next &#8250;</button>
+          </div>
+        </div>
+      </div>
+      <div class="leaf" aria-hidden="true"></div>
+      <div class="cover">
+        <div class="face front rg">
+          <div class="cover-frame"></div>
+          <div class="cover-inner">
+            <div class="cv-top">Vol. II &middot; A Career</div>
+            <div class="cv-mid">
+              <div class="cv-name gradtext">Robert&nbsp;Gregory</div>
+              <div class="cv-sub">A Career</div>
+            </div>
+            <div class="lock">
+              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emC)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emC)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
+              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
+            </div>
+          </div>
+        </div>
+        <div class="face back" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    </div>
   </div>
 </main>
 
 <footer class="foot">Alastair Zeved Designs &middot; portfolio in progress</footer>
 
-<!-- page templates -->
-<template id="tpl-contents">
-  <div class="toc-head"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgT)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgT)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><div><div class="th-t">Alastair Zeved</div><div class="th-s">Designs</div></div></div>
-  <p class="toc-epi">Four domains. Completed work, step-by-step guides, and the skills each one demands.</p>
-  <p class="toc-h">Contents</p>
-  <ol class="toc-list">
-    <li><button class="toc-item" data-go="horticulture"><span class="ch">Ch. 1</span><span class="tt">Horticulture</span><span class="dots"></span><span class="pg">1</span></button></li>
-    <li><button class="toc-item" data-go="technology"><span class="ch">Ch. 2</span><span class="tt">Technology</span><span class="dots"></span><span class="pg">2</span></button></li>
-    <li><button class="toc-item" data-go="music"><span class="ch">Ch. 3</span><span class="tt">Music</span><span class="dots"></span><span class="pg">3</span></button></li>
-    <li><button class="toc-item" data-go="woodworking"><span class="ch">Ch. 4</span><span class="tt">Woodworking</span><span class="dots"></span><span class="pg">4</span></button></li>
-    <li><button class="toc-item" data-go="about"><span class="ch">Ch. 5</span><span class="tt">About</span><span class="dots"></span><span class="pg">5</span></button></li>
-  </ol>
-</template>
-
-<template id="tpl-horticulture">
-  <p class="ch-eyebrow">Chapter 1 &middot; Horticulture</p>
-  <h2 class="ch-title">Horticulture</h2>
-  <p class="ch-desc">Growing things with intention &mdash; season by season, decision by decision.</p>
-  <nav class="ch-tabs" role="tablist" aria-label="Horticulture sections">
-    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
-  </nav>
-  <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
-  </div>
-</template>
-
-<template id="tpl-technology">
-  <p class="ch-eyebrow">Chapter 2 &middot; Technology</p>
-  <h2 class="ch-title">Technology</h2>
-  <p class="ch-desc">Hardware, electronics, and the physical demands of making things work.</p>
-  <nav class="ch-tabs" role="tablist" aria-label="Technology sections">
-    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
-  </nav>
-  <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
-  </div>
-</template>
-
-<template id="tpl-music">
-  <p class="ch-eyebrow">Chapter 3 &middot; Music</p>
-  <h2 class="ch-title">Music</h2>
-  <p class="ch-desc">Audio production &mdash; each track a design problem, each mix a plan executed in real time.</p>
-  <nav class="ch-tabs" role="tablist" aria-label="Music sections">
-    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
-  </nav>
-  <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
-  </div>
-</template>
-
-<template id="tpl-woodworking">
-  <p class="ch-eyebrow">Chapter 4 &middot; Woodworking</p>
-  <h2 class="ch-title">Woodworking</h2>
-  <p class="ch-desc">Working in matter &mdash; four boards at a time, the same framework that works anywhere.</p>
-  <nav class="ch-tabs" role="tablist" aria-label="Woodworking sections">
-    <button class="ch-tab" role="tab" aria-selected="true" data-tab="projects">Projects</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="guides">Guides</button>
-    <button class="ch-tab" role="tab" aria-selected="false" data-tab="skills">Skill Sheets</button>
-  </nav>
-  <div class="ch-panel" data-panel="projects">
-    <div class="sk-block" style="min-height:80px">Projects &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="guides" hidden>
-    <div class="sk-block" style="min-height:80px">Guides &mdash; to come</div>
-  </div>
-  <div class="ch-panel" data-panel="skills" hidden>
-    <div class="sk-block" style="min-height:80px">Skill sheets &mdash; to come</div>
-  </div>
-</template>
-
-<template id="tpl-about">
-  <p class="ch-eyebrow">Chapter 5 &middot; About</p>
-  <h2 class="ch-title">About</h2>
-  <p class="ch-desc">The person doing the work.</p>
-  <div class="ch-body">
-    <div class="sk-block" style="min-height:80px">About Alastair &mdash; to come</div>
-  </div>
-  <div class="scaffold" aria-hidden="true" style="margin-top:1rem">
-    <div class="sk-block">Portrait &mdash; to come</div>
-  </div>
-  <p class="ch-eyebrow" style="margin-top:2rem">The Method</p>
-  <ol class="steps">
-    <li class="step"><span class="num">01</span><span class="stxt"><span class="st-t">Design</span></span></li>
-    <li class="step"><span class="num">02</span><span class="stxt"><span class="st-t">Wonder</span></span></li>
-    <li class="step"><span class="num">03</span><span class="stxt"><span class="st-t">Curiosity</span></span></li>
-    <li class="step"><span class="num">04</span><span class="stxt"><span class="st-t">Plan</span></span></li>
-  </ol>
-</template>
-
 <script>
 (function(){
-  var ORDER=['contents','horticulture','technology','music','woodworking','about'];
-  var LABEL={contents:'Contents',horticulture:'Horticulture',technology:'Technology',music:'Music',woodworking:'Woodworking',about:'About'};
-  var FOLIO={contents:'—',horticulture:'1',technology:'2',music:'3',woodworking:'4',about:'5'};
-  var body=document.body, cover=document.getElementById('cover'),
-      keybtn=document.getElementById('keybtn'), pageInner=document.getElementById('pageInner'),
-      leaf=document.getElementById('leaf'), folio=document.getElementById('folio');
-  var cur='contents';
+  var body=document.body;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var spreadMQ=window.matchMedia('(min-width: 820px)');
+  var ROM=['','I','II','III','IV','V','VI','VII','VIII'];
+  function pad(n){ return (n<10?'0':'')+n; }
+  var TOC_EMBLEM='<svg viewBox="0 0 100 100" fill="none" stroke="url(#bgT)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgT)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg>';
 
-  function setContent(name){
-    var t=document.getElementById('tpl-'+name);
-    pageInner.innerHTML=''; pageInner.appendChild(t.content.cloneNode(true)); pageInner.scrollTop=0;
-    folio.textContent=FOLIO[name];
-    document.querySelectorAll('.tb-nav button').forEach(function(b){ b.setAttribute('aria-current', b.dataset.go===name?'true':'false'); });
-    var idx=ORDER.indexOf(name);
-    var prev=document.querySelector('[data-prev]'), next=document.querySelector('[data-next]');
-    prev.disabled = idx<=1; next.disabled = idx>=ORDER.length-1;
-    var cb=document.querySelector('.pf-btn'); cb.style.visibility = name==='contents'?'hidden':'visible';
+  var DATA={
+    portfolio:{
+      brand:'Alastair Zeved Designs',
+      toc:{title:'Alastair Zeved',sub:'Designs',epi:'Five domains — completed work, the guides written along the way, and the skills each one demands.'},
+      about:{eyebrow:'About Alastair Zeved',title:'About',desc:'The person doing the work.',
+        body:[
+          "I'm a self-taught maker working across five crafts most people would file in separate drawers — horticulture, arboriculture, technology, music, and woodworking. To me they're one practice. The instinct that roots a cutting in a jar of stones is the same one that solders a joint, aligns a vocal, or squares a frame: notice how a thing wants to work, then build with the grain of it.",
+          "I learn by doing. I'd rather build something three times than read about it once, and the lessons carry sideways — a problem solved in a mix turns up again in a garden bed, a wall, or a line of code.",
+          "However different the material, the work always runs through the same four steps — the method below."
+        ],
+        method:['Design','Wonder','Curiosity','Plan']},
+      chapters:[
+        {id:'horticulture',title:'Horticulture',desc:'Growing with intention, with or without soil.',hero:'Hydroponics · Tissue culture · Monstera',
+          cats:[
+            {id:'tropicals',label:'Tropicals',h:'Tropicals',img:'Tropicals · Philly Plant Dads',body:["Philly Plant Dads is a home-run nursery specializing in tropical aroids — propagating, converting, and selling plants alongside a small vending operation at local farmers markets."]},
+            {id:'hydroponics',label:'Hydroponics',h:'Hydroponics',img:'Hydroponic setup',body:["Semi-hydroponic growing in pon, a soil-free stone substrate — plus a hydroponic installation for vining aroids built from scratch, with custom planters in a format that doesn't exist off the shelf, tuned for constant water access without the mess of soil."]},
+            {id:'composting',label:'Composting',h:'Composting',img:'Compost site',body:["Volunteer composting for a South Philadelphia community garden — processing food scraps into finished compost for the beds, and building the signage and training materials that keep contributions sorted right."]},
+            {id:'gardening',label:'Gardening',h:'Gardening',img:'Garden plots',body:["Two plots at a community garden a block from home, and the seasonal rhythm of planting, tending, and harvesting that keeps the beds productive."]},
+            {id:'nutrition',label:'Nutrition',h:'Nutrition',img:'Nutrient mixing',body:["Feeding plants in a soil-free system — reading the substrate, dialing nutrient solutions, and keeping pon-grown plants fed without over-fertilizing."]},
+            {id:'climbing',label:'Climbing',h:'Climbing',img:'Moss pole · trellis',body:["Training vines upward, intentionally and aesthetically — moss poles and custom climbing apparatus that give aroids something to grip as they mature."]},
+            {id:'builds',label:'Build Projects',h:'Build Projects',img:'Build in progress',body:["Physical builds for growing — custom hydroponic planters, a climbing apparatus, and a planted wall installation pairing a grass wall with mounted planted tanks, glow accents, and roses."]},
+            {id:'documents',label:'Documents',h:'Documents',img:'Planting in Pon · Why Pon Works',body:["Customer education written in plain language — “Planting in Pon,” a step-by-step conversion guide, and “Why Pon Works,” a deeper dive into the science of semi-hydroponics."]}
+          ]},
+        {id:'arboriculture',title:'Arboriculture',desc:"Tree tending to ensure the right trees are grown in the right places, with the care to improve the city's urban canopy.",hero:'Tree planting photos',
+          cats:[
+            {id:'treetenders',label:'PHL Tree Tenders',h:'PHL Tree Tenders',img:'Tree Tenders event',body:["Volunteering with the city's tree-tending community — planting and caring for street trees to strengthen the urban canopy."]},
+            {id:'bareroot',label:'Bare Root',h:'Bare Root',img:'Bare-root planting',body:["Planting bare-root trees — handling, positioning, and establishing young trees while they're dormant."]},
+            {id:'treecare',label:'Tree Care',h:'Tree Care',img:'Pruning · mulching',body:["The ongoing work of keeping trees healthy — mulching, watering, structural pruning, and monitoring young plantings through their first seasons."]},
+            {id:'righttree',label:'Right Tree Right Place',h:'Right Tree, Right Place',img:'Species selection',body:["Matching species to site — choosing trees whose mature size, roots, and needs fit the space, so they thrive instead of fighting the location."]}
+          ]},
+        {id:'technology',title:'Technology',desc:'Hardware, electronics, and the physical demands of making things work.',hero:'Workbench · builds · repairs',
+          cats:[
+            {id:'builds',label:'Builds',h:'Builds',img:'Prince Charming build',body:["Prince Charming, a high-performance desktop built from parts — specced, assembled, cable-managed, and tuned as a daily driver for everything from music production to local AI work."]},
+            {id:'repairs',label:'Repairs & Mods',h:'Repairs & Mods',img:'Controller · smart mirror',body:["PS5 controller modding — TMR joysticks, clicky bumpers, and button swaps, which meant learning to desolder fourteen joints per stick through solder with a higher melting point than the board can safely take. Plus a Raspberry Pi smart mirror built from a salvaged monitor."]},
+            {id:'homelab',label:'Home Lab',h:'Home Lab',img:'NAS · Home Assistant',body:["A local network-attached storage box to back up years of photos outside the cloud, and a Home Assistant smart-home buildout pulling lighting, sound, TVs, consoles, and computers into one control layer."]},
+            {id:'apps',label:'Apps',h:'Apps',img:'App screens',body:["A concert-tracker app that watches local venues for artist announcements matching my music library, and a utility app ecosystem — calendar, to-do, and reminders — designed around how I actually think."]},
+            {id:'data',label:'Data',h:'Data',img:'Dashboard',body:["Turning raw data into actionable insight end to end — API-driven pipelines, cleaning and rules logic to filter noise without over-filtering, KPI development and metric tracking, and clear visualizations built on the 3-30-300 principle."]},
+            {id:'guides',label:'Guides',h:'Guides',img:'Guide pages',body:["Practical write-ups — hardening a home WiFi router in plain language, and a project-based path into Android app development from zero."]}
+          ]},
+        {id:'music',title:'Music & Audio Production',desc:'Audio production — each track a design problem, each mix a plan executed in real time.',hero:'REAPER session',
+          cats:[
+            {id:'discography',label:'Discography',h:'Discography',img:'Album art',body:["Four albums, self-produced: Daytime Dreams (learning to narrate through music), Drifting Awake (a three-part concept album), Wide Eyed (finished but unreleased — finding home in people rather than a place), and I Am Alastair Zeved (in progress)."]},
+            {id:'remixes',label:'Remixes',h:'Remixes',img:'Remix session',body:["A hardstyle remix — rebuilding a track in a new genre, with precision vocal alignment and time-stretching feeding into a full mastering chain."]},
+            {id:'production',label:'Production',h:'Production',img:'Mixing console',body:["The craft under the songs — mixing and mastering in REAPER, gain staging, LUFS metering, spectral balance, and vocal editing, each track shaped by hand."]},
+            {id:'primers',label:'Primers',h:'Primers',img:'Primer notes',body:["A self-authored reference set written while learning — MIDI, the frequency spectrum, effects and arrangement, and EDM production fundamentals."]}
+          ]},
+        {id:'woodworking',title:'Woodworking',desc:'Working in matter — four boards at a time, the same framework that works anywhere.',hero:'Shop · builds',
+          cats:[
+            {id:'furniture',label:'Furniture',h:'Furniture',img:'Desks',body:["A tall, narrow desk built to fill an awkward niche — the first real furniture build — and a fold-down wall-mounted Murphy desk with LED-framed interior and dual monitors, designed once the fundamentals clicked."]},
+            {id:'restorations',label:'Restorations',h:'Restorations',img:'Curio cabinet',body:["A marketplace curio cabinet torn down, stripped, conditioned, and re-stained to match the kitchen cabinetry — mirror backing swapped for a wallpapered panel, with grow lights and circulation fans built in."]},
+            {id:'builtins',label:'Built-Ins',h:'Built-Ins',img:'Bump-out',body:["A basement studio build-out — framing new stud walls and a paneled bump-out to mount monitors and a desk, turning an unfinished corner into a working studio."]},
+            {id:'renovations',label:'Renovations',h:'Renovations',img:'Powder room',body:["A powder-room renovation — stripping decades-old wallpaper to bare wall, skim coating, and rebuilding the fixtures, art, and door — plus a round of front-of-house exterior fixes."]},
+            {id:'outdoor',label:'Outdoor',h:'Outdoor',img:'Outdoor enclosure',body:["A pair of pressure-treated trash-can enclosures built from scratch — slatted siding, a drained slat roof, and hinged doors made to weather the outdoors for years."]},
+            {id:'guides',label:'Guides',h:'Guides',img:'Guide',body:["A step-by-step walkthrough for framing, siding, and finishing a weatherproof outdoor enclosure — from cut list to final coat of sealant."]}
+          ]}
+      ]
+    },
+    career:{
+      brand:'Robert Gregory',
+      toc:{title:'Robert Gregory',sub:'A Career',epi:'A working life in systems, operations, and problem-solving. In progress.'},
+      about:{eyebrow:'About',title:'Robert Gregory',desc:'The career volume.',
+        body:["This volume is being written — a record of professional work and the systems thinking behind it. Check back soon."],method:null},
+      chapters:[
+        {id:'overview',title:'Overview',desc:'Career details coming soon.',hero:'Coming soon',
+          cats:[{id:'soon',label:'Coming soon',h:'Coming soon',img:'',body:["This volume is in progress."]}]}
+      ]
+    }
+  };
+
+  var curVol=null, curIdx=0, activeCat={};
+  function book(v){ return document.querySelector('.book[data-vol="'+v+'"]'); }
+  function keys(v){ return ['front'].concat(DATA[v].chapters.map(function(c){return c.id;})); }
+
+  function tocHTML(v){
+    var d=DATA[v];
+    var items=d.chapters.map(function(c,i){
+      return '<li><button class="toc-item" data-goidx="'+(i+1)+'"><span class="ch">Ch. '+ROM[i+1]+'</span><span class="tt">'+c.title+'</span><span class="dots"></span><span class="pg">'+(i+1)+'</span></button></li>';
+    }).join('');
+    return '<div class="toc-head">'+TOC_EMBLEM+'<div><div class="th-t">'+d.toc.title+'</div><div class="th-s">'+d.toc.sub+'</div></div></div>'+
+      '<p class="toc-epi">'+d.toc.epi+'</p><p class="toc-h">Contents</p><ol class="toc-list">'+items+'</ol>';
   }
-  function go(name, animate){
-    if(ORDER.indexOf(name)<0) return;
-    if(body.dataset.open!=='1'){ open(); }
-    if(name===cur){ return; }
-    if(animate && !reduce){
-      leaf.classList.remove('turn'); void leaf.offsetWidth; leaf.classList.add('turn');
-      setTimeout(function(){ setContent(name); }, 120);
-    } else { setContent(name); }
-    cur=name;
-    if(location.hash.replace('#','')!==name) history.replaceState(null,'','#'+name);
+  function aboutHTML(v){
+    var a=DATA[v].about;
+    var b=a.body.map(function(p){return '<p>'+p+'</p>';}).join('');
+    var m=a.method?('<p class="ch-eyebrow" style="margin-top:1.6rem">The Method</p><ol class="steps">'+a.method.map(function(s,i){return '<li class="step"><span class="num">'+pad(i+1)+'</span><span class="stxt"><span class="st-t">'+s+'</span></span></li>';}).join('')+'</ol>'):'';
+    return '<p class="ch-eyebrow">'+a.eyebrow+'</p><h2 class="ch-title">'+a.title+'</h2><p class="ch-desc">'+a.desc+'</p><div class="ch-body">'+b+'</div>'+
+      '<div class="scaffold fm-portrait" style="margin-top:1.2rem"><div class="sk-block">Portrait &mdash; to come</div></div>'+m;
   }
-  function open(){
-    body.dataset.open='1'; keybtn.setAttribute('aria-expanded','true');
-    if(cur) setContent(cur);
-    setTimeout(function(){ document.querySelector('.tb-nav button[data-go="contents"]').focus(); }, reduce?0:1000);
+  function openerHTML(v,ci){
+    var c=DATA[v].chapters[ci];
+    var hero=c.hero?'<div class="ph hero-ph">'+c.hero+'</div>':'';
+    return '<p class="ch-eyebrow">Chapter '+ROM[ci+1]+' &middot; '+c.title+'</p><h2 class="ch-title">'+c.title+'</h2><p class="ch-desc">'+c.desc+'</p>'+hero;
   }
-  function close(){
-    body.dataset.open='0'; keybtn.setAttribute('aria-expanded','false'); keybtn.focus();
-    history.replaceState(null,'','#');
+  function sectionHTML(c,catId){
+    var k=c.cats[0]; c.cats.forEach(function(x){if(x.id===catId)k=x;});
+    var ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
+    var img=k.img?'<div class="ph">'+k.img+'</div>':'';
+    return '<div class="sec"><p class="sec-k">'+c.title+'</p><h3>'+k.h+'</h3>'+ps+img+'</div>';
   }
+  function rightChapterHTML(v,ci){
+    var c=DATA[v].chapters[ci];
+    var cat=activeCat[v+':'+c.id]||c.cats[0].id;
+    var nav='<div class="catnav">'+c.cats.map(function(k){return '<button data-cat="'+k.id+'" aria-selected="'+(k.id===cat?'true':'false')+'">'+k.label+'</button>';}).join('')+'</div>';
+    return nav+sectionHTML(c,cat);
+  }
+
+  function render(){
+    var bk=book(curVol); if(!bk) return;
+    var L=bk.querySelector('.page-l .page-inner'), R=bk.querySelector('.page-r .page-inner');
+    var ks=keys(curVol), key=ks[curIdx], lh, rh;
+    if(key==='front'){ lh=aboutHTML(curVol); rh=tocHTML(curVol); }
+    else { var ci=curIdx-1; lh=openerHTML(curVol,ci); rh=rightChapterHTML(curVol,ci); }
+    if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; }
+    else { L.innerHTML=''; R.innerHTML=lh+rh; }
+    L.scrollTop=0; R.scrollTop=0;
+    bk.querySelector('.folio').textContent=(key==='front'?'—':String(curIdx));
+    bk.querySelector('[data-prev]').disabled=curIdx<=0;
+    bk.querySelector('[data-next]').disabled=curIdx>=ks.length-1;
+    bk.querySelector('.pf-btn').style.visibility=(key==='front'?'hidden':'visible');
+    var nav=document.getElementById('tbNav');
+    Array.prototype.forEach.call(nav.children,function(b){ b.setAttribute('aria-current', b.dataset.goidx===String(curIdx)?'true':'false'); });
+  }
+  (spreadMQ.addEventListener?spreadMQ.addEventListener.bind(spreadMQ,'change'):spreadMQ.addListener.bind(spreadMQ))(render);
+
+  function buildNav(v){
+    var nav=document.getElementById('tbNav'); nav.innerHTML='';
+    var mk=function(idx,label){ var b=document.createElement('button'); b.dataset.goidx=String(idx); b.textContent=label; nav.appendChild(b); };
+    mk(0,'Contents'); DATA[v].chapters.forEach(function(c,i){ mk(i+1,c.title); });
+    document.getElementById('tbBrand').textContent=DATA[v].brand;
+  }
+  function goIdx(idx,animate){
+    var ks=keys(curVol); if(idx<0||idx>=ks.length) return;
+    if(idx===curIdx){ render(); return; }
+    curIdx=idx;
+    if(animate&&!reduce){ var lf=book(curVol).querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); setTimeout(render,120); }
+    else render();
+  }
+  function openVolume(v){
+    curVol=v; curIdx=0;
+    document.querySelectorAll('.book').forEach(function(b){ b.removeAttribute('data-active'); });
+    book(v).setAttribute('data-active','');
+    buildNav(v); body.dataset.open='1'; render();
+    setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:1000);
+  }
+  function openWith(v){ if(!reduce){ setTimeout(function(){openVolume(v);},360); } else openVolume(v); }
+  function close(){ body.dataset.open='0'; document.querySelectorAll('.book').forEach(function(b){b.removeAttribute('data-active');}); curVol=null; history.replaceState(null,'','#'); }
 
   document.addEventListener('click', function(e){
-    var tab=e.target.closest('[data-tab]');
-    if(tab){
-      var panel=tab.dataset.tab;
-      tab.closest('.ch-tabs').querySelectorAll('.ch-tab').forEach(function(b){ b.setAttribute('aria-selected','false'); });
-      tab.setAttribute('aria-selected','true');
-      pageInner.querySelectorAll('.ch-panel').forEach(function(p){ p.hidden = p.dataset.panel!==panel; });
-      return;
-    }
-    var g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go, true); return; }
-    if(e.target.closest('[data-close]')) close();
-    if(e.target.closest('[data-prev]')){ var i=ORDER.indexOf(cur); if(i>1) go(ORDER[i-1],true); }
-    if(e.target.closest('[data-next]')){ var j=ORDER.indexOf(cur); if(j<ORDER.length-1) go(ORDER[j+1],true); }
+    var cat=e.target.closest('[data-cat]');
+    if(cat){ var ci=curIdx-1; if(ci>=0){ activeCat[curVol+':'+DATA[curVol].chapters[ci].id]=cat.dataset.cat; render(); } return; }
+    var gi=e.target.closest('[data-goidx]'); if(gi){ e.preventDefault(); goIdx(parseInt(gi.dataset.goidx,10),true); return; }
+    if(e.target.closest('[data-go="front"]')){ goIdx(0,true); return; }
+    if(e.target.closest('[data-close]')){ close(); return; }
+    if(e.target.closest('[data-prev]')){ goIdx(curIdx-1,true); return; }
+    if(e.target.closest('[data-next]')){ goIdx(curIdx+1,true); return; }
+    var kb=e.target.closest('.keybtn');
+    if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(kb.closest('.book').dataset.vol); } return; }
+    var cov=e.target.closest('.cover');
+    if(cov&&body.dataset.open!=='1'){ openWith(cov.closest('.book').dataset.vol); return; }
   });
-
-  keybtn.addEventListener('click', function(e){ e.stopPropagation(); if(!reduce){ setTimeout(open,360);} else {open();} });
-  cover.addEventListener('click', function(){ if(body.dataset.open!=='1'){ if(!reduce){setTimeout(open,360);}else{open();} } });
-  keybtn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(!reduce){setTimeout(open,360);}else{open();} }});
-
   document.addEventListener('keydown', function(e){
+    var kb=e.target.closest&&e.target.closest('.keybtn');
+    if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(kb.closest('.book').dataset.vol); return; }
     if(body.dataset.open!=='1') return;
     if(e.target.matches('input,textarea')) return;
-    if(e.key==='ArrowRight'){ var j=ORDER.indexOf(cur); if(j<ORDER.length-1){e.preventDefault();go(ORDER[j+1],true);} }
-    else if(e.key==='ArrowLeft'){ var i=ORDER.indexOf(cur); if(i>1){e.preventDefault();go(ORDER[i-1],true);} }
+    if(e.key==='ArrowRight'){ e.preventDefault(); goIdx(curIdx+1,true); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); goIdx(curIdx-1,true); }
     else if(e.key==='Escape'){ close(); }
   });
-  window.addEventListener('hashchange', function(){ var n=location.hash.replace('#',''); if(ORDER.indexOf(n)>=0){ if(body.dataset.open!=='1')open(); go(n,false);} });
 
-  setContent('contents');
+  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&body.dataset.open!=='1'){ openVolume(h); } });
   var init=location.hash.replace('#','');
-  if(ORDER.indexOf(init)>=0){ open(); go(init,false); }
+  if(DATA[init]){ openVolume(init); }
 })();
 </script>
 </body>
