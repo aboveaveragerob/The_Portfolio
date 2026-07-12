@@ -235,23 +235,42 @@ body[data-open="1"] .foot{display:none}
   .cv-top{font-size:.58rem;letter-spacing:.3em}
 }
 
-/* ===== two-volume shelf ===== */
+/* ===== library: one reader + a side rail ===== */
 .shelf{display:flex;gap:clamp(18px,4vw,48px);align-items:center;justify-content:center;flex-wrap:wrap}
 .book{--pw:min(94vw,400px)}
 @media(min-width:820px){
-  .book{--pw:min(42vw,362px)}
+  .book{--pw:min(40vw,360px)}
   body[data-open="1"] .book[data-active]{width:calc(2*var(--pw))}
 }
-@media(max-width:819px){ .shelf{flex-direction:column} }
-/* once a volume is open, hide the shelf-mate and the closed instructions */
-body[data-open="1"] .book:not([data-active]){display:none}
+/* only the active volume is shown in the reader; the others live in the rail */
+.book:not([data-active]){display:none}
 .vol-tag{position:absolute;top:-26px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;
   letter-spacing:.22em;text-transform:uppercase;color:var(--bone-2)}
-body[data-open="1"] .vol-tag{opacity:0}
-/* the Career cover uses the compact emblem instead of the watercolor key */
+/* the Career & Atlas covers use the compact emblem instead of the watercolor key */
 .emblem-lg{width:clamp(84px,24%,116px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
 .emblem-lg svg{width:100%;height:100%}
 .cover .front.rg{background:radial-gradient(70% 50% at 50% 30%, #14233a 0%, #0e1626 60%, #0b111d 100%)}
+.cover .front.at{background:radial-gradient(70% 50% at 50% 30%, #3a2a12 0%, #241a0d 60%, #17110a 100%)}
+.gradtext-atlas{background:linear-gradient(100deg,#ffd23d,#ff8a2b 55%,#e0662a);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* the library rail */
+.rail{display:flex;gap:12px;flex-flow:row wrap;justify-content:center;width:100%;max-width:460px;margin:0 auto;z-index:2}
+.rail-head{flex:1 1 100%;text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--bone-2);margin-bottom:2px}
+.rail-book{appearance:none;cursor:pointer;background:#ffffff08;border:1px solid var(--line-2);border-left:3px solid #ffffff2e;
+  border-radius:5px 8px 8px 5px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--bone-1);
+  min-width:120px;transition:transform .18s,border-color .18s,background .18s}
+.rail-book:hover{transform:translateY(-2px);background:#ffffff12}
+.rail-book .rb-emblem{width:34px;height:34px}
+.rail-book .rb-emblem svg{width:100%;height:100%;display:block}
+.rail-book .rb-top{font-family:var(--mono);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-2)}
+.rail-book .rb-name{font-family:var(--serif);font-weight:500;font-size:1rem;line-height:1;text-align:center}
+.rail-book[aria-current="true"]{background:#ffffff14;border-left-color:var(--violet);cursor:default}
+.rail-book[aria-current="true"] .rb-name{color:var(--bone-0)}
+@media(min-width:820px){
+  .stage{flex-direction:row;align-items:center;gap:clamp(16px,3vw,44px)}
+  .rail{flex-flow:column nowrap;width:clamp(150px,15vw,184px);max-width:none;margin:0;flex:0 0 auto}
+  .rail-book{width:100%}
+}
 
 /* ===== chapter editorial layout ===== */
 .hero-ph{margin-top:1.5rem;min-height:210px}
@@ -285,10 +304,11 @@ body[data-open="1"] .vol-tag{opacity:0}
 </header>
 
 <main class="stage">
+  <nav class="rail" id="rail" aria-label="Library — switch volumes"></nav>
   <div class="book-wrap">
     <div class="shelf" id="shelf">
     <!-- Volume I -->
-    <div class="book" id="bookC" data-vol="career">
+    <div class="book" id="bookC" data-vol="career" data-active>
       <div class="back-cover" aria-hidden="true"></div>
       <div class="page page-l"><div class="page-inner"></div></div>
       <div class="page page-r" role="region" aria-label="Open book">
@@ -377,6 +397,41 @@ body[data-open="1"] .vol-tag{opacity:0}
 
     </div>
 
+    <!-- Volume III -->
+    <div class="book" id="bookA" data-vol="atlas">
+      <div class="back-cover" aria-hidden="true"></div>
+      <div class="page page-l"><div class="page-inner"></div></div>
+      <div class="page page-r" role="region" aria-label="Open book">
+        <div class="page-inner" tabindex="0"></div>
+        <div class="page-foot">
+          <button class="pf-btn" data-go="front">&#8592; Contents</button>
+          <div class="pf-turn">
+            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <span class="folio"></span>
+            <button data-next aria-label="Next page">Next &#8250;</button>
+          </div>
+        </div>
+      </div>
+      <div class="leaf" aria-hidden="true"></div>
+      <div class="cover">
+        <div class="face front at">
+          <div class="cover-frame"></div>
+          <div class="cover-inner">
+            <div class="cv-top">Vol. III &middot; The Atlas</div>
+            <div class="cv-mid">
+              <div class="cv-name gradtext-atlas">The&nbsp;Atlas</div>
+              <div class="cv-sub">Field Guides</div>
+            </div>
+            <div class="lock">
+              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd23d"/><stop offset="50%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#e0662a"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
+              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
+            </div>
+          </div>
+        </div>
+        <div class="face back" aria-hidden="true"></div>
+      </div>
+    </div>
+
     </div>
   </div>
 </main>
@@ -395,7 +450,7 @@ body[data-open="1"] .vol-tag{opacity:0}
   var DATA={
     portfolio:{
       brand:'Alastair Zeved Designs',
-      toc:{title:'Alastair Zeved',sub:'Designs',epi:'Five domains — completed work, the guides written along the way, and the skills each one demands.'},
+      toc:{title:'Alastair Zeved',sub:'Designs',epi:'Five domains of completed work and the skills each one demands. The guides written along the way live in The Atlas.'},
       about:{eyebrow:'About Alastair Zeved',title:'About',desc:'The person doing the work.',
         body:[
           "I'm a self-taught maker working across five crafts most people would file in separate drawers — horticulture, arboriculture, technology, music, and woodworking. To me they're one practice. The instinct that roots a cutting in a jar of stones is the same one that solders a joint, aligns a vocal, or squares a frame: notice how a thing wants to work, then build with the grain of it.",
@@ -412,8 +467,7 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'gardening',label:'Gardening',h:'Gardening',img:'Garden plots',body:["Two plots at a community garden a block from home, and the seasonal rhythm of planting, tending, and harvesting that keeps the beds productive."]},
             {id:'nutrition',label:'Nutrition',h:'Nutrition',img:'Nutrient mixing',body:["Feeding plants in a soil-free system — reading the substrate, dialing nutrient solutions, and keeping pon-grown plants fed without over-fertilizing."]},
             {id:'climbing',label:'Climbing',h:'Climbing',img:'Moss pole · trellis',body:["Training vines upward, intentionally and aesthetically — moss poles and custom climbing apparatus that give aroids something to grip as they mature."]},
-            {id:'builds',label:'Build Projects',h:'Build Projects',img:'Build in progress',body:["Physical builds for growing — custom hydroponic planters, a climbing apparatus, and a planted wall installation pairing a grass wall with mounted planted tanks, glow accents, and roses."]},
-            {id:'documents',label:'Documents',h:'Documents',img:'Planting in Pon · Why Pon Works',body:["Customer education written in plain language — “Planting in Pon,” a step-by-step conversion guide, and “Why Pon Works,” a deeper dive into the science of semi-hydroponics."]}
+            {id:'builds',label:'Build Projects',h:'Build Projects',img:'Build in progress',body:["Physical builds for growing — custom hydroponic planters, a climbing apparatus, and a planted wall installation pairing a grass wall with mounted planted tanks, glow accents, and roses."]}
           ]},
         {id:'arboriculture',title:'Arboriculture',desc:"Tree tending to ensure the right trees are grown in the right places, with the care to improve the city's urban canopy.",hero:'Tree planting photos',
           cats:[
@@ -428,15 +482,13 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'repairs',label:'Repairs & Mods',h:'Repairs & Mods',img:'Controller · smart mirror',body:["PS5 controller modding — TMR joysticks, clicky bumpers, and button swaps, which meant learning to desolder fourteen joints per stick through solder with a higher melting point than the board can safely take. Plus a Raspberry Pi smart mirror built from a salvaged monitor."]},
             {id:'homelab',label:'Home Lab',h:'Home Lab',img:'NAS · Home Assistant',body:["A local network-attached storage box to back up years of photos outside the cloud, and a Home Assistant smart-home buildout pulling lighting, sound, TVs, consoles, and computers into one control layer."]},
             {id:'apps',label:'Apps',h:'Apps',img:'App screens',body:["A concert-tracker app that watches local venues for artist announcements matching my music library, and a utility app ecosystem — calendar, to-do, and reminders — designed around how I actually think."]},
-            {id:'data',label:'Data',h:'Data',img:'Dashboard',body:["Turning raw data into actionable insight end to end — API-driven pipelines, cleaning and rules logic to filter noise without over-filtering, KPI development and metric tracking, and clear visualizations built on the 3-30-300 principle."]},
-            {id:'guides',label:'Guides',h:'Guides',img:'Guide pages',body:["Practical write-ups — hardening a home WiFi router in plain language, and a project-based path into Android app development from zero."]}
+            {id:'data',label:'Data',h:'Data',img:'Dashboard',body:["Turning raw data into actionable insight end to end — API-driven pipelines, cleaning and rules logic to filter noise without over-filtering, KPI development and metric tracking, and clear visualizations built on the 3-30-300 principle."]}
           ]},
         {id:'music',title:'Music & Audio Production',desc:'Audio production — each track a design problem, each mix a plan executed in real time.',hero:'REAPER session',
           cats:[
             {id:'discography',label:'Discography',h:'Discography',img:'Album art',body:["Four albums, self-produced: Daytime Dreams (learning to narrate through music), Drifting Awake (a three-part concept album), Wide Eyed (finished but unreleased — finding home in people rather than a place), and I Am Alastair Zeved (in progress)."]},
             {id:'remixes',label:'Remixes',h:'Remixes',img:'Remix session',body:["A hardstyle remix — rebuilding a track in a new genre, with precision vocal alignment and time-stretching feeding into a full mastering chain."]},
-            {id:'production',label:'Production',h:'Production',img:'Mixing console',body:["The craft under the songs — mixing and mastering in REAPER, gain staging, LUFS metering, spectral balance, and vocal editing, each track shaped by hand."]},
-            {id:'primers',label:'Primers',h:'Primers',img:'Primer notes',body:["A self-authored reference set written while learning — MIDI, the frequency spectrum, effects and arrangement, and EDM production fundamentals."]}
+            {id:'production',label:'Production',h:'Production',img:'Mixing console',body:["The craft under the songs — mixing and mastering in REAPER, gain staging, LUFS metering, spectral balance, and vocal editing, each track shaped by hand."]}
           ]},
         {id:'woodworking',title:'Woodworking',desc:'Working in matter — four boards at a time, the same framework that works anywhere.',hero:'Shop · builds',
           cats:[
@@ -444,8 +496,7 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'restorations',label:'Restorations',h:'Restorations',img:'Curio cabinet',body:["A marketplace curio cabinet torn down, stripped, conditioned, and re-stained to match the kitchen cabinetry — mirror backing swapped for a wallpapered panel, with grow lights and circulation fans built in."]},
             {id:'builtins',label:'Built-Ins',h:'Built-Ins',img:'Bump-out',body:["A basement studio build-out — framing new stud walls and a paneled bump-out to mount monitors and a desk, turning an unfinished corner into a working studio."]},
             {id:'renovations',label:'Renovations',h:'Renovations',img:'Powder room',body:["A powder-room renovation — stripping decades-old wallpaper to bare wall, skim coating, and rebuilding the fixtures, art, and door — plus a round of front-of-house exterior fixes."]},
-            {id:'outdoor',label:'Outdoor',h:'Outdoor',img:'Outdoor enclosure',body:["A pair of pressure-treated trash-can enclosures built from scratch — slatted siding, a drained slat roof, and hinged doors made to weather the outdoors for years."]},
-            {id:'guides',label:'Guides',h:'Guides',img:'Guide',body:["A step-by-step walkthrough for framing, siding, and finishing a weatherproof outdoor enclosure — from cut list to final coat of sealant."]}
+            {id:'outdoor',label:'Outdoor',h:'Outdoor',img:'Outdoor enclosure',body:["A pair of pressure-treated trash-can enclosures built from scratch — slatted siding, a drained slat roof, and hinged doors made to weather the outdoors for years."]}
           ]}
       ]
     },
@@ -498,12 +549,73 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'platforms',label:'Platforms & Tools',h:'Platforms & Tools',img:'Platform logos',body:["Wealthscape, Eclipse, Orion, and Docupace for execution; Salesforce, Bloomberg Terminal, FactSet, and Morningstar for everything around it."]}
           ]}
       ]
+    },
+    atlas:{
+      brand:'The Atlas',
+      toc:{title:'The Atlas',sub:'Field Guides',epi:'The how-tos, primers, and references written along the way — collected out of the portfolio and into one place.'},
+      about:{eyebrow:'About The Atlas',title:'The Atlas',desc:'A field guide to the work.',
+        body:[
+          "The Atlas gathers the written guides and primers produced across every craft — the plain-language how-tos, conversion walkthroughs, and reference sheets written while learning — out of the individual portfolio chapters and into a single volume.",
+          "Each one started as notes to a future version of myself, then got cleaned up enough to hand to someone else. They span horticulture, technology, woodworking, and audio production.",
+          "More are added as they're written."
+        ],
+        method:null},
+      chapters:[
+        {id:'horticulture',title:'Horticulture',desc:'Guides for growing without soil.',hero:'Planting in Pon · Why Pon Works',
+          cats:[
+            {id:'planting-in-pon',label:'Planting in Pon',h:'Planting in Pon',img:'Planting in Pon',body:["A step-by-step conversion guide for moving a plant from soil into pon, a soil-free stone substrate — written in plain language for someone doing it for the first time."]},
+            {id:'why-pon-works',label:'Why Pon Works',h:'Why Pon Works',img:'Why Pon Works',body:["A deeper dive into the science of semi-hydroponics — what pon actually does at the root, why it works, and how to reason about water and nutrients in a soil-free system."]}
+          ]},
+        {id:'technology',title:'Technology',desc:'Practical write-ups for hardware and software.',hero:'Router hardening · Android dev',
+          cats:[
+            {id:'router-hardening',label:'Router Hardening',h:'Hardening a Home Router',img:'Router hardening',body:["A plain-language walkthrough for locking down a home WiFi router — the settings that matter, why they matter, and the order to change them in."]},
+            {id:'android-dev',label:'Android Dev Path',h:'A Path Into Android Development',img:'Android dev path',body:["A project-based path into Android app development from zero — what to build first and the order that keeps a beginner moving instead of stuck."]}
+          ]},
+        {id:'woodworking',title:'Woodworking',desc:'Build walkthroughs, cut list to final coat.',hero:'Weatherproof enclosure build',
+          cats:[
+            {id:'enclosure',label:'Weatherproof Enclosure',h:'Building a Weatherproof Outdoor Enclosure',img:'Enclosure walkthrough',body:["A step-by-step walkthrough for framing, siding, and finishing a weatherproof outdoor enclosure — from cut list to the final coat of sealant."]}
+          ]},
+        {id:'music',title:'Music & Audio',desc:'Primers written while learning to produce.',hero:'Production primers',
+          cats:[
+            {id:'midi',label:'MIDI',h:'MIDI',img:'MIDI primer',body:["A primer on MIDI — what it is, how it carries performance rather than sound, and how to think about it when producing."]},
+            {id:'frequency-spectrum',label:'Frequency Spectrum',h:'The Frequency Spectrum',img:'Frequency spectrum',body:["A reference on the frequency spectrum — how the audible range breaks down and what lives where, the mental map behind every mixing decision."]},
+            {id:'effects-arrangement',label:'Effects & Arrangement',h:'Effects & Arrangement',img:'Effects & arrangement',body:["Notes on effects and arrangement — the tools that shape a sound and the structure that turns a loop into a finished song."]},
+            {id:'edm-fundamentals',label:'EDM Fundamentals',h:'EDM Production Fundamentals',img:'EDM fundamentals',body:["The fundamentals of EDM production, gathered while learning — the building blocks a new producer needs before the genre-specific tricks make sense."]}
+          ]}
+      ]
     }
   };
 
   var curVol=null, curIdx=0, activeCat={};
   function book(v){ return document.querySelector('.book[data-vol="'+v+'"]'); }
   function keys(v){ return ['front'].concat(DATA[v].chapters.map(function(c){return c.id;})); }
+
+  // ----- library rail -----
+  var VOLS=['career','portfolio','atlas'];
+  var VLABEL={career:'Vol. I',portfolio:'Vol. II',atlas:'Vol. III'};
+  var RNAME={career:'A Career',portfolio:'A Portfolio',atlas:'The Atlas'};
+  function keyEmblem(id,stops){
+    return '<svg viewBox="0 0 100 100" fill="none" stroke="url(#'+id+')" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+      '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'+stops+'</linearGradient></defs>'+
+      '<circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/>'+
+      '<circle cx="50" cy="36" r="2.6" fill="url(#'+id+')" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg>';
+  }
+  var EMBLEMS={
+    career:keyEmblem('rlc','<stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/>'),
+    portfolio:keyEmblem('rlp','<stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/>'),
+    atlas:keyEmblem('rla','<stop offset="0%" stop-color="#ffd23d"/><stop offset="50%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#e0662a"/>')
+  };
+  function buildRail(){
+    var rail=document.getElementById('rail');
+    rail.innerHTML='<div class="rail-head">The Library</div>';
+    VOLS.forEach(function(v){
+      var b=document.createElement('button');
+      b.className='rail-book'; b.dataset.vol=v;
+      b.setAttribute('aria-current', v===curVol?'true':'false');
+      b.innerHTML='<div class="rb-emblem">'+EMBLEMS[v]+'</div><div class="rb-top">'+VLABEL[v]+'</div><div class="rb-name">'+RNAME[v]+'</div>';
+      rail.appendChild(b);
+    });
+  }
 
   function tocHTML(v){
     var d=DATA[v];
@@ -569,42 +681,62 @@ body[data-open="1"] .vol-tag{opacity:0}
     if(animate&&!reduce){ var lf=book(curVol).querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); setTimeout(render,120); }
     else render();
   }
-  function openVolume(v){
+  // bring a volume into the reader as a CLOSED book, awaiting its key
+  function activateVolume(v, updateHash){
     curVol=v; curIdx=0;
     document.querySelectorAll('.book').forEach(function(b){ b.removeAttribute('data-active'); });
     book(v).setAttribute('data-active','');
-    buildNav(v); body.dataset.open='1'; render();
-    setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:1000);
+    buildNav(v); body.dataset.open='0'; buildRail(); render();
+    if(updateHash!==false){ history.replaceState(null,'','#'+v); }
   }
-  function openWith(v){ if(!reduce){ setTimeout(function(){openVolume(v);},360); } else openVolume(v); }
-  function close(){ body.dataset.open='0'; document.querySelectorAll('.book').forEach(function(b){b.removeAttribute('data-active');}); curVol=null; history.replaceState(null,'','#'); }
+  // turn the key: open the active book
+  function openActive(focus){
+    body.dataset.open='1'; render();
+    if(focus!==false){ setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:900); }
+  }
+  function openWith(){ if(!reduce){ setTimeout(function(){openActive(true);},360); } else openActive(true); }
+  // rail click: switch the reader to another volume (arrives closed, needs its key)
+  function switchTo(v){
+    if(!DATA[v]) return;
+    if(v===curVol && body.dataset.open==='1'){ return; } // already reading it
+    activateVolume(v);
+    if(!spreadMQ.matches){ book(v).scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }
+  }
+  // "Close the book": return the active book to its closed cover (rail stays)
+  function closeBook(){ body.dataset.open='0'; render(); }
 
   document.addEventListener('click', function(e){
+    var rb=e.target.closest('.rail-book');
+    if(rb){ switchTo(rb.dataset.vol); return; }
     var cat=e.target.closest('[data-cat]');
     if(cat){ var ci=curIdx-1; if(ci>=0){ activeCat[curVol+':'+DATA[curVol].chapters[ci].id]=cat.dataset.cat; render(); } return; }
     var gi=e.target.closest('[data-goidx]'); if(gi){ e.preventDefault(); goIdx(parseInt(gi.dataset.goidx,10),true); return; }
     if(e.target.closest('[data-go="front"]')){ goIdx(0,true); return; }
-    if(e.target.closest('[data-close]')){ close(); return; }
+    if(e.target.closest('[data-close]')){ closeBook(); return; }
     if(e.target.closest('[data-prev]')){ goIdx(curIdx-1,true); return; }
     if(e.target.closest('[data-next]')){ goIdx(curIdx+1,true); return; }
     var kb=e.target.closest('.keybtn');
-    if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(kb.closest('.book').dataset.vol); } return; }
+    if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(); } return; }
     var cov=e.target.closest('.cover');
-    if(cov&&body.dataset.open!=='1'){ openWith(cov.closest('.book').dataset.vol); return; }
+    if(cov&&body.dataset.open!=='1'){ openWith(); return; }
   });
   document.addEventListener('keydown', function(e){
     var kb=e.target.closest&&e.target.closest('.keybtn');
-    if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(kb.closest('.book').dataset.vol); return; }
+    if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(); return; }
     if(body.dataset.open!=='1') return;
     if(e.target.matches('input,textarea')) return;
     if(e.key==='ArrowRight'){ e.preventDefault(); goIdx(curIdx+1,true); }
     else if(e.key==='ArrowLeft'){ e.preventDefault(); goIdx(curIdx-1,true); }
-    else if(e.key==='Escape'){ close(); }
+    else if(e.key==='Escape'){ closeBook(); }
   });
 
-  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&body.dataset.open!=='1'){ openVolume(h); } });
+  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&h!==curVol){ activateVolume(h); } });
+
+  // land with Vol. I (Career) already open; deep-link a volume via #hash (arrives closed, needs its key)
   var init=location.hash.replace('#','');
-  if(DATA[init]){ openVolume(init); }
+  var startVol=DATA[init]?init:'career';
+  activateVolume(startVol, !!DATA[init]);
+  if(startVol==='career'){ openActive(false); }
 })();
 </script>
 </body>
