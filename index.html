@@ -248,7 +248,7 @@ body[data-open="1"] .book:not([data-active]){display:none}
 .vol-tag{position:absolute;top:-26px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;
   letter-spacing:.22em;text-transform:uppercase;color:var(--bone-2)}
 body[data-open="1"] .vol-tag{opacity:0}
-/* Vol. II cover uses the compact emblem instead of the key */
+/* the Career cover uses the compact emblem instead of the watercolor key */
 .emblem-lg{width:clamp(84px,24%,116px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
 .emblem-lg svg{width:100%;height:100%}
 .cover .front.rg{background:radial-gradient(70% 50% at 50% 30%, #14233a 0%, #0e1626 60%, #0b111d 100%)}
@@ -287,6 +287,42 @@ body[data-open="1"] .vol-tag{opacity:0}
 <main class="stage">
   <div class="book-wrap">
     <div class="shelf" id="shelf">
+    <!-- Volume I -->
+    <div class="book" id="bookC" data-vol="career">
+      <div class="back-cover" aria-hidden="true"></div>
+      <div class="page page-l"><div class="page-inner"></div></div>
+      <div class="page page-r" role="region" aria-label="Open book">
+        <div class="page-inner" tabindex="0"></div>
+        <div class="page-foot">
+          <button class="pf-btn" data-go="front">&#8592; Contents</button>
+          <div class="pf-turn">
+            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <span class="folio"></span>
+            <button data-next aria-label="Next page">Next &#8250;</button>
+          </div>
+        </div>
+      </div>
+      <div class="leaf" aria-hidden="true"></div>
+      <div class="cover">
+        <div class="face front rg">
+          <div class="cover-frame"></div>
+          <div class="cover-inner">
+            <div class="cv-top">Vol. I &middot; A Career</div>
+            <div class="cv-mid">
+              <div class="cv-name gradtext-cool">Robert&nbsp;Gregory</div>
+              <div class="cv-sub">A Career</div>
+            </div>
+            <div class="lock">
+              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emC)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emC)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
+              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
+            </div>
+          </div>
+        </div>
+        <div class="face back" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Volume II -->
     <div class="book" id="bookP" data-vol="portfolio">
       <div class="back-cover" aria-hidden="true"></div>
 
@@ -317,7 +353,7 @@ body[data-open="1"] .vol-tag{opacity:0}
           <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
           <div class="cover-frame"></div>
           <div class="cover-inner">
-            <div class="cv-top">Vol. I &middot; A Portfolio</div>
+            <div class="cv-top">Vol. II &middot; A Portfolio</div>
             <div class="cv-mid">
               <div class="cv-name gradtext">Alastair&nbsp;Zeved</div>
               <div class="cv-sub">Designs</div>
@@ -339,41 +375,6 @@ body[data-open="1"] .vol-tag{opacity:0}
         <div class="face back" aria-hidden="true"></div>
       </div>
 
-    </div>
-
-    <!-- Volume II -->
-    <div class="book" id="bookC" data-vol="career">
-      <div class="back-cover" aria-hidden="true"></div>
-      <div class="page page-l"><div class="page-inner"></div></div>
-      <div class="page page-r" role="region" aria-label="Open book">
-        <div class="page-inner" tabindex="0"></div>
-        <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
-          <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
-            <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
-          </div>
-        </div>
-      </div>
-      <div class="leaf" aria-hidden="true"></div>
-      <div class="cover">
-        <div class="face front rg">
-          <div class="cover-frame"></div>
-          <div class="cover-inner">
-            <div class="cv-top">Vol. II &middot; A Career</div>
-            <div class="cv-mid">
-              <div class="cv-name gradtext-cool">Robert&nbsp;Gregory</div>
-              <div class="cv-sub">A Career</div>
-            </div>
-            <div class="lock">
-              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emC)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emC)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
-              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
-            </div>
-          </div>
-        </div>
-        <div class="face back" aria-hidden="true"></div>
-      </div>
     </div>
 
     </div>
@@ -482,7 +483,7 @@ body[data-open="1"] .vol-tag{opacity:0}
           cats:[
             {id:'creds',label:'Credentials',h:'Education & Licensing',img:'Maryville University · Series 65',body:["A Bachelor of Science in Accounting, magna cum laude, from Maryville University — the foundation for a career that turned out to be less about the numbers themselves and more about the systems that produce them.","Series 65 licensed, with a working knowledge of Python built through continued self-study."]}
           ]},
-        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in Vol. I.",hero:'Street trees · South Philadelphia',
+        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in Vol. II.",hero:'Street trees · South Philadelphia',
           cats:[
             {id:'treetenders',label:'PHS Tree Tenders',h:'PHS Tree Tenders',img:'Street tree planting',body:["Volunteers with PHS Tree Tenders, planting and establishing street trees as part of the citywide effort to grow Philadelphia's urban canopy. It's civic work with a documented return: a growing body of urban research ties expanded tree cover to measurably safer, more stable blocks, alongside the more familiar gains in air quality, cooler streets, and stormwater management."]},
             {id:'flowershow',label:'PHS Flower Show',h:'PHS Flower Show',img:'PHS Flower Show',body:["Volunteers each year at the PHS Flower Show, the Society's flagship public event and one of the largest horticultural exhibitions in the country — direct, hands-on support for the organization behind the city's tree-planting and greening work."]},
