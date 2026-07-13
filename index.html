@@ -474,7 +474,7 @@ body[data-open="1"] .foot{display:none}
             {id:'treetenders',label:'PHL Tree Tenders',h:'PHL Tree Tenders',img:'Tree Tenders event',body:["Volunteering with the city's tree-tending community — planting and caring for street trees to strengthen the urban canopy."]},
             {id:'bareroot',label:'Bare Root',h:'Bare Root',img:'Bare-root planting',body:["Planting bare-root trees — handling, positioning, and establishing young trees while they're dormant."]},
             {id:'treecare',label:'Tree Care',h:'Tree Care',img:'Pruning · mulching',body:["The ongoing work of keeping trees healthy — mulching, watering, structural pruning, and monitoring young plantings through their first seasons."]},
-            {id:'righttree',label:'Right Tree Right Place',h:'Right Tree, Right Place',img:'Species selection',body:["Matching species to site — choosing trees whose mature size, roots, and needs fit the space, so they thrive instead of fighting the location."]}
+            {id:'righttree',label:'Right Tree, Right Place',h:'Right Tree, Right Place',img:'Species selection',body:["Matching species to site — choosing trees whose mature size, roots, and needs fit the space, so they thrive instead of fighting the location."]}
           ]},
         {id:'technology',title:'Technology',desc:'Hardware, electronics, and the physical demands of making things work.',hero:'Workbench · builds · repairs',
           cats:[
@@ -534,7 +534,7 @@ body[data-open="1"] .foot{display:none}
           cats:[
             {id:'creds',label:'Credentials',h:'Education & Licensing',img:'Maryville University · Series 65',body:["A Bachelor of Science in Accounting, magna cum laude, from Maryville University — the foundation for a career that turned out to be less about the numbers themselves and more about the systems that produce them.","Series 65 licensed, with a working knowledge of Python built through continued self-study."]}
           ]},
-        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in Vol. II.",hero:'Street trees · South Philadelphia',
+        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in the Portfolio.",hero:'Street trees · South Philadelphia',
           cats:[
             {id:'treetenders',label:'PHS Tree Tenders',h:'PHS Tree Tenders',img:'Street tree planting',body:["Volunteers with PHS Tree Tenders, planting and establishing street trees as part of the citywide effort to grow Philadelphia's urban canopy. It's civic work with a documented return: a growing body of urban research ties expanded tree cover to measurably safer, more stable blocks, alongside the more familiar gains in air quality, cooler streets, and stormwater management."]},
             {id:'flowershow',label:'PHS Flower Show',h:'PHS Flower Show',img:'PHS Flower Show',body:["Volunteers each year at the PHS Flower Show, the Society's flagship public event and one of the largest horticultural exhibitions in the country — direct, hands-on support for the organization behind the city's tree-planting and greening work."]},
@@ -592,8 +592,14 @@ body[data-open="1"] .foot{display:none}
 
   // ----- library rail -----
   var VOLS=['career','portfolio','atlas'];
-  var VLABEL={career:'Vol. I',portfolio:'Vol. II',atlas:'Vol. III'};
-  var RNAME={career:'A Career',portfolio:'A Portfolio',atlas:'The Atlas'};
+  // Volume number + name derive from each cover's .cv-top ("Vol. I · A Career"),
+  // so a future reorder only needs to touch the cover HTML — not this script.
+  var VLABEL={}, RNAME={};
+  VOLS.forEach(function(v){
+    var parts=(book(v).querySelector('.cv-top').textContent||'').split('·');
+    VLABEL[v]=(parts[0]||'').trim();
+    RNAME[v]=(parts[1]||'').trim();
+  });
   function keyEmblem(id,stops){
     return '<svg viewBox="0 0 100 100" fill="none" stroke="url(#'+id+')" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
       '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'+stops+'</linearGradient></defs>'+
