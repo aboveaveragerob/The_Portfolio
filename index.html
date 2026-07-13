@@ -739,11 +739,10 @@ body[data-open="1"] .foot{display:none}
 
   window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&h!==curVol){ activateVolume(h); } });
 
-  // land with Vol. I (Career) already open; deep-link a volume via #hash (arrives closed, needs its key)
+  // land on the CLOSED book (Vol. I / Career cover), awaiting its key; deep-link a volume via #hash (also arrives closed)
   var init=location.hash.replace('#','');
   var startVol=DATA[init]?init:'career';
   activateVolume(startVol, !!DATA[init]);
-  if(startVol==='career'){ openActive(false); }
 })();
 </script>
 </body>
