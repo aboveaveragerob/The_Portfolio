@@ -272,58 +272,63 @@ body[data-open="1"] .foot{display:none}
   .cv-top{font-size:.58rem;letter-spacing:.3em}
 }
 
-/* ===== library: one reader + a side rail ===== */
-.shelf{display:flex;gap:clamp(18px,4vw,48px);align-items:center;justify-content:center;flex-wrap:wrap}
+/* ===== library: two spine shelves + one reader ===== */
 .book{--pw:min(94vw,400px)}
 @media(min-width:820px){
   .book{--pw:min(40vw,360px)}
-  body[data-open="1"] .book[data-active]{width:calc(2*var(--pw))}
+  body[data-open="1"] .book{width:calc(2*var(--pw))}
 }
-/* only the active volume is shown in the reader; the others live in the rail */
-.book:not([data-active]){display:none}
-.vol-tag{position:absolute;top:-26px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--bone-2)}
-/* the Career & Atlas covers use the compact emblem instead of the watercolor key */
-.emblem-lg{width:clamp(84px,24%,116px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
-.emblem-lg svg{width:100%;height:100%}
 .cover .front.rg{background:radial-gradient(70% 50% at 50% 30%, #14233a 0%, #0e1626 60%, #0b111d 100%)}
 .cover .front.at{background:radial-gradient(70% 50% at 50% 30%, #3a2a12 0%, #241a0d 60%, #17110a 100%)}
 .gradtext-atlas{background:linear-gradient(100deg,#ffd23d,#ff8a2b 55%,#e0662a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cv-years{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--bone-2)}
 
-/* the library shelf — a row of volumes standing on a ledge, across the top */
-.rail{position:relative;z-index:2;display:flex;flex-flow:row nowrap;gap:clamp(10px,2.6vw,30px);
-  align-items:flex-end;justify-content:center;width:100%;max-width:760px;margin:0 auto;padding:26px 18px 18px}
-.rail-head{position:absolute;top:4px;left:0;right:0;text-align:center;font-family:var(--mono);
-  font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--bone-2)}
-/* compact the shelf while a book is open so the reader isn't crowded */
-body[data-open="1"] .rail{padding-top:14px}
-body[data-open="1"] .rail-head{display:none}
-body[data-open="1"] .rail-book{width:clamp(58px,8vw,84px);padding:8px 6px;gap:3px}
-body[data-open="1"] .rail-book .rb-emblem{width:22px;height:22px}
-body[data-open="1"] .rail-book .rb-name{font-size:.66rem}
-body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
-/* the ledge the books stand on */
-.rail::after{content:"";position:absolute;left:6px;right:6px;bottom:7px;height:9px;border-radius:2px;
+/* the two shelves, stacked across the top */
+.shelves{position:relative;z-index:2;width:100%;max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(14px,2.6vw,26px)}
+.shelf-rail{position:relative;padding:24px 14px 18px}
+.shelf-head{position:absolute;top:0;left:0;right:0;text-align:center;font-family:var(--serif);font-style:italic;
+  font-size:clamp(.84rem,2.2vw,1.05rem);color:var(--bone-1)}
+.shelf-books{display:flex;flex-flow:row nowrap;align-items:flex-end;justify-content:center;gap:clamp(5px,1.1vw,9px);
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.shelf-books::-webkit-scrollbar{display:none}
+/* a book set slightly apart from its shelf-mates (e.g. The Atlas) */
+.shelf-books .spine.apart{margin-left:clamp(10px,2vw,22px)}
+/* the ledge each shelf stands on */
+.shelf-rail::after{content:"";position:absolute;left:6px;right:6px;bottom:8px;height:9px;border-radius:2px;
   background:linear-gradient(180deg,#3c3552,#191524);
   box-shadow:0 10px 22px -6px #000,inset 0 1px 0 #ffffff2e,inset 0 -1px 0 #00000073}
-/* each volume: a slim book standing on the shelf */
-.rail-book{appearance:none;cursor:pointer;position:relative;z-index:1;
-  width:clamp(78px,12.5vw,112px);aspect-ratio:3/4;padding:12px 8px;
-  display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;
-  color:var(--bone-1);background:var(--rb-bg,linear-gradient(158deg,#191322,#100b1a));
-  border:1px solid var(--line-2);border-left:4px solid var(--rb-accent,#ffffff2e);border-radius:2px 6px 6px 2px;
-  box-shadow:0 14px 24px -12px #000,inset 0 0 0 1px #ffffff0a,inset 14px 0 22px -18px #00000088;
-  transform:translateY(0);transition:transform .22s cubic-bezier(.3,.1,.2,1),box-shadow .22s,border-color .22s}
-.rail-book:hover{transform:translateY(-10px);box-shadow:0 22px 32px -14px #000}
-.rail-book:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
-.rail-book[aria-current="true"]{transform:translateY(-12px);border-left-color:var(--violet);
-  box-shadow:0 26px 36px -14px #000,0 0 0 1px var(--rb-accent,#ffffff2e) inset}
-.rail-book[aria-current="true"] .rb-name{color:var(--bone-0)}
-.rail-book .rb-emblem{width:30px;height:30px}
-.rail-book .rb-emblem svg{width:100%;height:100%;display:block}
-.rail-book .rb-top{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-2)}
-.rail-book .rb-name{font-family:var(--serif);font-weight:500;font-size:.86rem;line-height:1.06;text-align:center}
-@media(max-width:420px){ .rail{gap:8px;padding:22px 10px 16px} .rail-book .rb-name{font-size:.72rem} .rail-book .rb-emblem{width:26px;height:26px} }
+/* compact the shelves while a book is open so the reader isn't crowded */
+body[data-open="1"] .shelves{max-width:780px}
+body[data-open="1"] .shelf-head{display:none}
+body[data-open="1"] .shelf-rail{padding:8px 14px 16px}
+body[data-open="1"] .spine{height:clamp(78px,12vw,108px);justify-content:center}
+body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
+/* each volume: a spine standing on the shelf, its title running up the spine */
+.spine{appearance:none;cursor:pointer;position:relative;z-index:1;flex:none;
+  width:clamp(34px,4.8vw,46px);height:clamp(122px,19vw,178px);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:5px;padding:9px 3px 8px;
+  color:var(--bone-1);background:var(--sp-bg,linear-gradient(100deg,#241a33,#160f22));
+  border:1px solid #ffffff1a;border-top:3px solid var(--sp-accent,#ffffff40);border-radius:3px 3px 2px 2px;
+  box-shadow:0 14px 22px -12px #000,inset 0 0 0 1px #ffffff0a,inset -8px 0 16px -10px #00000099,inset 7px 0 10px -8px #ffffff18;
+  transition:transform .22s cubic-bezier(.3,.1,.2,1),box-shadow .22s,filter .22s}
+.spine:hover{transform:translateY(-12px);box-shadow:0 26px 30px -14px #000}
+.spine:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.spine[aria-current="true"]{transform:translateY(-14px);box-shadow:0 28px 34px -14px #000,0 0 0 1px var(--sp-accent) inset}
+.spine[aria-current="true"] .sp-title{color:var(--bone-0)}
+.sp-emblem{width:17px;height:17px;flex:none;opacity:.92}
+.sp-emblem svg{width:100%;height:100%;display:block}
+.sp-title{flex:1;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;
+  font-family:var(--serif);font-weight:500;font-size:clamp(.62rem,1.5vw,.78rem);line-height:1;letter-spacing:.01em;
+  white-space:nowrap;overflow:hidden;color:var(--bone-1);transition:color .18s}
+.sp-year{flex:none;writing-mode:vertical-rl;font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;
+  color:var(--bone-2);white-space:nowrap}
+@media(max-width:520px){
+  .shelf-books{justify-content:flex-start}
+  .spine{width:clamp(32px,9vw,42px);height:clamp(126px,38vw,158px)}
+  /* on narrow screens the spine is too short for title + year — keep the title, drop the year */
+  .sp-year{display:none}
+  .sp-title{font-size:clamp(.6rem,2.7vw,.74rem)}
+}
 
 /* ===== chapter editorial layout ===== */
 .hero-ph{margin-top:1.5rem;min-height:210px}
@@ -385,78 +390,41 @@ body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
 </header>
 
 <main class="stage">
-  <nav class="rail" id="rail" aria-label="Library — switch volumes"></nav>
+  <div class="shelves" id="shelves">
+    <nav class="shelf-rail" id="shelfCareer" aria-label="The Career of Robert Gregory">
+      <div class="shelf-head">The Career of Robert Gregory</div>
+      <div class="shelf-books"></div>
+    </nav>
+    <nav class="shelf-rail" id="shelfCraft" aria-label="The Craft of Alastair Zeved">
+      <div class="shelf-head">The Craft of Alastair Zeved</div>
+      <div class="shelf-books"></div>
+    </nav>
+  </div>
   <div class="book-wrap">
-    <div class="shelf" id="shelf">
-    <!-- Volume I -->
-    <div class="book" id="bookC" data-vol="career" data-active>
+    <div class="book" id="book" data-active>
       <div class="back-cover" aria-hidden="true"></div>
       <div class="page page-l"><div class="page-inner"></div></div>
       <div class="page page-r" role="region" aria-label="Open book">
         <div class="page-inner" tabindex="0"></div>
         <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
+          <button class="pf-btn" data-close-foot>&#8592; Shelf</button>
           <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <button data-prev aria-label="Previous volume">&#8249; Prev</button>
             <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
+            <button data-next aria-label="Next volume">Next &#8250;</button>
           </div>
         </div>
       </div>
       <div class="leaf" aria-hidden="true"></div>
-      <div class="cover">
-        <div class="face front rg">
-          <div class="cover-frame"></div>
-          <div class="cover-inner">
-            <div class="cv-top">Vol. I &middot; A Career</div>
-            <div class="cv-mid">
-              <div class="cv-name gradtext-cool">Robert Gregory</div>
-              <div class="cv-sub">A Career</div>
-            </div>
-            <div class="lock">
-              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emC)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emC)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="face back" aria-hidden="true"></div>
-      </div>
-    </div>
-
-    <!-- Volume II -->
-    <div class="book" id="bookP" data-vol="portfolio">
-      <div class="back-cover" aria-hidden="true"></div>
-
-      <!-- left reading page -->
-      <div class="page page-l">
-        <div class="page-inner"></div>
-      </div>
-
-      <!-- right reading page -->
-      <div class="page page-r" role="region" aria-label="Open book">
-        <div class="page-inner" tabindex="0"></div>
-        <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
-          <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
-            <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- page-turn leaf -->
-      <div class="leaf" aria-hidden="true"></div>
-
-      <!-- front cover -->
       <div class="cover">
         <div class="face front">
-          <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
           <div class="cover-frame"></div>
           <div class="cover-inner">
-            <div class="cv-top">Vol. II &middot; A Portfolio</div>
+            <div class="cv-top"></div>
             <div class="cv-mid">
-              <div class="cv-name gradtext">Alastair Zeved</div>
-              <div class="cv-sub">Designs</div>
+              <div class="cv-name"></div>
+              <div class="cv-sub"></div>
+              <div class="cv-years"></div>
             </div>
             <div class="lock">
               <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="key-sunG" cx="42%" cy="38%" r="75%">
@@ -473,43 +441,6 @@ body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
         </div>
         <div class="face back" aria-hidden="true"></div>
       </div>
-
-    </div>
-
-    <!-- Volume III -->
-    <div class="book" id="bookA" data-vol="atlas">
-      <div class="back-cover" aria-hidden="true"></div>
-      <div class="page page-l"><div class="page-inner"></div></div>
-      <div class="page page-r" role="region" aria-label="Open book">
-        <div class="page-inner" tabindex="0"></div>
-        <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
-          <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
-            <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
-          </div>
-        </div>
-      </div>
-      <div class="leaf" aria-hidden="true"></div>
-      <div class="cover">
-        <div class="face front at">
-          <div class="cover-frame"></div>
-          <div class="cover-inner">
-            <div class="cv-top">Vol. III &middot; The Atlas</div>
-            <div class="cv-mid">
-              <div class="cv-name gradtext-atlas">The Atlas</div>
-              <div class="cv-sub">Field Guides</div>
-            </div>
-            <div class="lock">
-              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd23d"/><stop offset="50%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#e0662a"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <div class="face back" aria-hidden="true"></div>
-      </div>
-    </div>
-
     </div>
   </div>
 </main>
@@ -664,20 +595,48 @@ body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
     }
   };
 
-  var curVol=null, curIdx=0, activeCat={};
-  function book(v){ return document.querySelector('.book[data-vol="'+v+'"]'); }
-  function keys(v){ return ['front'].concat(DATA[v].chapters.map(function(c){return c.id;})); }
+  var curVol=null, activeCat={};
 
-  // ----- library rail -----
-  var VOLS=['career','portfolio','atlas'];
-  // Volume number + name derive from each cover's .cv-top ("Vol. I · A Career"),
-  // so a future reorder only needs to touch the cover HTML — not this script.
-  var VLABEL={}, RNAME={};
-  VOLS.forEach(function(v){
-    var parts=(book(v).querySelector('.cv-top').textContent||'').split('·');
-    VLABEL[v]=(parts[0]||'').trim();
-    RNAME[v]=(parts[1]||'').trim();
-  });
+  // ---- volumes: each spine is one volume, mapped onto the existing DATA ----
+  // shelf 'career' (top, resume order, current first) - 'craft' (bottom, A-Z)
+  var VOLUMES=[
+    {id:'brinker',shelf:'career',title:'Brinker Capital',spine:'Brinker',years:'2021 - Present',sy:'2021–',src:'career',ch:'brinker',accent:'#5ef2e8'},
+    {id:'pnc-wm',shelf:'career',title:'PNC Wealth Management',spine:'PNC Wealth',years:'2020 - 2021',sy:'2020–21',src:'career',ch:'pnc',cats:['trust'],accent:'#3b82f6'},
+    {id:'pnc-bank',shelf:'career',title:'PNC Bank',years:'2017 - 2021',sy:'2017–21',src:'career',ch:'pnc',cats:['branch'],accent:'#4f7bff'},
+    {id:'eddiebauer',shelf:'career',title:'Eddie Bauer',years:'2013 - 2017',sy:'2013–17',src:'career',ch:'eddiebauer',accent:'#7c5cff'},
+    {id:'education',shelf:'career',title:'Education & Licensing',spine:'Education',src:'career',ch:'education',accent:'#9b7cff'},
+    {id:'skillset',shelf:'career',title:'Skillset & Technologies',spine:'Skillset',src:'career',ch:'skillset',accent:'#b25cff'},
+    {id:'volunteering',shelf:'career',title:'Volunteering & Community Engagement',spine:'Volunteering',src:'career',ch:'volunteering',accent:'#22a7f0'},
+    {id:'arboriculture',shelf:'craft',title:'Arboriculture',src:'portfolio',ch:'arboriculture',accent:'#43b6ff'},
+    {id:'horticulture',shelf:'craft',title:'Horticulture',src:'portfolio',ch:'horticulture',exclude:['hydroponics'],accent:'#5ef2a0'},
+    {id:'hydroponics',shelf:'craft',title:'Hydroponics',src:'portfolio',ch:'horticulture',cats:['hydroponics'],accent:'#22d3ee'},
+    {id:'music',shelf:'craft',title:'Music & Audio Production',spine:'Music & Audio',src:'portfolio',ch:'music',accent:'#b25cff'},
+    {id:'technology',shelf:'craft',title:'Technology',src:'portfolio',ch:'technology',accent:'#ff8a2b'},
+    {id:'woodworking',shelf:'craft',title:'Woodworking',src:'portfolio',ch:'woodworking',accent:'#ff5a3d'},
+    {id:'atlas',shelf:'craft',title:'The Atlas',src:'atlas',flatten:true,accent:'#ffd23d',apart:true}
+  ];
+  var SHELF_LABEL={career:'The Career of Robert Gregory',craft:'The Craft of Alastair Zeved'};
+  var SHELF_BRAND={career:'Robert Gregory',craft:'Alastair Zeved'};
+  function byId(id){ for(var i=0;i<VOLUMES.length;i++){ if(VOLUMES[i].id===id) return VOLUMES[i]; } return null; }
+  function curV(){ return byId(curVol); }
+  function shelfVols(sh){ return VOLUMES.filter(function(v){return v.shelf===sh;}); }
+  function srcChapter(V){ var cs=DATA[V.src].chapters; for(var i=0;i<cs.length;i++){ if(cs[i].id===V.ch) return cs[i]; } return null; }
+
+  // the categories a volume shows, as {cat, dom}
+  function volCats(V){
+    if(V.flatten){ var out=[]; DATA[V.src].chapters.forEach(function(c){ c.cats.forEach(function(k){ out.push({cat:k,dom:c.title}); }); }); return out; }
+    var ch=srcChapter(V), list=ch.cats;
+    if(V.cats){ list=V.cats.map(function(id){ return ch.cats.filter(function(k){return k.id===id;})[0]; }); }
+    else if(V.exclude){ list=ch.cats.filter(function(k){ return V.exclude.indexOf(k.id)<0; }); }
+    return list.map(function(k){ return {cat:k,dom:ch.title}; });
+  }
+  function volMeta(V){
+    if(V.flatten){ return {eyebrow:'The Atlas · Field Guides',desc:DATA[V.src].toc.epi,hero:'',years:''}; }
+    var ch=srcChapter(V);
+    return {eyebrow:SHELF_LABEL[V.shelf],desc:ch.desc,hero:ch.hero,years:V.years||''};
+  }
+
+  // ---- emblems (the key motif) ----
   function keyEmblem(id,stops){
     return '<svg viewBox="0 0 100 100" fill="none" stroke="url(#'+id+')" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
       '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'+stops+'</linearGradient></defs>'+
@@ -686,127 +645,120 @@ body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
   }
   var STOPS={
     career:'<stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/>',
-    portfolio:'<stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/>',
-    atlas:'<stop offset="0%" stop-color="#ffd23d"/><stop offset="50%" stop-color="#ff8a2b"/><stop offset="100%" stop-color="#e0662a"/>'
+    craft:'<stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/>'
   };
-  // shelf emblems (ids rl*) and top-bar emblems (ids tb*) use DISTINCT gradient
-  // ids so the two never collide in the DOM (a shared id fails to paint when one
-  // of the two SVGs is display:none, e.g. the hidden top bar on the landing page).
-  var EMBLEMS={ career:keyEmblem('rlc',STOPS.career), portfolio:keyEmblem('rlp',STOPS.portfolio), atlas:keyEmblem('rla',STOPS.atlas) };
-  var TB_EMBLEMS={ career:keyEmblem('tbc',STOPS.career), portfolio:keyEmblem('tbp',STOPS.portfolio), atlas:keyEmblem('tba',STOPS.atlas) };
-  var VOL_ACCENT={career:'#3b82f6',portfolio:'#ff2d78',atlas:'#ff8a2b'};
-  function buildRail(){
-    var rail=document.getElementById('rail');
-    rail.innerHTML='<div class="rail-head">The Library</div>';
-    VOLS.forEach(function(v){
-      var b=document.createElement('button');
-      b.className='rail-book'; b.dataset.vol=v;
-      b.style.setProperty('--rb-accent', VOL_ACCENT[v]);
-      b.setAttribute('aria-current', v===curVol?'true':'false');
-      b.innerHTML='<div class="rb-emblem">'+EMBLEMS[v]+'</div><div class="rb-top">'+VLABEL[v]+'</div><div class="rb-name">'+RNAME[v]+'</div>';
-      rail.appendChild(b);
+  var SHELF_EMBLEM={career:keyEmblem('tbc',STOPS.career),craft:keyEmblem('tbp',STOPS.craft)};
+
+  // ---- the two shelves of spines ----
+  function shade(hex,al){
+    var h=hex.replace('#',''); if(h.length===3){h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];}
+    var r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    return 'rgba('+r+','+g+','+b+','+al+')';
+  }
+  function spineHTML(V,uid){
+    var stops=V.shelf==='career'?STOPS.career:STOPS.craft;
+    var yr=V.sy?'<span class="sp-year">'+V.sy+'</span>':'';
+    return '<button class="spine'+(V.apart?' apart':'')+'" data-vol="'+V.id+'" aria-current="'+(V.id===curVol?'true':'false')+'"'+
+      ' style="--sp-accent:'+V.accent+';--sp-bg:linear-gradient(100deg,'+shade(V.accent,0.20)+','+shade(V.accent,0.06)+')"'+
+      ' title="'+V.title+(V.years?' · '+V.years:'')+'">'+
+      '<span class="sp-emblem">'+keyEmblem('sp'+uid,stops)+'</span>'+
+      '<span class="sp-title">'+(V.spine||V.title)+'</span>'+yr+'</button>';
+  }
+  function buildShelves(){
+    [['career','shelfCareer'],['craft','shelfCraft']].forEach(function(pair){
+      var host=document.querySelector('#'+pair[1]+' .shelf-books');
+      host.innerHTML=shelfVols(pair[0]).map(function(v,i){return spineHTML(v,pair[0]+i);}).join('');
     });
   }
-
-  function tocHTML(v){
-    var d=DATA[v];
-    var items=d.chapters.map(function(c,i){
-      return '<li><button class="toc-item" data-goidx="'+(i+1)+'"><span class="ch">Ch. '+ROM[i+1]+'</span><span class="tt">'+c.title+'</span><span class="dots"></span><span class="pg">'+(i+1)+'</span></button></li>';
-    }).join('');
-    return '<div class="toc-head">'+TOC_EMBLEM+'<div><div class="th-t">'+d.toc.title+'</div><div class="th-s">'+d.toc.sub+'</div></div></div>'+
-      '<p class="toc-epi">'+d.toc.epi+'</p><p class="toc-h">Contents</p><ol class="toc-list">'+items+'</ol>';
+  function markCurrent(){
+    document.querySelectorAll('.spine').forEach(function(b){ b.setAttribute('aria-current', b.dataset.vol===curVol?'true':'false'); });
+    var nav=document.getElementById('tbNav');
+    if(nav){ Array.prototype.forEach.call(nav.children,function(b){ b.setAttribute('aria-current', b.dataset.vol===curVol?'true':'false'); }); }
   }
-  function aboutHTML(v){
-    var a=DATA[v].about;
-    var b=a.body.map(function(p){return '<p>'+p+'</p>';}).join('');
-    var m=a.method?('<p class="ch-eyebrow" style="margin-top:1.6rem">The Method</p><ol class="steps">'+a.method.map(function(s,i){return '<li class="step"><span class="num">'+pad(i+1)+'</span><span class="stxt"><span class="st-t">'+s+'</span></span></li>';}).join('')+'</ol>'):'';
-    return '<p class="ch-eyebrow">'+a.eyebrow+'</p><h2 class="ch-title">'+a.title+'</h2><p class="ch-desc">'+a.desc+'</p><div class="ch-body">'+b+'</div>'+
-      '<div class="scaffold fm-portrait" style="margin-top:1.2rem"><div class="sk-block">Portrait &mdash; to come</div></div>'+m;
-  }
-  function openerHTML(v,ci){
-    var c=DATA[v].chapters[ci];
-    var hero=c.hero?'<div class="ph hero-ph">'+c.hero+'</div>':'';
-    return '<p class="ch-eyebrow">Chapter '+ROM[ci+1]+' &middot; '+c.title+'</p><h2 class="ch-title">'+c.title+'</h2><p class="ch-desc">'+c.desc+'</p>'+hero;
-  }
-  function sectionHTML(c,catId){
-    var k=c.cats[0]; c.cats.forEach(function(x){if(x.id===catId)k=x;});
-    var ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
-    var img=k.img?'<div class="ph">'+k.img+'</div>':'';
-    return '<div class="sec"><p class="sec-k">'+c.title+'</p><h3>'+k.h+'</h3>'+ps+img+'</div>';
-  }
-  function rightChapterHTML(v,ci){
-    var c=DATA[v].chapters[ci];
-    var cat=activeCat[v+':'+c.id]||c.cats[0].id;
-    var nav='<div class="catnav">'+c.cats.map(function(k){return '<button data-cat="'+k.id+'" aria-selected="'+(k.id===cat?'true':'false')+'">'+k.label+'</button>';}).join('')+'</div>';
-    return nav+sectionHTML(c,cat);
+  function buildNav(sh){
+    var nav=document.getElementById('tbNav'); nav.innerHTML='';
+    shelfVols(sh).forEach(function(v){
+      var b=document.createElement('button'); b.dataset.vol=v.id; b.textContent=(v.spine||v.title);
+      b.setAttribute('aria-current', v.id===curVol?'true':'false'); nav.appendChild(b);
+    });
+    document.getElementById('tbBrand').textContent=SHELF_BRAND[sh];
+    document.getElementById('tbEmblem').innerHTML=SHELF_EMBLEM[sh];
   }
 
   function render(){
-    var bk=book(curVol); if(!bk) return;
+    var V=curV(); if(!V) return;
+    var bk=document.getElementById('book');
+    var meta=volMeta(V), cats=volCats(V);
+    var sel=activeCat[V.id]||cats[0].cat.id;
+    var entry=cats.filter(function(x){return x.cat.id===sel;})[0]||cats[0];
+    var yrs=meta.years?'<p class="ch-eyebrow" style="color:var(--ink-3);margin-top:.5rem">'+meta.years+'</p>':'';
+    var hero=meta.hero?'<div class="ph hero-ph">'+meta.hero+'</div>':'';
+    var lh='<p class="ch-eyebrow">'+meta.eyebrow+'</p><h2 class="ch-title">'+V.title+'</h2>'+yrs+
+      '<p class="ch-desc">'+meta.desc+'</p>'+hero;
+    var nav='<div class="catnav">'+cats.map(function(x){return '<button data-cat="'+x.cat.id+'" aria-selected="'+(x.cat.id===sel?'true':'false')+'">'+x.cat.label+'</button>';}).join('')+'</div>';
+    var k=entry.cat, ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
+    var img=k.img?'<div class="ph">'+k.img+'</div>':'';
+    var rh=nav+'<div class="sec"><p class="sec-k">'+entry.dom+'</p><h3>'+k.h+'</h3>'+ps+img+'</div>';
     var L=bk.querySelector('.page-l .page-inner'), R=bk.querySelector('.page-r .page-inner');
-    var ks=keys(curVol), key=ks[curIdx], lh, rh;
-    if(key==='front'){ lh=aboutHTML(curVol); rh=tocHTML(curVol); }
-    else { var ci=curIdx-1; lh=openerHTML(curVol,ci); rh=rightChapterHTML(curVol,ci); }
-    if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; }
-    else { L.innerHTML=''; R.innerHTML=lh+rh; }
+    if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; } else { L.innerHTML=''; R.innerHTML=lh+rh; }
     L.scrollTop=0; R.scrollTop=0;
-    bk.querySelector('.folio').textContent=(key==='front'?'—':String(curIdx));
-    bk.querySelector('[data-prev]').disabled=curIdx<=0;
-    bk.querySelector('[data-next]').disabled=curIdx>=ks.length-1;
-    bk.querySelector('.pf-btn').style.visibility=(key==='front'?'hidden':'visible');
-    var nav=document.getElementById('tbNav');
-    Array.prototype.forEach.call(nav.children,function(b){ b.setAttribute('aria-current', b.dataset.goidx===String(curIdx)?'true':'false'); });
+    var sv=shelfVols(V.shelf), pos=sv.indexOf(V);
+    bk.querySelector('.folio').textContent=(pos+1)+' / '+sv.length;
+    bk.querySelector('[data-prev]').disabled=pos<=0;
+    bk.querySelector('[data-next]').disabled=pos>=sv.length-1;
+    markCurrent();
   }
   (spreadMQ.addEventListener?spreadMQ.addEventListener.bind(spreadMQ,'change'):spreadMQ.addListener.bind(spreadMQ))(render);
 
-  function buildNav(v){
-    var nav=document.getElementById('tbNav'); nav.innerHTML='';
-    var mk=function(idx,label){ var b=document.createElement('button'); b.dataset.goidx=String(idx); b.textContent=label; nav.appendChild(b); };
-    mk(0,'Contents'); DATA[v].chapters.forEach(function(c,i){ mk(i+1,c.title); });
-    document.getElementById('tbBrand').textContent=DATA[v].brand;
-    document.getElementById('tbEmblem').innerHTML=TB_EMBLEMS[v];
+  // dress the closed cover for a volume
+  function dressCover(V){
+    var bk=document.getElementById('book');
+    var front=bk.querySelector('.cover .front');
+    front.className='face front '+(V.shelf==='career'?'rg':(V.flatten?'at':''));
+    var meta=volMeta(V);
+    bk.querySelector('.cv-top').textContent=meta.eyebrow;
+    var nm=bk.querySelector('.cv-name'); nm.textContent=V.title;
+    nm.className='cv-name '+(V.shelf==='career'?'gradtext-cool':(V.flatten?'gradtext-atlas':'gradtext'));
+    bk.querySelector('.cv-sub').textContent=(V.flatten?'Field Guides':(V.shelf==='career'?'A Career':'A Craft'));
+    bk.querySelector('.cv-years').textContent=(V.flatten?'':(V.years||''));
   }
-  function goIdx(idx,animate){
-    var ks=keys(curVol); if(idx<0||idx>=ks.length) return;
-    if(idx===curIdx){ render(); return; }
-    curIdx=idx;
-    if(animate&&!reduce){ var lf=book(curVol).querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); setTimeout(render,120); }
-    else render();
+
+  function activateVolume(id, updateHash, keepOpen){
+    var V=byId(id); if(!V) return; curVol=id;
+    dressCover(V); buildNav(V.shelf); buildShelves();
+    body.dataset.open = keepOpen?'1':'0';
+    render();
+    if(keepOpen && !reduce){ var lf=document.getElementById('book').querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); }
+    if(updateHash!==false){ history.replaceState(null,'','#'+id); }
   }
-  // bring a volume into the reader as a CLOSED book, awaiting its key
-  function activateVolume(v, updateHash){
-    curVol=v; curIdx=0;
-    document.querySelectorAll('.book').forEach(function(b){ b.removeAttribute('data-active'); });
-    book(v).setAttribute('data-active','');
-    buildNav(v); body.dataset.open='0'; buildRail(); render();
-    if(updateHash!==false){ history.replaceState(null,'','#'+v); }
-  }
-  // turn the key: open the active book
   function openActive(focus){
     body.dataset.open='1'; render();
     if(focus!==false){ setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:900); }
   }
   function openWith(){ if(!reduce){ setTimeout(function(){openActive(true);},360); } else openActive(true); }
-  // rail click: switch the reader to another volume (arrives closed, needs its key)
-  function switchTo(v){
-    if(!DATA[v]) return;
-    if(v===curVol && body.dataset.open==='1'){ return; } // already reading it
-    activateVolume(v);
-    if(!spreadMQ.matches){ book(v).scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }
-  }
-  // "Close the book": return the active book to its closed cover (rail stays)
   function closeBook(){ body.dataset.open='0'; render(); }
+  // pick a book off the shelf: arrives closed, awaiting its key
+  function switchTo(id){
+    if(!byId(id)) return;
+    if(id===curVol && body.dataset.open==='1'){ return; }
+    activateVolume(id);
+    if(!spreadMQ.matches){ document.getElementById('book').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }
+  }
+  // flip to the previous/next volume on the same shelf, keeping the book open
+  function siblingVol(delta){
+    var V=curV(); var sv=shelfVols(V.shelf); var i=sv.indexOf(V)+delta;
+    if(i<0||i>=sv.length) return;
+    activateVolume(sv[i].id, true, body.dataset.open==='1');
+  }
 
   document.addEventListener('click', function(e){
-    var rb=e.target.closest('.rail-book');
-    if(rb){ switchTo(rb.dataset.vol); return; }
-    var cat=e.target.closest('[data-cat]');
-    if(cat){ var ci=curIdx-1; if(ci>=0){ activeCat[curVol+':'+DATA[curVol].chapters[ci].id]=cat.dataset.cat; render(); } return; }
-    var gi=e.target.closest('[data-goidx]'); if(gi){ e.preventDefault(); goIdx(parseInt(gi.dataset.goidx,10),true); return; }
-    if(e.target.closest('[data-go="front"]')){ goIdx(0,true); return; }
+    var sp=e.target.closest('.spine'); if(sp){ switchTo(sp.dataset.vol); return; }
+    var nv=e.target.closest('#tbNav button'); if(nv){ activateVolume(nv.dataset.vol, true, true); return; }
+    var cat=e.target.closest('[data-cat]'); if(cat){ activeCat[curVol]=cat.dataset.cat; render(); return; }
+    if(e.target.closest('[data-close-foot]')){ closeBook(); return; }
     if(e.target.closest('[data-close]')){ closeBook(); return; }
-    if(e.target.closest('[data-prev]')){ goIdx(curIdx-1,true); return; }
-    if(e.target.closest('[data-next]')){ goIdx(curIdx+1,true); return; }
+    if(e.target.closest('[data-prev]')){ siblingVol(-1); return; }
+    if(e.target.closest('[data-next]')){ siblingVol(1); return; }
     var kb=e.target.closest('.keybtn');
     if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(); } return; }
   });
@@ -815,17 +767,16 @@ body[data-open="1"] .rail-book .rb-top{font-size:.44rem}
     if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(); return; }
     if(body.dataset.open!=='1') return;
     if(e.target.matches('input,textarea')) return;
-    if(e.key==='ArrowRight'){ e.preventDefault(); goIdx(curIdx+1,true); }
-    else if(e.key==='ArrowLeft'){ e.preventDefault(); goIdx(curIdx-1,true); }
+    if(e.key==='ArrowRight'){ e.preventDefault(); siblingVol(1); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); siblingVol(-1); }
     else if(e.key==='Escape'){ closeBook(); }
   });
+  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(byId(h)&&h!==curVol){ activateVolume(h); } });
 
-  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&h!==curVol){ activateVolume(h); } });
-
-  // land on the CLOSED book (Vol. I / Career cover), awaiting its key; deep-link a volume via #hash (also arrives closed)
+  buildShelves();
   var init=location.hash.replace('#','');
-  var startVol=DATA[init]?init:'career';
-  activateVolume(startVol, !!DATA[init]);
+  var startVol=byId(init)?init:'brinker';
+  activateVolume(startVol, !!byId(init));
 })();
 </script>
 </body>
