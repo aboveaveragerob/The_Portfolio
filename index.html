@@ -342,6 +342,8 @@ body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
   padding:7px 12px;min-height:34px;transition:color .15s,background .15s,border-color .15s}
 .catnav button:hover{color:var(--ink);border-color:var(--pink)}
 .catnav button[aria-selected="true"]{color:#fff;background:var(--grad-ink);border-color:transparent}
+/* field guides carried over from The Atlas — marked so a how-to reads apart from finished work */
+.catnav button.is-guide::before{content:"\2726";margin-right:.4em;opacity:.7}
 /* a prose section */
 .sec{margin-top:1.4rem}
 .sec-k{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#a06a2e}
@@ -609,11 +611,10 @@ body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
     {id:'volunteering',shelf:'career',title:'Volunteering & Community Engagement',spine:'Volunteering',src:'career',ch:'volunteering',accent:'#22a7f0'},
     {id:'arboriculture',shelf:'craft',title:'Arboriculture',src:'portfolio',ch:'arboriculture',accent:'#43b6ff'},
     {id:'horticulture',shelf:'craft',title:'Horticulture',src:'portfolio',ch:'horticulture',exclude:['hydroponics'],accent:'#5ef2a0'},
-    {id:'hydroponics',shelf:'craft',title:'Hydroponics',src:'portfolio',ch:'horticulture',cats:['hydroponics'],accent:'#22d3ee'},
-    {id:'music',shelf:'craft',title:'Music & Audio Production',spine:'Music & Audio',src:'portfolio',ch:'music',accent:'#b25cff'},
-    {id:'technology',shelf:'craft',title:'Technology',src:'portfolio',ch:'technology',accent:'#ff8a2b'},
-    {id:'woodworking',shelf:'craft',title:'Woodworking',src:'portfolio',ch:'woodworking',accent:'#ff5a3d'},
-    {id:'atlas',shelf:'craft',title:'The Atlas',src:'atlas',flatten:true,accent:'#ffd23d',apart:true}
+    {id:'hydroponics',shelf:'craft',title:'Hydroponics',src:'portfolio',ch:'horticulture',cats:['hydroponics'],guides:[['horticulture','planting-in-pon'],['horticulture','why-pon-works']],accent:'#22d3ee'},
+    {id:'music',shelf:'craft',title:'Music & Audio Production',spine:'Music & Audio',src:'portfolio',ch:'music',guides:[['music','midi'],['music','frequency-spectrum'],['music','effects-arrangement'],['music','edm-fundamentals']],accent:'#b25cff'},
+    {id:'technology',shelf:'craft',title:'Technology',src:'portfolio',ch:'technology',guides:[['technology','router-hardening'],['technology','android-dev']],accent:'#ff8a2b'},
+    {id:'woodworking',shelf:'craft',title:'Woodworking',src:'portfolio',ch:'woodworking',guides:[['woodworking','enclosure']],accent:'#ff5a3d'}
   ];
   var SHELF_LABEL={career:'The Career of Robert Gregory',craft:'The Craft of Alastair Zeved'};
   var SHELF_BRAND={career:'Robert Gregory',craft:'Alastair Zeved'};
@@ -623,15 +624,24 @@ body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
   function srcChapter(V){ var cs=DATA[V.src].chapters; for(var i=0;i<cs.length;i++){ if(cs[i].id===V.ch) return cs[i]; } return null; }
 
   // the categories a volume shows, as {cat, dom}
+  // look up a guide category that lives in The Atlas (redistributed into a Craft volume)
+  function atlasCat(chId,catId){
+    var chs=DATA.atlas.chapters;
+    for(var i=0;i<chs.length;i++){ if(chs[i].id===chId){
+      for(var j=0;j<chs[i].cats.length;j++){ if(chs[i].cats[j].id===catId) return chs[i].cats[j]; }
+    } }
+    return null;
+  }
   function volCats(V){
-    if(V.flatten){ var out=[]; DATA[V.src].chapters.forEach(function(c){ c.cats.forEach(function(k){ out.push({cat:k,dom:c.title}); }); }); return out; }
     var ch=srcChapter(V), list=ch.cats;
     if(V.cats){ list=V.cats.map(function(id){ return ch.cats.filter(function(k){return k.id===id;})[0]; }); }
     else if(V.exclude){ list=ch.cats.filter(function(k){ return V.exclude.indexOf(k.id)<0; }); }
-    return list.map(function(k){ return {cat:k,dom:ch.title}; });
+    var out=list.map(function(k){ return {cat:k,dom:ch.title}; });
+    // append any field guides carried over from The Atlas, marked as guides
+    if(V.guides){ V.guides.forEach(function(g){ var k=atlasCat(g[0],g[1]); if(k) out.push({cat:k,dom:'Field Guide',guide:true}); }); }
+    return out;
   }
   function volMeta(V){
-    if(V.flatten){ return {eyebrow:'The Atlas · Field Guides',desc:DATA[V.src].toc.epi,hero:'',years:''}; }
     var ch=srcChapter(V);
     return {eyebrow:SHELF_LABEL[V.shelf],desc:ch.desc,hero:ch.hero,years:V.years||''};
   }
@@ -695,7 +705,7 @@ body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
     var hero=meta.hero?'<div class="ph hero-ph">'+meta.hero+'</div>':'';
     var lh='<p class="ch-eyebrow">'+meta.eyebrow+'</p><h2 class="ch-title">'+V.title+'</h2>'+yrs+
       '<p class="ch-desc">'+meta.desc+'</p>'+hero;
-    var nav='<div class="catnav">'+cats.map(function(x){return '<button data-cat="'+x.cat.id+'" aria-selected="'+(x.cat.id===sel?'true':'false')+'">'+x.cat.label+'</button>';}).join('')+'</div>';
+    var nav='<div class="catnav">'+cats.map(function(x){return '<button data-cat="'+x.cat.id+'"'+(x.guide?' class="is-guide"':'')+' aria-selected="'+(x.cat.id===sel?'true':'false')+'">'+x.cat.label+'</button>';}).join('')+'</div>';
     var k=entry.cat, ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
     var img=k.img?'<div class="ph">'+k.img+'</div>':'';
     var rh=nav+'<div class="sec"><p class="sec-k">'+entry.dom+'</p><h3>'+k.h+'</h3>'+ps+img+'</div>';
@@ -714,13 +724,13 @@ body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
   function dressCover(V){
     var bk=document.getElementById('book');
     var front=bk.querySelector('.cover .front');
-    front.className='face front '+(V.shelf==='career'?'rg':(V.flatten?'at':''));
+    front.className='face front '+(V.shelf==='career'?'rg':'');
     var meta=volMeta(V);
     bk.querySelector('.cv-top').textContent=meta.eyebrow;
     var nm=bk.querySelector('.cv-name'); nm.textContent=V.title;
-    nm.className='cv-name '+(V.shelf==='career'?'gradtext-cool':(V.flatten?'gradtext-atlas':'gradtext'));
-    bk.querySelector('.cv-sub').textContent=(V.flatten?'Field Guides':(V.shelf==='career'?'A Career':'A Craft'));
-    bk.querySelector('.cv-years').textContent=(V.flatten?'':(V.years||''));
+    nm.className='cv-name '+(V.shelf==='career'?'gradtext-cool':'gradtext');
+    bk.querySelector('.cv-sub').textContent=(V.shelf==='career'?'A Career':'A Craft');
+    bk.querySelector('.cv-years').textContent=(V.years||'');
   }
 
   function activateVolume(id, updateHash, keepOpen){
