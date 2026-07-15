@@ -16,6 +16,7 @@
   // ── Flip animation state ──
   let flipPhase = ''; // '' | 'out' | 'in'
   let animating = false;
+  let pending   = null; // latest nav target that arrived mid-flip
 
   // Watch props for changes and trigger flip
   $: triggerFlip(view, chapter, pageIdx);
@@ -26,7 +27,11 @@
       newChapter === displayedChapter &&
       newPageIdx === displayedPageIdx
     ) return;
-    if (animating) return;
+    if (animating) {
+      // A flip is in progress — remember the latest target and apply it after.
+      pending = { newView, newChapter, newPageIdx };
+      return;
+    }
     doFlip(newView, newChapter, newPageIdx);
   }
 
@@ -44,6 +49,16 @@
 
     flipPhase = '';
     animating = false;
+
+    if (pending) {
+      const next = pending;
+      pending = null;
+      if (
+        next.newView    !== displayedView    ||
+        next.newChapter !== displayedChapter ||
+        next.newPageIdx !== displayedPageIdx
+      ) doFlip(next.newView, next.newChapter, next.newPageIdx);
+    }
   }
 
   function sleep(ms) {
@@ -99,7 +114,7 @@
         <div class="toc">
           <div class="toc-head">
             <div>
-              <div class="th-t">{book.title}</div>
+              <h2 class="th-t">{book.title}</h2>
               <div class="th-s">{book.subtitle}</div>
             </div>
           </div>
@@ -168,7 +183,7 @@
         <div class="toc">
           <div class="toc-head">
             <div>
-              <div class="th-t">{book.title}</div>
+              <h2 class="th-t">{book.title}</h2>
               <div class="th-s">{book.subtitle}</div>
             </div>
           </div>
@@ -292,7 +307,7 @@
 
   .toc { flex: 1; overflow-y: auto; padding: clamp(24px,5%,44px) clamp(22px,7%,48px); color: var(--ink); }
   .toc-head { border-bottom: 1px solid #0000001a; padding-bottom: 16px; margin-bottom: 14px; }
-  .th-t { font-family: var(--serif); font-weight: 600; font-size: clamp(1.3rem,4vw,1.7rem); line-height: 1.05; color: var(--ink); }
+  .th-t { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(1.3rem,4vw,1.7rem); line-height: 1.05; color: var(--ink); }
   .th-s { font-family: var(--mono); font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-3); margin-top: 7px; }
   .toc-h { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
   .toc-empty { font-family: var(--serif); font-style: italic; color: var(--ink-2); margin-top: 12px; }

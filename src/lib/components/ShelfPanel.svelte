@@ -34,7 +34,7 @@
             style="--sp-accent: {accentFor[book.id]}"
             on:click={() => onBookClick(book)}
             title="{book.title} · {book.subtitle}"
-            aria-current={book.id === activeBookId}
+            aria-current={book.id === activeBookId ? 'true' : undefined}
           >
             <span class="sp-emblem" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
