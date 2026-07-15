@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alastair Zeved Designs &mdash; a portfolio</title>
+<title>Robert Gregory &mdash; Career &amp; Craft</title>
 
 <!-- SEO -->
-<meta name="description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
-<meta name="author" content="Alastair Zeved">
+<meta name="description" content="Robert Gregory — a career in financial operations and the Alastair Zeved maker practice across horticulture, arboriculture, technology, music, and woodworking, with field guides collected in The Atlas.">
+<meta name="author" content="Robert Gregory">
 
 <!-- Open Graph / social sharing — update og:url and og:image once your domain is live -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Alastair Zeved Designs">
-<meta property="og:description" content="A portfolio of completed projects, how-to guides, and skill sheets across horticulture, technology, music, and woodworking.">
-<meta property="og:site_name" content="Alastair Zeved Designs">
+<meta property="og:title" content="Robert Gregory — Career & Craft">
+<meta property="og:description" content="Robert Gregory — a career in financial operations and the Alastair Zeved maker practice across horticulture, arboriculture, technology, music, and woodworking, with field guides collected in The Atlas.">
+<meta property="og:site_name" content="Robert Gregory">
 <meta property="og:url" content="https://alastairzeved.com">
 <meta property="og:image" content="https://alastairzeved.com/og-image.png">
 
@@ -38,12 +38,50 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);-webkit-text-size-adjust:100%}
-body{background:radial-gradient(120% 80% at 50% 0%, #1c1330 0%, var(--bg) 55%);color:var(--bone-1);
+body{background:
+    radial-gradient(60% 42% at 50% 62%, #2a153a4d 0%, #12081f00 60%),
+    radial-gradient(46% 30% at 84% 16%, #22a7f01f 0%, #22a7f000 70%),
+    radial-gradient(50% 34% at 12% 26%, #ff2d7817 0%, #ff2d7800 70%),
+    radial-gradient(120% 80% at 50% 0%, #1c1330 0%, var(--bg) 55%);
+  background-repeat:no-repeat;background-size:150% 150%;
+  animation:bg-drift 34s ease-in-out infinite alternate;
+  color:var(--bone-1);
   font-family:var(--sans);line-height:1.45;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+@keyframes bg-drift{
+  0%{background-position:0% 0%,0% 0%,0% 0%,0% 0%}
+  50%{background-position:-9% 7%,9% -6%,-6% 9%,0% 0%}
+  100%{background-position:8% -9%,-8% 9%,9% -6%,0% 0%}
+}
+/* aurora: a slow drifting colour bloom so the deep-space void reads as alive, not dead */
+body::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(40% 34% at 32% 30%, #b25cff33 0%, transparent 68%),
+    radial-gradient(38% 30% at 70% 58%, #22a7f02b 0%, transparent 68%),
+    radial-gradient(34% 28% at 54% 82%, #ff2d7826 0%, transparent 68%);
+  mix-blend-mode:screen;will-change:transform;
+  animation:aurora 30s ease-in-out infinite alternate}
+@keyframes aurora{
+  0%{transform:translate3d(-3%,-2%,0) rotate(-6deg) scale(1)}
+  100%{transform:translate3d(4%,3%,0) rotate(8deg) scale(1.16)}}
+/* Celestial archive backdrop: a colonnade of light receding under the star-vault,
+   its side walls lined with distant volumes rendered as glowing spines. */
+.hall{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.hall svg{position:absolute;top:50%;left:50%;width:max(1440px,118vw);height:max(900px,118vh);
+  transform:translate(-50%,-50%);opacity:.85;mix-blend-mode:screen;
+  animation:hall-drift 46s ease-in-out infinite alternate, hall-hue 40s linear infinite}
+@keyframes hall-drift{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-51.5%) scale(1.05)}}
+@keyframes hall-hue{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(16deg)}}
+@media (prefers-reduced-motion: reduce){.hall svg{animation:none}}
 .gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stagegl{position:fixed;inset:0;width:100%;height:100%;opacity:.45;pointer-events:none;z-index:0}
+.gradtext-cool{background:linear-gradient(100deg,#5ef2e8,#3b82f6 55%,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stagegl{position:fixed;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none;z-index:0}
 .stagegl svg{width:100%;height:100%}
+.stagegl svg *{animation:star-twinkle 5s ease-in-out infinite}
+.stagegl svg *:nth-child(3n){animation-duration:3.8s;animation-delay:-1.4s}
+.stagegl svg *:nth-child(4n){animation-duration:6.4s;animation-delay:-3.1s}
+.stagegl svg *:nth-child(5n){animation-duration:4.6s;animation-delay:-2.3s}
+@keyframes star-twinkle{0%,100%{opacity:.22}50%{opacity:1}}
 
 /* top bar (only when open) */
 .topbar{position:sticky;top:0;z-index:30;display:none;align-items:center;gap:10px;flex-wrap:nowrap;
@@ -65,13 +103,15 @@ body[data-open="1"] .topbar{display:flex}
 .tb-close:hover{color:var(--bone-0);border-color:var(--violet)}
 
 /* stage */
-.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:clamp(20px,4vw,48px) 16px 60px;gap:18px}
+.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:clamp(14px,3vw,30px) 16px 60px;gap:clamp(12px,2.4vw,26px)}
 
 /* book */
 .book-wrap{perspective:2400px}
-.book{position:relative;--pw:min(94vw,540px);width:var(--pw);height:min(760px,calc(100vh - 140px));height:min(760px,calc(100dvh - 140px));transform-style:preserve-3d;
+.book{position:relative;--pw:min(94vw,540px);width:var(--pw);height:min(700px,calc(100vh - 230px));height:min(700px,calc(100dvh - 230px));transform-style:preserve-3d;
   transition:width 1.05s cubic-bezier(.2,.02,.12,1)}
+/* while reading, the top bar appears — shrink the shelf so the reader keeps its height */
+body[data-open="1"] .book{height:min(700px,calc(100vh - 250px));height:min(700px,calc(100dvh - 250px))}
 .back-cover{position:absolute;inset:0;border-radius:7px 12px 12px 7px;background:#0d0a14;
   box-shadow:0 40px 90px -30px #000,0 0 0 1px #ffffff10;transform:translateZ(-10px)}
 /* the reading pages */
@@ -158,7 +198,7 @@ button[disabled]{opacity:.35;cursor:default}
 .toc-item .pg{font-family:var(--mono);font-size:.8rem;color:var(--ink-3);flex:none}
 
 /* the cover (front) */
-.cover{position:absolute;right:0;top:0;bottom:0;width:var(--pw);transform-origin:left center;transform-style:preserve-3d;z-index:5;cursor:pointer;
+.cover{position:absolute;right:0;top:0;bottom:0;width:var(--pw);transform-origin:left center;transform-style:preserve-3d;z-index:5;
   transition:transform 1.05s cubic-bezier(.2,.02,.12,1)}
 body[data-open="1"] .cover{transform:rotateY(-162deg);opacity:0;pointer-events:none;
   transition:transform 1.05s cubic-bezier(.2,.02,.12,1),opacity .12s 1s}
@@ -172,11 +212,12 @@ body[data-open="1"] .cover{transform:rotateY(-162deg);opacity:0;pointer-events:n
 .cover-frame{position:absolute;inset:16px;border-radius:5px;border:1px solid #ffffff1f;
   box-shadow:inset 0 0 0 1px #00000040}
 .cover-frame::before{content:"";position:absolute;inset:5px;border-radius:3px;border:1px solid #ffffff10}
-.cover-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+.cover-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(30px,7vh,64px);
   padding:clamp(40px,9%,70px) 24px;text-align:center;z-index:2}
-.cv-top{font-family:var(--mono);font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;color:var(--bone-2);text-indent:.4em}
+.cv-top{position:absolute;top:clamp(34px,8%,64px);left:0;right:0;font-family:var(--mono);font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;color:var(--bone-2);text-indent:.4em}
 .cv-mid{display:flex;flex-direction:column;align-items:center;gap:10px}
-.cv-name{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.1rem);line-height:.98;letter-spacing:-.02em}
+.cv-mid::after{content:"";width:44px;height:2px;border-radius:2px;background:var(--grad);opacity:.6;margin-top:6px}
+.cv-name{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.08;letter-spacing:-.02em;overflow-wrap:break-word}
 .cv-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.5em;text-transform:uppercase;color:var(--bone-2);text-indent:.5em}
 /* lock + key */
 .lock{display:flex;flex-direction:column;align-items:center;gap:12px}
@@ -184,15 +225,12 @@ body[data-open="1"] .cover{transform:rotateY(-162deg);opacity:0;pointer-events:n
   display:flex;align-items:center;justify-content:center;position:relative;transition:transform .5s cubic-bezier(.3,.1,.2,1);
   box-shadow:0 0 0 1px #ffffff1f, inset 0 0 30px #00000060}
 .keybtn::before{content:"";position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#ffd23d,#ff2d78,#7c5cff,#22d3ee,#ffd23d);
-  opacity:.5;filter:blur(7px);z-index:-1;transition:opacity .3s}
-.keybtn:hover::before{opacity:.85}
+  opacity:.5;filter:blur(7px);z-index:-1;transition:opacity .3s;animation:key-halo 14s linear infinite}
+.keybtn:hover::before{opacity:.9}
+@keyframes key-halo{to{transform:rotate(1turn)}}
 .keybtn svg{width:84%;height:84%;display:block}
 body[data-open="1"] .keybtn{transform:rotate(90deg)}
 .keybtn:focus-visible{outline:2px solid var(--violet);outline-offset:4px}
-.cv-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-1);display:flex;align-items:center;gap:.6em}
-.cv-hint .pulse{width:7px;height:7px;border-radius:50%;background:var(--grad);animation:pulse 2.2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-body[data-open="1"] .cv-hint{opacity:0}
 
 /* page-turn leaf */
 .leaf{position:absolute;right:0;top:0;bottom:0;width:var(--pw);transform-origin:left center;z-index:8;border-radius:6px 11px 11px 6px;
@@ -206,7 +244,7 @@ body[data-open="1"] .foot{display:none}
 
 :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:3px}
 @media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important}
   .leaf.turn{display:none}
 }
 @media(max-width:680px){
@@ -225,7 +263,7 @@ body[data-open="1"] .foot{display:none}
   .pf-btn,.pf-turn button{padding:8px 9px;font-size:.64rem}
   .pf-turn{gap:7px}.folio{min-width:2.3em}
   .cover-inner{padding:clamp(24px,6%,70px) 18px}
-  .cv-name{font-size:clamp(1.7rem,8.5vw,3.1rem)}
+  .cv-name{font-size:clamp(1.6rem,8vw,2.7rem)}
   .ad-cover{max-width:160px}
 }
 @media(max-width:360px){
@@ -234,23 +272,63 @@ body[data-open="1"] .foot{display:none}
   .cv-top{font-size:.58rem;letter-spacing:.3em}
 }
 
-/* ===== two-volume shelf ===== */
-.shelf{display:flex;gap:clamp(18px,4vw,48px);align-items:center;justify-content:center;flex-wrap:wrap}
+/* ===== library: two spine shelves + one reader ===== */
 .book{--pw:min(94vw,400px)}
 @media(min-width:820px){
-  .book{--pw:min(42vw,362px)}
-  body[data-open="1"] .book[data-active]{width:calc(2*var(--pw))}
+  .book{--pw:min(40vw,360px)}
+  body[data-open="1"] .book{width:calc(2*var(--pw))}
 }
-@media(max-width:819px){ .shelf{flex-direction:column} }
-/* once a volume is open, hide the shelf-mate and the closed instructions */
-body[data-open="1"] .book:not([data-active]){display:none}
-.vol-tag{position:absolute;top:-26px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--bone-2)}
-body[data-open="1"] .vol-tag{opacity:0}
-/* Vol. II cover uses the compact emblem instead of the key */
-.emblem-lg{width:clamp(84px,24%,116px);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
-.emblem-lg svg{width:100%;height:100%}
 .cover .front.rg{background:radial-gradient(70% 50% at 50% 30%, #14233a 0%, #0e1626 60%, #0b111d 100%)}
+.cover .front.at{background:radial-gradient(70% 50% at 50% 30%, #3a2a12 0%, #241a0d 60%, #17110a 100%)}
+.gradtext-atlas{background:linear-gradient(100deg,#ffd23d,#ff8a2b 55%,#e0662a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cv-years{font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--bone-2)}
+
+/* the two shelves, stacked across the top */
+.shelves{position:relative;z-index:2;width:100%;max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(14px,2.6vw,26px)}
+.shelf-rail{position:relative;padding:24px 14px 18px}
+.shelf-head{position:absolute;top:0;left:0;right:0;text-align:center;font-family:var(--serif);font-style:italic;
+  font-size:clamp(.84rem,2.2vw,1.05rem);color:var(--bone-1)}
+.shelf-books{display:flex;flex-flow:row nowrap;align-items:flex-end;justify-content:center;gap:clamp(5px,1.1vw,9px);
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.shelf-books::-webkit-scrollbar{display:none}
+/* a book set slightly apart from its shelf-mates (e.g. The Atlas) */
+.shelf-books .spine.apart{margin-left:clamp(10px,2vw,22px)}
+/* the ledge each shelf stands on */
+.shelf-rail::after{content:"";position:absolute;left:6px;right:6px;bottom:8px;height:9px;border-radius:2px;
+  background:linear-gradient(180deg,#3c3552,#191524);
+  box-shadow:0 10px 22px -6px #000,inset 0 1px 0 #ffffff2e,inset 0 -1px 0 #00000073}
+/* compact the shelves while a book is open so the reader isn't crowded */
+body[data-open="1"] .shelves{max-width:780px}
+body[data-open="1"] .shelf-head{display:none}
+body[data-open="1"] .shelf-rail{padding:8px 14px 16px}
+body[data-open="1"] .spine{height:clamp(78px,12vw,108px);justify-content:center}
+body[data-open="1"] .sp-title,body[data-open="1"] .sp-year{display:none}
+/* each volume: a spine standing on the shelf, its title running up the spine */
+.spine{appearance:none;cursor:pointer;position:relative;z-index:1;flex:none;
+  width:clamp(34px,4.8vw,46px);height:clamp(122px,19vw,178px);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:5px;padding:9px 3px 8px;
+  color:var(--bone-1);background:var(--sp-bg,linear-gradient(100deg,#241a33,#160f22));
+  border:1px solid #ffffff1a;border-top:3px solid var(--sp-accent,#ffffff40);border-radius:3px 3px 2px 2px;
+  box-shadow:0 14px 22px -12px #000,inset 0 0 0 1px #ffffff0a,inset -8px 0 16px -10px #00000099,inset 7px 0 10px -8px #ffffff18;
+  transition:transform .22s cubic-bezier(.3,.1,.2,1),box-shadow .22s,filter .22s}
+.spine:hover{transform:translateY(-12px);box-shadow:0 26px 30px -14px #000}
+.spine:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.spine[aria-current="true"]{transform:translateY(-14px);box-shadow:0 28px 34px -14px #000,0 0 0 1px var(--sp-accent) inset}
+.spine[aria-current="true"] .sp-title{color:var(--bone-0)}
+.sp-emblem{width:17px;height:17px;flex:none;opacity:.92}
+.sp-emblem svg{width:100%;height:100%;display:block}
+.sp-title{flex:1;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;
+  font-family:var(--serif);font-weight:500;font-size:clamp(.62rem,1.5vw,.78rem);line-height:1;letter-spacing:.01em;
+  white-space:nowrap;overflow:hidden;color:var(--bone-1);transition:color .18s}
+.sp-year{flex:none;writing-mode:vertical-rl;font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;
+  color:var(--bone-2);white-space:nowrap}
+@media(max-width:520px){
+  .shelf-books{justify-content:flex-start}
+  .spine{width:clamp(32px,9vw,42px);height:clamp(126px,38vw,158px)}
+  /* on narrow screens the spine is too short for title + year — keep the title, drop the year */
+  .sp-year{display:none}
+  .sp-title{font-size:clamp(.6rem,2.7vw,.74rem)}
+}
 
 /* ===== chapter editorial layout ===== */
 .hero-ph{margin-top:1.5rem;min-height:210px}
@@ -264,62 +342,104 @@ body[data-open="1"] .vol-tag{opacity:0}
   padding:7px 12px;min-height:34px;transition:color .15s,background .15s,border-color .15s}
 .catnav button:hover{color:var(--ink);border-color:var(--pink)}
 .catnav button[aria-selected="true"]{color:#fff;background:var(--grad-ink);border-color:transparent}
+/* field guides carried over from The Atlas — marked so a how-to reads apart from finished work */
+.catnav button.is-guide::before{content:"\2726";margin-right:.4em;opacity:.7}
 /* a prose section */
 .sec{margin-top:1.4rem}
 .sec-k{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#a06a2e}
 .sec h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3.4vw,1.7rem);line-height:1.04;color:var(--ink);margin:.3rem 0 .1rem}
 .sec p{color:#3a322a;font-size:1rem;max-width:62ch;margin-top:.7rem}
 .sec .ph{margin-top:1.1rem}
+/* real photographs (figure + mono caption), used where a category has committed images */
+.shots{margin-top:1.2rem;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:560px){.shots{grid-template-columns:1fr 1fr}}
+.shots .shot.wide,.shots .shot:only-child{grid-column:1/-1}
+.shot{margin:0}
+.shot img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid #00000018;background:#00000006;image-orientation:from-image}
+.shot figcaption{margin-top:7px;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:center}
+.shot.cover{max-width:340px;margin-inline:auto}
+/* audio teasers (native player + mono caption) */
+.tracks{margin-top:1.2rem;display:flex;flex-direction:column;gap:12px}
+.track{margin:0}
+.track figcaption{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.track audio{width:100%;height:36px}
 /* front-matter table of contents (left) reuses .toc-* ; about (right) reuses .ch-body/.steps */
 .fm-portrait{margin-top:0}
 </style>
 </head>
 <body data-open="0">
+<div class="hall" aria-hidden="true"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="hlArch" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#ff2d78"/><stop offset="45%" stop-color="#b25cff"/><stop offset="100%" stop-color="#43b6ff"/></linearGradient><linearGradient id="hlFloor" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c5cff"/><stop offset="50%" stop-color="#ffb43d"/><stop offset="100%" stop-color="#5ef2e8"/></linearGradient><linearGradient id="hlLedge" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ffd23d" stop-opacity="0"/><stop offset="50%" stop-color="#ffd23d"/><stop offset="100%" stop-color="#ffd23d" stop-opacity="0"/></linearGradient><radialGradient id="hlHearth" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb43d" stop-opacity="0.5"/><stop offset="38%" stop-color="#ff5a3d" stop-opacity="0.22"/><stop offset="100%" stop-color="#7c5cff" stop-opacity="0"/></radialGradient></defs><g class="hl-arch" fill="none" stroke="url(#hlArch)" stroke-linecap="round">
+<path d="M-170 1120 L-170 -80 A890 890 0 0 1 1610 -80 L1610 1120" stroke-width="2.9" opacity="0.1"/>
+<path d="M97 919.6 L97 79.6 A623 623 0 0 1 1343 79.6 L1343 919.6" stroke-width="2.2" opacity="0.1"/>
+<path d="M283.9 779.3 L283.9 191.3 A436.1 436.1 0 0 1 1156.1 191.3 L1156.1 779.3" stroke-width="1.7" opacity="0.2"/>
+<path d="M414.7 681.1 L414.7 269.5 A305.3 305.3 0 0 1 1025.3 269.5 L1025.3 681.1" stroke-width="1.3" opacity="0.2"/>
+<path d="M506.3 612.4 L506.3 324.3 A213.7 213.7 0 0 1 933.7 324.3 L933.7 612.4" stroke-width="1.1" opacity="0.2"/>
+<path d="M570.4 564.3 L570.4 362.6 A149.6 149.6 0 0 1 869.6 362.6 L869.6 564.3" stroke-width="0.9" opacity="0.1"/>
+<path d="M615.3 530.6 L615.3 389.4 A104.7 104.7 0 0 1 824.7 389.4 L824.7 530.6" stroke-width="0.8" opacity="0.1"/>
+</g>
+<g class="hl-floor" stroke="url(#hlFloor)" stroke-width="1" fill="none">
+<line x1="-160" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="60" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="300" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="560" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="880" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="1140" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="1380" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="1600" y1="960" x2="720" y2="452" opacity="0.05"/>
+<line x1="159" y1="787.3" x2="1281" y2="787.3" opacity="0.1"/>
+<line x1="349.7" y1="673.3" x2="1090.3" y2="673.3" opacity="0"/>
+<line x1="475.6" y1="598" x2="964.4" y2="598" opacity="0"/>
+<line x1="558.7" y1="548.4" x2="881.3" y2="548.4" opacity="0"/>
+<line x1="613.6" y1="515.6" x2="826.4" y2="515.6" opacity="0"/>
+</g>
+<circle cx="720" cy="452" r="230" fill="url(#hlHearth)"/>
+<g class="hl-shelf"><line x1="28" y1="196" x2="300" y2="196" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="35.1" y="137.2" width="3.8" height="58.8" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="43.4" y="140.6" width="4.6" height="55.4" rx="1.4" fill="#ffd23d" opacity="0.4"/><rect x="57.3" y="162.4" width="3.5" height="33.6" rx="1.4" fill="#ffd23d" opacity="0.3"/><rect x="65.7" y="137.2" width="6.7" height="58.8" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="79.3" y="136.3" width="7.4" height="59.7" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="95.4" y="142.2" width="6.9" height="53.8" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="108" y="150.2" width="5.5" height="45.8" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="121.2" y="165" width="5" height="31" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="132.5" y="147.7" width="5.2" height="48.3" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="146.3" y="149.3" width="4.8" height="46.7" rx="1.4" fill="#ffd23d" opacity="0.4"/><rect x="161.9" y="158" width="7" height="38" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="177.1" y="161.1" width="6.2" height="34.9" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="191.7" y="136.3" width="3.6" height="59.7" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="199.9" y="161" width="3.8" height="35" rx="1.4" fill="#ffd23d" opacity="0.2"/><rect x="214" y="161.5" width="5.2" height="34.5" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="229.6" y="149.5" width="4" height="46.5" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="240.3" y="144.4" width="4.7" height="51.6" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="250.5" y="148.6" width="3.7" height="47.4" rx="1.4" fill="#7c5cff" opacity="0.1"/><rect x="258.8" y="155" width="4.9" height="41" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="268.3" y="145.8" width="7.5" height="50.2" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="280.9" y="164.6" width="4.7" height="31.4" rx="1.4" fill="#ffd23d" opacity="0.2"/><rect x="292.1" y="141.9" width="5.9" height="54.1" rx="1.4" fill="#7c5cff" opacity="0.3"/><line x1="28" y1="300" x2="300" y2="300" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="32.1" y="241.1" width="6.7" height="58.9" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="44.2" y="259" width="6.5" height="41" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="61.1" y="267.8" width="6.3" height="32.2" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="73.2" y="258.5" width="6" height="41.5" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="88.3" y="267.8" width="7" height="32.2" rx="1.4" fill="#b25cff" opacity="0.3"/><rect x="101.6" y="251.1" width="4.7" height="48.9" rx="1.4" fill="#ff5a3d" opacity="0.4"/><rect x="114.5" y="269.5" width="4.6" height="30.5" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="129.6" y="241.6" width="4.3" height="58.4" rx="1.4" fill="#b25cff" opacity="0.3"/><rect x="144.6" y="247.8" width="7" height="52.2" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="161" y="240.7" width="7.5" height="59.3" rx="1.4" fill="#ff8a2b" opacity="0.1"/><rect x="178.5" y="249" width="4.5" height="51" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="188.1" y="255.7" width="6.2" height="44.3" rx="1.4" fill="#ff8a2b" opacity="0.4"/><rect x="202.2" y="246.3" width="5.8" height="53.7" rx="1.4" fill="#b25cff" opacity="0.3"/><rect x="216.4" y="250.5" width="4.5" height="49.5" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="225.8" y="266.9" width="3.2" height="33.1" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="238.7" y="265.3" width="6.1" height="34.7" rx="1.4" fill="#5ef2e8" opacity="0.1"/><rect x="250.4" y="253.7" width="3.5" height="46.3" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="261.8" y="261.9" width="3.3" height="38.1" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="272.1" y="256.5" width="4.5" height="43.5" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="282.1" y="240.6" width="6.8" height="59.4" rx="1.4" fill="#ff5a3d" opacity="0.4"/><line x1="28" y1="404" x2="300" y2="404" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="38.4" y="354" width="4.3" height="50" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="48.5" y="371.8" width="3.6" height="32.2" rx="1.4" fill="#ff2d78" opacity="0.4"/><rect x="60.3" y="350.5" width="4.3" height="53.5" rx="1.4" fill="#b25cff" opacity="0.3"/><rect x="74.4" y="363.8" width="3.7" height="40.2" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="86.4" y="360" width="4.8" height="44" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="100.1" y="352.9" width="7.5" height="51.1" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="113.4" y="350.9" width="6" height="53.1" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="129.6" y="364.7" width="6.5" height="39.3" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="146.6" y="347.2" width="5.4" height="56.8" rx="1.4" fill="#5ef2e8" opacity="0.2"/><rect x="160.5" y="361.3" width="4.3" height="42.7" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="172.1" y="358.2" width="3.8" height="45.8" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="184.8" y="352.1" width="6.2" height="51.9" rx="1.4" fill="#5ef2e8" opacity="0.4"/><rect x="201.6" y="364" width="6.4" height="40" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="216.6" y="364.9" width="7" height="39.1" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="231.4" y="342.2" width="5.4" height="61.8" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="243.1" y="358.9" width="4.1" height="45.1" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="254.1" y="352.1" width="4.4" height="51.9" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="269.3" y="366" width="3.8" height="38" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="282.6" y="343.9" width="6.5" height="60.1" rx="1.4" fill="#7c5cff" opacity="0.2"/><line x1="28" y1="508" x2="300" y2="508" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="39.9" y="457.2" width="7" height="50.8" rx="1.4" fill="#43b6ff" opacity="0.4"/><rect x="55" y="452.5" width="7.2" height="55.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="70.7" y="446" width="7" height="62" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="87.4" y="463.1" width="3.7" height="44.9" rx="1.4" fill="#5ef2e8" opacity="0.2"/><rect x="97.8" y="458" width="5" height="50" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="113.1" y="476.8" width="6.3" height="31.2" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="125.8" y="448.3" width="4.1" height="59.7" rx="1.4" fill="#ff5a3d" opacity="0.4"/><rect x="135.4" y="469.6" width="5.4" height="38.4" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="145.9" y="450.6" width="3.8" height="57.4" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="154.5" y="466.5" width="3.4" height="41.5" rx="1.4" fill="#3b82f6" opacity="0.4"/><rect x="164.7" y="465.6" width="5.7" height="42.4" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="180" y="475.3" width="6.7" height="32.7" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="196.9" y="446.9" width="7.4" height="61.1" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="210" y="457.4" width="6.2" height="50.6" rx="1.4" fill="#5ef2e8" opacity="0.2"/><rect x="225.7" y="452.7" width="6" height="55.3" rx="1.4" fill="#43b6ff" opacity="0.4"/><rect x="240.8" y="450.7" width="4.3" height="57.3" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="249.9" y="451.1" width="4.6" height="56.9" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="264.4" y="470.2" width="6.7" height="37.8" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="277.5" y="477.6" width="6.3" height="30.4" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="291.8" y="451.4" width="5.9" height="56.6" rx="1.4" fill="#ff2d78" opacity="0.3"/><line x1="28" y1="612" x2="300" y2="612" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="33.4" y="573.8" width="4.8" height="38.2" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="43.6" y="572.6" width="4.2" height="39.4" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="56.7" y="577.8" width="7.3" height="34.2" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="70.3" y="562.3" width="6.3" height="49.7" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="81.2" y="576.1" width="4.6" height="35.9" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="96.3" y="578" width="4" height="34" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="105.6" y="565.5" width="4.6" height="46.5" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="119.1" y="561.9" width="6.2" height="50.1" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="133.4" y="554" width="6.2" height="58" rx="1.4" fill="#7c5cff" opacity="0.1"/><rect x="145.4" y="561.7" width="5.9" height="50.3" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="158.5" y="565.1" width="6.5" height="46.9" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="171" y="573.5" width="3.4" height="38.5" rx="1.4" fill="#ff5a3d" opacity="0.2"/><rect x="182.5" y="575.6" width="5.3" height="36.4" rx="1.4" fill="#ff2d78" opacity="0.4"/><rect x="193.4" y="566.1" width="3.3" height="45.9" rx="1.4" fill="#ff5a3d" opacity="0.2"/><rect x="206.6" y="566.8" width="5.4" height="45.2" rx="1.4" fill="#3b82f6" opacity="0.4"/><rect x="218.7" y="566.2" width="5.9" height="45.8" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="234.6" y="563.6" width="5" height="48.4" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="248" y="554.6" width="4.6" height="57.4" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="262.3" y="572.6" width="4" height="39.4" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="273" y="551.8" width="3.8" height="60.2" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="282.9" y="561.6" width="5.6" height="50.4" rx="1.4" fill="#3b82f6" opacity="0.3"/><line x1="28" y1="716" x2="300" y2="716" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="33.9" y="680.5" width="7.2" height="35.5" rx="1.4" fill="#ff2d78" opacity="0.4"/><rect x="45.7" y="679.5" width="4.4" height="36.5" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="59.6" y="668" width="5.9" height="48" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="73.9" y="672" width="7.4" height="44" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="87.8" y="685.8" width="5.3" height="30.2" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="103.3" y="676.3" width="4" height="39.7" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="116.2" y="685" width="6" height="31" rx="1.4" fill="#ff5a3d" opacity="0.2"/><rect x="127.8" y="669.3" width="7.1" height="46.7" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="144" y="657.3" width="6.9" height="58.7" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="155.9" y="666" width="6.1" height="50" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="168.7" y="679.9" width="4.3" height="36.1" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="180.7" y="654.9" width="4.8" height="61.1" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="196.4" y="656.1" width="3.4" height="59.9" rx="1.4" fill="#ff5a3d" opacity="0.2"/><rect x="204.4" y="660.7" width="7.2" height="55.3" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="218.6" y="658.5" width="6.5" height="57.5" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="230.4" y="655" width="6.8" height="61" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="244.1" y="663.2" width="7.1" height="52.8" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="260.5" y="661.5" width="4.3" height="54.5" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="275.4" y="685.1" width="5.1" height="30.9" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="288.4" y="683.7" width="6.3" height="32.3" rx="1.4" fill="#3b82f6" opacity="0.2"/></g>
+<g class="hl-shelf"><line x1="1140" y1="196" x2="1412" y2="196" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1146.8" y="152.5" width="5.9" height="43.5" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="1163.1" y="147.7" width="5.2" height="48.3" rx="1.4" fill="#ffd23d" opacity="0.2"/><rect x="1178.1" y="142.8" width="4.6" height="53.2" rx="1.4" fill="#ffb43d" opacity="0.1"/><rect x="1187.3" y="139.6" width="5.3" height="56.4" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1200.5" y="160.4" width="5.1" height="35.6" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="1215.5" y="156.3" width="7" height="39.7" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1227.3" y="157.1" width="7.4" height="38.9" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1241.2" y="150.2" width="6.6" height="45.8" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1253.2" y="136.1" width="6" height="59.9" rx="1.4" fill="#ffd23d" opacity="0.3"/><rect x="1267.3" y="143.8" width="6.9" height="52.2" rx="1.4" fill="#ffd23d" opacity="0.3"/><rect x="1284.4" y="145.5" width="3.5" height="50.5" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1296.6" y="156.9" width="6.8" height="39.1" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1313.2" y="150.8" width="7" height="45.2" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1329" y="146" width="5.2" height="50" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="1344.2" y="148.4" width="4.7" height="47.6" rx="1.4" fill="#ff2d78" opacity="0.4"/><rect x="1359.9" y="148.5" width="6.7" height="47.5" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1371.7" y="159.5" width="7.5" height="36.5" rx="1.4" fill="#43b6ff" opacity="0.4"/><rect x="1388.7" y="155.2" width="6.5" height="40.8" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="1400.7" y="149.1" width="6.4" height="46.9" rx="1.4" fill="#5ef2e8" opacity="0.3"/><line x1="1140" y1="300" x2="1412" y2="300" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1146.6" y="266.9" width="5.6" height="33.1" rx="1.4" fill="#3b82f6" opacity="0.1"/><rect x="1162.1" y="264.7" width="4.5" height="35.3" rx="1.4" fill="#ff2d78" opacity="0.1"/><rect x="1171.7" y="240.5" width="6.1" height="59.5" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="1183" y="269.9" width="3.8" height="30.1" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="1197.4" y="253.5" width="3.3" height="46.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1209.9" y="259.7" width="5.2" height="40.3" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="1223.4" y="262.3" width="4.5" height="37.7" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="1238.6" y="264.9" width="4" height="35.1" rx="1.4" fill="#43b6ff" opacity="0.4"/><rect x="1248.2" y="242.9" width="4.7" height="57.1" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="1259.9" y="254.5" width="5.7" height="45.5" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1274.7" y="261.6" width="3.8" height="38.4" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1286.4" y="255.3" width="4" height="44.7" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1295.7" y="268.1" width="5.1" height="31.9" rx="1.4" fill="#ff8a2b" opacity="0.4"/><rect x="1310.1" y="247.1" width="4.4" height="52.9" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1323.7" y="245.5" width="6.4" height="54.5" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1341" y="266.4" width="5.2" height="33.6" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1353.5" y="258.8" width="4" height="41.2" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="1363.7" y="241.1" width="6.9" height="58.9" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="1381.3" y="244.8" width="3.4" height="55.2" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="1394.7" y="269.1" width="7.2" height="30.9" rx="1.4" fill="#ff2d78" opacity="0.2"/><line x1="1140" y1="404" x2="1412" y2="404" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1147.5" y="362.2" width="5.7" height="41.8" rx="1.4" fill="#7c5cff" opacity="0.2"/><rect x="1161.1" y="343.1" width="4.7" height="60.9" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1176.6" y="351.3" width="6.1" height="52.7" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1189.2" y="343.2" width="5" height="60.8" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1201.4" y="361.3" width="6.7" height="42.7" rx="1.4" fill="#ffd23d" opacity="0.3"/><rect x="1216.2" y="342.4" width="5.7" height="61.6" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1231.7" y="353.7" width="3.3" height="50.3" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="1239.8" y="350.9" width="3.6" height="53.1" rx="1.4" fill="#ff2d78" opacity="0.4"/><rect x="1253.5" y="350.7" width="5.6" height="53.3" rx="1.4" fill="#b25cff" opacity="0.3"/><rect x="1266.4" y="352.2" width="7.3" height="51.8" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="1281.2" y="352.5" width="3.8" height="51.5" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="1293.5" y="363.7" width="4.5" height="40.3" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1303" y="344.7" width="4.7" height="59.3" rx="1.4" fill="#43b6ff" opacity="0.3"/><rect x="1314.7" y="352.1" width="4.8" height="51.9" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1328" y="363.3" width="6.8" height="40.7" rx="1.4" fill="#5ef2e8" opacity="0.1"/><rect x="1344.2" y="350.2" width="6.6" height="53.8" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1357.3" y="352.8" width="3.5" height="51.2" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="1366.4" y="346" width="5.5" height="58" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="1380.6" y="365.7" width="6" height="38.3" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1393.8" y="354.7" width="7.4" height="49.3" rx="1.4" fill="#ffd23d" opacity="0.4"/><line x1="1140" y1="508" x2="1412" y2="508" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1151.8" y="469" width="4.3" height="39" rx="1.4" fill="#ff8a2b" opacity="0.4"/><rect x="1161.3" y="461.4" width="6.4" height="46.6" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1173.3" y="452.7" width="4.2" height="55.3" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1185.9" y="448.6" width="5.1" height="59.4" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="1197.2" y="448.7" width="6.8" height="59.3" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1211.8" y="457.4" width="4.3" height="50.6" rx="1.4" fill="#5ef2e8" opacity="0.2"/><rect x="1226" y="468.3" width="5.8" height="39.7" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="1238.7" y="455.3" width="5.3" height="52.7" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1249.6" y="466.6" width="7.3" height="41.4" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="1262.5" y="467.6" width="5.8" height="40.4" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="1274" y="453.4" width="6.7" height="54.6" rx="1.4" fill="#ff8a2b" opacity="0.2"/><rect x="1288.7" y="449" width="7" height="59" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1301.1" y="469.8" width="3.2" height="38.2" rx="1.4" fill="#ff8a2b" opacity="0.4"/><rect x="1314.1" y="460.1" width="3.4" height="47.9" rx="1.4" fill="#5ef2e8" opacity="0.4"/><rect x="1328.3" y="456.5" width="7.4" height="51.5" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1344.1" y="460.3" width="3.3" height="47.7" rx="1.4" fill="#ffb43d" opacity="0.1"/><rect x="1353.7" y="472.1" width="3.7" height="35.9" rx="1.4" fill="#ffd23d" opacity="0.2"/><rect x="1362.7" y="475.8" width="4.3" height="32.2" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1377.3" y="472.4" width="6.7" height="35.6" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="1392" y="448.9" width="4.8" height="59.1" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1402" y="460.9" width="3.6" height="47.1" rx="1.4" fill="#7c5cff" opacity="0.4"/><line x1="1140" y1="612" x2="1412" y2="612" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1150.7" y="561.6" width="5.8" height="50.4" rx="1.4" fill="#ff2d78" opacity="0.2"/><rect x="1166.8" y="563.4" width="4.2" height="48.6" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="1180.6" y="578.8" width="3.6" height="33.2" rx="1.4" fill="#7c5cff" opacity="0.1"/><rect x="1195.1" y="567.8" width="3.4" height="44.2" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1206.3" y="559.4" width="4.6" height="52.6" rx="1.4" fill="#ffb43d" opacity="0.4"/><rect x="1218.4" y="550.2" width="6.1" height="61.8" rx="1.4" fill="#7c5cff" opacity="0.4"/><rect x="1230.2" y="558.6" width="6.8" height="53.4" rx="1.4" fill="#7c5cff" opacity="0.1"/><rect x="1243.6" y="555.3" width="5.6" height="56.7" rx="1.4" fill="#5ef2e8" opacity="0.4"/><rect x="1253.9" y="552.5" width="4.3" height="59.5" rx="1.4" fill="#ff5a3d" opacity="0.2"/><rect x="1266.8" y="575.4" width="6.1" height="36.6" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1282" y="557.2" width="5.6" height="54.8" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="1293.6" y="550.8" width="7" height="61.2" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="1308.4" y="572.9" width="7.1" height="39.1" rx="1.4" fill="#5ef2e8" opacity="0.2"/><rect x="1324.6" y="560.1" width="4" height="51.9" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1336.3" y="580" width="6.6" height="32" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1348.2" y="550.3" width="4.1" height="61.7" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1363.1" y="552.4" width="6.2" height="59.6" rx="1.4" fill="#ff8a2b" opacity="0.3"/><rect x="1377.5" y="567.1" width="5.4" height="44.9" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1388.1" y="556.3" width="4" height="55.7" rx="1.4" fill="#3b82f6" opacity="0.2"/><rect x="1401.7" y="552.1" width="6.7" height="59.9" rx="1.4" fill="#ffb43d" opacity="0.2"/><line x1="1140" y1="716" x2="1412" y2="716" stroke="url(#hlLedge)" stroke-width="1.2" opacity="0.16"/><rect x="1150.7" y="665.5" width="4.9" height="50.5" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="1164.6" y="676.8" width="5.5" height="39.2" rx="1.4" fill="#43b6ff" opacity="0.2"/><rect x="1179.6" y="675.5" width="7.4" height="40.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1194.9" y="684.6" width="4.7" height="31.4" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1209.4" y="659.1" width="5.8" height="56.9" rx="1.4" fill="#b25cff" opacity="0.4"/><rect x="1223.5" y="679.1" width="3.5" height="36.9" rx="1.4" fill="#b25cff" opacity="0.2"/><rect x="1236.4" y="679.5" width="7" height="36.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1254.4" y="670.3" width="5.5" height="45.7" rx="1.4" fill="#3b82f6" opacity="0.3"/><rect x="1267.3" y="657.6" width="3.4" height="58.4" rx="1.4" fill="#ffb43d" opacity="0.2"/><rect x="1275.7" y="664.3" width="5.4" height="51.7" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1287.8" y="668.4" width="5.3" height="47.6" rx="1.4" fill="#43b6ff" opacity="0.4"/><rect x="1300.4" y="661.9" width="4.4" height="54.1" rx="1.4" fill="#ff8a2b" opacity="0.4"/><rect x="1312.4" y="663.2" width="5.8" height="52.8" rx="1.4" fill="#ff2d78" opacity="0.3"/><rect x="1323.8" y="657.5" width="5.5" height="58.5" rx="1.4" fill="#7c5cff" opacity="0.3"/><rect x="1335.6" y="666.6" width="7.1" height="49.4" rx="1.4" fill="#ff5a3d" opacity="0.3"/><rect x="1348.3" y="663.5" width="4.6" height="52.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1360.2" y="673.9" width="3.7" height="42.1" rx="1.4" fill="#5ef2e8" opacity="0.3"/><rect x="1371.6" y="673.4" width="6.1" height="42.6" rx="1.4" fill="#ffd23d" opacity="0.2"/><rect x="1387.4" y="665.5" width="5.6" height="50.5" rx="1.4" fill="#ffb43d" opacity="0.3"/><rect x="1401.7" y="676.5" width="6.9" height="39.5" rx="1.4" fill="#43b6ff" opacity="0.3"/></g>
+</svg></div>
 <div class="stagegl"><svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="149.0" cy="117.7" r="0.61" fill="#fff" opacity="0.58"/><circle cx="176.6" cy="145.9" r="0.26" fill="#fff" opacity="0.38"/><circle cx="224.6" cy="103.2" r="0.66" fill="#fff" opacity="0.23"/><circle cx="112.7" cy="40.5" r="0.49" fill="#fff" opacity="0.42"/><circle cx="5.1" cy="35.8" r="0.38" fill="#fff" opacity="0.56"/><circle cx="182.7" cy="26.9" r="0.61" fill="#fff" opacity="0.24"/><circle cx="147.7" cy="21.8" r="0.25" fill="#fff" opacity="0.55"/><circle cx="51.4" cy="35.6" r="0.69" fill="#fff" opacity="0.55"/><circle cx="70.3" cy="152.0" r="0.49" fill="#fff" opacity="0.46"/><circle cx="50.3" cy="148.8" r="0.56" fill="#fff" opacity="0.59"/><circle cx="212.9" cy="48.6" r="0.41" fill="#fff" opacity="0.25"/><circle cx="36.4" cy="12.2" r="0.39" fill="#fff" opacity="0.43"/><circle cx="2.8" cy="107.8" r="0.40" fill="#fff" opacity="0.31"/><circle cx="195.2" cy="77.0" r="0.39" fill="#fff" opacity="0.38"/><circle cx="168.3" cy="10.9" r="0.69" fill="#fff" opacity="0.19"/><circle cx="179.0" cy="133.8" r="0.26" fill="#fff" opacity="0.51"/><circle cx="88.4" cy="92.2" r="0.25" fill="#fff" opacity="0.20"/><circle cx="44.7" cy="151.0" r="0.34" fill="#fff" opacity="0.50"/><circle cx="221.4" cy="149.0" r="0.40" fill="#fff" opacity="0.33"/><circle cx="125.8" cy="123.0" r="0.30" fill="#fff" opacity="0.49"/><circle cx="190.1" cy="136.1" r="0.27" fill="#fff" opacity="0.58"/><circle cx="23.5" cy="55.2" r="0.52" fill="#fff" opacity="0.57"/><circle cx="82.2" cy="146.2" r="0.50" fill="#fff" opacity="0.31"/><circle cx="76.8" cy="29.7" r="0.29" fill="#fff" opacity="0.24"/><circle cx="164.6" cy="157.5" r="0.32" fill="#fff" opacity="0.20"/><circle cx="234.9" cy="85.2" r="0.43" fill="#fff" opacity="0.28"/><circle cx="142.2" cy="130.9" r="0.46" fill="#fff" opacity="0.36"/><circle cx="15.1" cy="144.9" r="0.26" fill="#fff" opacity="0.39"/><circle cx="199.9" cy="22.4" r="0.58" fill="#fff" opacity="0.58"/><circle cx="150.8" cy="124.9" r="0.30" fill="#fff" opacity="0.36"/><circle cx="37.2" cy="133.8" r="0.38" fill="#fff" opacity="0.37"/><circle cx="237.8" cy="135.0" r="0.69" fill="#fff" opacity="0.37"/><circle cx="117.2" cy="115.8" r="0.47" fill="#fff" opacity="0.30"/><circle cx="97.3" cy="24.9" r="0.42" fill="#fff" opacity="0.60"/><circle cx="228.5" cy="99.8" r="0.47" fill="#fff" opacity="0.32"/><circle cx="23.0" cy="44.5" r="0.60" fill="#fff" opacity="0.54"/><circle cx="87.3" cy="124.6" r="0.60" fill="#fff" opacity="0.47"/><circle cx="158.7" cy="120.5" r="0.41" fill="#fff" opacity="0.48"/><circle cx="68.3" cy="77.8" r="0.60" fill="#fff" opacity="0.47"/><circle cx="71.3" cy="149.5" r="0.54" fill="#fff" opacity="0.42"/><circle cx="4.7" cy="87.3" r="0.36" fill="#fff" opacity="0.46"/><circle cx="111.3" cy="129.4" r="0.54" fill="#fff" opacity="0.52"/><circle cx="84.1" cy="102.5" r="0.58" fill="#fff" opacity="0.53"/><circle cx="84.6" cy="133.5" r="0.64" fill="#fff" opacity="0.47"/><circle cx="232.4" cy="151.2" r="0.48" fill="#fff" opacity="0.40"/><circle cx="41.2" cy="132.5" r="0.67" fill="#fff" opacity="0.38"/><circle cx="165.2" cy="114.3" r="0.58" fill="#fff" opacity="0.25"/><circle cx="186.2" cy="92.6" r="0.55" fill="#fff" opacity="0.36"/><circle cx="149.2" cy="122.9" r="0.54" fill="#fff" opacity="0.48"/><circle cx="8.5" cy="27.0" r="0.45" fill="#fff" opacity="0.45"/><circle cx="53.7" cy="109.0" r="0.53" fill="#fff" opacity="0.20"/><circle cx="113.3" cy="37.3" r="0.27" fill="#fff" opacity="0.24"/><circle cx="76.9" cy="30.3" r="0.34" fill="#fff" opacity="0.19"/><circle cx="111.8" cy="61.3" r="0.53" fill="#fff" opacity="0.43"/><circle cx="58.1" cy="142.9" r="0.25" fill="#fff" opacity="0.35"/><circle cx="67.7" cy="66.0" r="0.30" fill="#fff" opacity="0.53"/><circle cx="90.2" cy="7.6" r="0.53" fill="#fff" opacity="0.22"/><circle cx="130.7" cy="54.9" r="0.51" fill="#fff" opacity="0.58"/><circle cx="195.2" cy="67.4" r="0.62" fill="#fff" opacity="0.45"/><circle cx="89.2" cy="24.2" r="0.52" fill="#fff" opacity="0.42"/><circle cx="227.9" cy="153.0" r="0.52" fill="#fff" opacity="0.33"/><circle cx="212.9" cy="2.1" r="0.30" fill="#fff" opacity="0.42"/><circle cx="147.2" cy="23.9" r="0.53" fill="#fff" opacity="0.55"/><circle cx="90.7" cy="69.3" r="0.35" fill="#fff" opacity="0.30"/><circle cx="231.5" cy="61.2" r="0.68" fill="#fff" opacity="0.56"/><circle cx="142.6" cy="42.5" r="0.69" fill="#fff" opacity="0.39"/><circle cx="100.1" cy="51.8" r="0.69" fill="#fff" opacity="0.39"/><circle cx="69.6" cy="76.4" r="0.30" fill="#fff" opacity="0.44"/><circle cx="106.7" cy="47.7" r="0.60" fill="#fff" opacity="0.53"/><circle cx="5.1" cy="85.1" r="0.37" fill="#fff" opacity="0.57"/><circle cx="186.5" cy="40.3" r="0.37" fill="#fff" opacity="0.25"/><circle cx="235.4" cy="47.7" r="0.52" fill="#fff" opacity="0.38"/><circle cx="154.2" cy="96.2" r="0.58" fill="#fff" opacity="0.23"/><circle cx="181.5" cy="48.9" r="0.49" fill="#fff" opacity="0.32"/><circle cx="72.1" cy="84.7" r="0.46" fill="#fff" opacity="0.33"/><circle cx="177.8" cy="94.2" r="0.27" fill="#fff" opacity="0.29"/><circle cx="109.5" cy="145.0" r="0.65" fill="#fff" opacity="0.41"/><circle cx="5.4" cy="123.4" r="0.44" fill="#fff" opacity="0.42"/><circle cx="169.1" cy="100.6" r="0.47" fill="#fff" opacity="0.56"/><circle cx="93.0" cy="63.1" r="0.63" fill="#fff" opacity="0.26"/><circle cx="72.0" cy="131.5" r="0.28" fill="#fff" opacity="0.53"/><circle cx="165.9" cy="69.5" r="0.38" fill="#fff" opacity="0.51"/><circle cx="216.9" cy="24.3" r="0.47" fill="#fff" opacity="0.41"/><circle cx="119.5" cy="53.6" r="0.32" fill="#fff" opacity="0.43"/><circle cx="193.6" cy="12.7" r="0.35" fill="#fff" opacity="0.52"/><circle cx="188.9" cy="105.5" r="0.26" fill="#fff" opacity="0.48"/><circle cx="233.0" cy="157.7" r="0.57" fill="#fff" opacity="0.20"/><circle cx="200.7" cy="36.2" r="0.54" fill="#fff" opacity="0.58"/><circle cx="170.1" cy="23.0" r="0.38" fill="#fff" opacity="0.57"/><circle cx="37.3" cy="97.3" r="0.44" fill="#fff" opacity="0.25"/><path d="M148.4 9.6 L148.6 10.5 L149.4 10.6 L148.6 10.8 L148.4 11.6 L148.2 10.8 L147.4 10.6 L148.2 10.5 Z" fill="#fff" opacity="0.48"/><path d="M20.7 11.4 L20.9 12.5 L22.1 12.7 L20.9 13.0 L20.7 14.1 L20.5 13.0 L19.4 12.7 L20.5 12.5 Z" fill="#fff" opacity="0.61"/><path d="M207.8 23.2 L208.0 24.2 L209.0 24.4 L208.0 24.6 L207.8 25.7 L207.6 24.6 L206.6 24.4 L207.6 24.2 Z" fill="#fff" opacity="0.46"/><path d="M143.3 76.8 L143.5 78.2 L144.9 78.4 L143.5 78.7 L143.3 80.0 L143.0 78.7 L141.6 78.4 L143.0 78.2 Z" fill="#fff" opacity="0.48"/><path d="M16.9 109.0 L17.1 109.8 L18.0 110.0 L17.1 110.2 L16.9 111.0 L16.8 110.2 L15.9 110.0 L16.8 109.8 Z" fill="#fff" opacity="0.57"/><path d="M121.4 141.0 L121.6 142.2 L122.7 142.4 L121.6 142.6 L121.4 143.7 L121.1 142.6 L120.0 142.4 L121.1 142.2 Z" fill="#fff" opacity="0.57"/><path d="M65.1 86.7 L65.3 87.7 L66.2 87.9 L65.3 88.0 L65.1 89.0 L64.9 88.0 L64.0 87.9 L64.9 87.7 Z" fill="#fff" opacity="0.61"/><path d="M123.9 23.2 L124.1 24.2 L125.0 24.3 L124.1 24.5 L123.9 25.4 L123.8 24.5 L122.9 24.3 L123.8 24.2 Z" fill="#fff" opacity="0.48"/><path d="M174.9 29.8 L175.2 31.0 L176.4 31.3 L175.2 31.5 L174.9 32.7 L174.7 31.5 L173.5 31.3 L174.7 31.0 Z" fill="#fff" opacity="0.58"/><path d="M23.8 104.5 L23.9 105.4 L24.8 105.5 L23.9 105.7 L23.8 106.5 L23.6 105.7 L22.8 105.5 L23.6 105.4 Z" fill="#fff" opacity="0.39"/><path d="M141.8 38.7 L142.1 40.0 L143.4 40.3 L142.1 40.5 L141.8 41.9 L141.5 40.5 L140.2 40.3 L141.5 40.0 Z" fill="#fff" opacity="0.52"/><path d="M79.0 124.1 L79.2 124.9 L79.9 125.1 L79.2 125.2 L79.0 126.0 L78.9 125.2 L78.1 125.1 L78.9 124.9 Z" fill="#fff" opacity="0.60"/><path d="M16.4 25.3 L16.7 26.7 L18.1 26.9 L16.7 27.2 L16.4 28.6 L16.2 27.2 L14.8 26.9 L16.2 26.7 Z" fill="#fff" opacity="0.59"/><path d="M55.8 20.0 L56.0 21.4 L57.4 21.6 L56.0 21.9 L55.8 23.3 L55.5 21.9 L54.1 21.6 L55.5 21.4 Z" fill="#fff" opacity="0.58"/><path d="M194.4 23.9 L194.6 25.0 L195.8 25.2 L194.6 25.5 L194.4 26.6 L194.2 25.5 L193.0 25.2 L194.2 25.0 Z" fill="#fff" opacity="0.47"/></svg></div>
 
 <header class="topbar" aria-label="Chapters">
-  <div class="tb-brand"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg><span class="gradtext" id="tbBrand">Alastair Zeved Designs</span></div>
+  <div class="tb-brand"><span class="tb-emblem" id="tbEmblem"><svg viewBox="0 0 100 100" fill="none" stroke="url(#bgA)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#bgA)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></span><span class="gradtext" id="tbBrand">Robert Gregory</span></div>
   <nav class="tb-nav" id="tbNav" aria-label="Chapters"></nav>
   <button class="tb-close" data-close>Close the book &#8629;</button>
 </header>
 
 <main class="stage">
+  <div class="shelves" id="shelves">
+    <nav class="shelf-rail" id="shelfCareer" aria-label="The Career of Robert Gregory">
+      <div class="shelf-head">The Career of Robert Gregory</div>
+      <div class="shelf-books"></div>
+    </nav>
+    <nav class="shelf-rail" id="shelfCraft" aria-label="The Craft of Alastair Zeved">
+      <div class="shelf-head">The Craft of Alastair Zeved</div>
+      <div class="shelf-books"></div>
+    </nav>
+  </div>
   <div class="book-wrap">
-    <div class="shelf" id="shelf">
-    <div class="book" id="bookP" data-vol="portfolio">
+    <div class="book" id="book" data-active>
       <div class="back-cover" aria-hidden="true"></div>
-
-      <!-- left reading page -->
-      <div class="page page-l">
-        <div class="page-inner"></div>
-      </div>
-
-      <!-- right reading page -->
+      <div class="page page-l"><div class="page-inner"></div></div>
       <div class="page page-r" role="region" aria-label="Open book">
         <div class="page-inner" tabindex="0"></div>
         <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
+          <button class="pf-btn" data-close-foot>&#8592; Shelf</button>
           <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
+            <button data-prev aria-label="Previous volume">&#8249; Prev</button>
             <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
+            <button data-next aria-label="Next volume">Next &#8250;</button>
           </div>
         </div>
       </div>
-
-      <!-- page-turn leaf -->
       <div class="leaf" aria-hidden="true"></div>
-
-      <!-- front cover -->
       <div class="cover">
         <div class="face front">
-          <div class="cover-gl"><svg viewBox="0 0 120 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="55.7" cy="60.2" r="0.37" fill="#fff" opacity="0.54"/><circle cx="2.7" cy="80.4" r="0.75" fill="#fff" opacity="0.21"/><circle cx="66.3" cy="98.2" r="0.32" fill="#fff" opacity="0.34"/><circle cx="83.6" cy="72.5" r="0.66" fill="#fff" opacity="0.25"/><circle cx="29.6" cy="19.3" r="0.55" fill="#fff" opacity="0.57"/><circle cx="70.5" cy="122.8" r="0.49" fill="#fff" opacity="0.49"/><circle cx="13.8" cy="47.4" r="0.64" fill="#fff" opacity="0.48"/><circle cx="50.9" cy="15.7" r="0.43" fill="#fff" opacity="0.27"/><circle cx="34.6" cy="128.3" r="0.40" fill="#fff" opacity="0.55"/><circle cx="104.0" cy="10.5" r="0.49" fill="#fff" opacity="0.39"/><circle cx="4.7" cy="68.3" r="0.75" fill="#fff" opacity="0.23"/><circle cx="71.2" cy="20.9" r="0.59" fill="#fff" opacity="0.56"/><circle cx="25.6" cy="3.3" r="0.34" fill="#fff" opacity="0.41"/><circle cx="4.0" cy="15.2" r="0.55" fill="#fff" opacity="0.57"/><circle cx="50.7" cy="64.1" r="0.62" fill="#fff" opacity="0.22"/><circle cx="69.3" cy="28.9" r="0.60" fill="#fff" opacity="0.58"/><circle cx="8.3" cy="88.6" r="0.60" fill="#fff" opacity="0.24"/><circle cx="33.1" cy="157.2" r="0.80" fill="#fff" opacity="0.23"/><circle cx="83.8" cy="150.3" r="0.42" fill="#fff" opacity="0.44"/><circle cx="7.0" cy="59.1" r="0.64" fill="#fff" opacity="0.43"/><circle cx="91.9" cy="15.5" r="0.47" fill="#fff" opacity="0.54"/><circle cx="69.8" cy="72.4" r="0.50" fill="#fff" opacity="0.59"/><circle cx="68.6" cy="4.9" r="0.70" fill="#fff" opacity="0.32"/><circle cx="52.3" cy="35.3" r="0.52" fill="#fff" opacity="0.32"/><circle cx="12.3" cy="100.2" r="0.35" fill="#fff" opacity="0.51"/><circle cx="4.9" cy="123.8" r="0.70" fill="#fff" opacity="0.39"/><circle cx="84.3" cy="40.7" r="0.67" fill="#fff" opacity="0.36"/><circle cx="28.8" cy="152.4" r="0.50" fill="#fff" opacity="0.34"/><circle cx="101.7" cy="59.6" r="0.63" fill="#fff" opacity="0.25"/><circle cx="99.8" cy="42.4" r="0.33" fill="#fff" opacity="0.59"/><circle cx="22.0" cy="149.7" r="0.79" fill="#fff" opacity="0.43"/><circle cx="3.4" cy="11.5" r="0.40" fill="#fff" opacity="0.34"/><circle cx="72.9" cy="152.8" r="0.48" fill="#fff" opacity="0.24"/><circle cx="67.2" cy="23.4" r="0.34" fill="#fff" opacity="0.41"/><circle cx="82.7" cy="12.2" r="0.53" fill="#fff" opacity="0.48"/><circle cx="90.6" cy="61.7" r="0.74" fill="#fff" opacity="0.25"/><circle cx="85.0" cy="122.4" r="0.74" fill="#fff" opacity="0.39"/><circle cx="13.5" cy="9.6" r="0.56" fill="#fff" opacity="0.25"/><circle cx="75.0" cy="15.1" r="0.69" fill="#fff" opacity="0.27"/><circle cx="3.5" cy="29.4" r="0.53" fill="#fff" opacity="0.41"/><path d="M47.5 28.8 L47.7 30.1 L49.0 30.3 L47.7 30.5 L47.5 31.8 L47.3 30.5 L46.0 30.3 L47.3 30.1 Z" fill="#fff" opacity="0.68"/><path d="M64.0 146.0 L64.1 146.9 L65.0 147.1 L64.1 147.2 L64.0 148.1 L63.8 147.2 L62.9 147.1 L63.8 146.9 Z" fill="#fff" opacity="0.70"/><path d="M103.6 85.2 L103.8 86.5 L105.1 86.7 L103.8 87.0 L103.6 88.2 L103.3 87.0 L102.1 86.7 L103.3 86.5 Z" fill="#fff" opacity="0.54"/><path d="M105.9 12.4 L106.1 13.7 L107.5 14.0 L106.1 14.2 L105.9 15.6 L105.6 14.2 L104.3 14.0 L105.6 13.7 Z" fill="#fff" opacity="0.54"/><path d="M37.6 112.5 L37.9 113.9 L39.3 114.2 L37.9 114.5 L37.6 115.9 L37.4 114.5 L36.0 114.2 L37.4 113.9 Z" fill="#fff" opacity="0.39"/><path d="M82.3 71.5 L82.6 72.7 L83.8 72.9 L82.6 73.2 L82.3 74.4 L82.1 73.2 L80.9 72.9 L82.1 72.7 Z" fill="#fff" opacity="0.57"/></svg></div>
           <div class="cover-frame"></div>
           <div class="cover-inner">
-            <div class="cv-top">Vol. I &middot; A Portfolio</div>
+            <div class="cv-top"></div>
             <div class="cv-mid">
-              <div class="cv-name gradtext">Alastair&nbsp;Zeved</div>
-              <div class="cv-sub">Designs</div>
+              <div class="cv-name"></div>
+              <div class="cv-sub"></div>
+              <div class="cv-years"></div>
             </div>
             <div class="lock">
               <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="key-sunG" cx="42%" cy="38%" r="75%">
@@ -331,55 +451,16 @@ body[data-open="1"] .vol-tag{opacity:0}
       <stop offset="78%" stop-color="#e83e8c"/><stop offset="100%" stop-color="#ff2d78"/></linearGradient><radialGradient id="key-seedG" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#ffe79a"/>
       <stop offset="100%" stop-color="#ffb24d"/></radialGradient><radialGradient id="key-glit" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff" stop-opacity="1"/><stop offset="40%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom0" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffd23d"/><stop offset="100%" stop-color="#ff5a3d" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom1" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="100%" stop-color="#7c5cff" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom2" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ff5ea8"/><stop offset="100%" stop-color="#ffd23d" stop-opacity="0"/></radialGradient><radialGradient id="key-bloom3" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#9b5cff"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></radialGradient><filter id="key-wc" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency="0.013 0.017" numOctaves="3" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="0.7"/></filter><filter id="key-grain"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="4" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 7 -3.2"/><feComposite operator="in" in2="SourceGraphic"/></filter><filter id="key-spray" x="0%" y="0%" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="8" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 7 -4.2" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="key-rough"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="2" seed="6" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="key-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4"/></filter></defs><g filter="url(#key-wc)"><ellipse cx="50" cy="34" rx="31" ry="28.5" fill="url(#key-bloom0)" opacity="0.62"/><ellipse cx="63" cy="33" rx="19" ry="17.5" fill="url(#key-bloom1)" opacity="0.58"/><ellipse cx="50" cy="66" rx="17" ry="15.6" fill="url(#key-bloom2)" opacity="0.56"/><ellipse cx="56" cy="52" rx="21" ry="19.3" fill="url(#key-bloom3)" opacity="0.48"/><ellipse cx="40" cy="30" rx="17" ry="15.6" fill="url(#key-bloom0)" opacity="0.46"/></g><g opacity="0.40"><rect x="30" y="18" width="42" height="40" fill="#ff8a2b" filter="url(#key-spray)"/></g><g opacity="0.38"><rect x="44" y="62" width="30" height="26" fill="#ff2d78" filter="url(#key-spray)"/></g><g opacity="0.34"><rect x="56" y="22" width="26" height="30" fill="#22d3ee" filter="url(#key-spray)"/></g><g filter="url(#key-glow)" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"><circle cx="50" cy="36" r="15" stroke="#ff8a2b" stroke-width="7"/><path d="M50 51 L50 72 C50 81 56 83 62 79" stroke="#ff2d78" stroke-width="7"/></g><g filter="url(#key-rough)" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="36" r="15" stroke="url(#key-sunG)" stroke-width="6.6"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke="url(#key-moonG)" stroke-width="4" fill="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79" stroke="url(#key-axisG)" stroke-width="6.6"/><circle cx="50" cy="36" r="3.0" fill="url(#key-seedG)" stroke="none"/></g><g><circle cx="56.0" cy="81.8" r="0.61" fill="url(#key-glit)"/><circle cx="58.1" cy="33.3" r="0.58" fill="url(#key-glit)"/><circle cx="50.5" cy="39.6" r="1.26" fill="url(#key-glit)"/><circle cx="61.8" cy="39.5" r="0.56" fill="url(#key-glit)"/><circle cx="45.9" cy="33.9" r="1.48" fill="url(#key-glit)"/><circle cx="42.4" cy="26.1" r="1.35" fill="url(#key-glit)"/><circle cx="64.1" cy="33.6" r="0.88" fill="url(#key-glit)"/><circle cx="60.9" cy="31.3" r="1.44" fill="url(#key-glit)"/><circle cx="58.6" cy="41.3" r="0.85" fill="url(#key-glit)"/><circle cx="55.0" cy="29.2" r="1.09" fill="url(#key-glit)"/><circle cx="50.5" cy="38.5" r="1.48" fill="url(#key-glit)"/><circle cx="60.9" cy="78.5" r="1.51" fill="url(#key-glit)"/><circle cx="54.3" cy="81.6" r="1.28" fill="url(#key-glit)"/><circle cx="62.2" cy="35.2" r="0.53" fill="url(#key-glit)"/><circle cx="59.9" cy="75.6" r="0.84" fill="url(#key-glit)"/><circle cx="66.3" cy="30.3" r="1.04" fill="url(#key-glit)"/><circle cx="62.7" cy="34.2" r="1.35" fill="url(#key-glit)"/><circle cx="57.7" cy="75.4" r="0.68" fill="url(#key-glit)"/><circle cx="63.9" cy="31.6" r="0.50" fill="url(#key-glit)"/><circle cx="57.8" cy="74.5" r="1.53" fill="url(#key-glit)"/><circle cx="62.4" cy="39.2" r="1.64" fill="url(#key-glit)"/><circle cx="62.1" cy="30.5" r="1.26" fill="url(#key-glit)"/><circle cx="47.8" cy="21.3" r="1.22" fill="url(#key-glit)"/><circle cx="45.6" cy="34.5" r="0.53" fill="url(#key-glit)"/><circle cx="47.3" cy="34.3" r="0.94" fill="url(#key-glit)"/><circle cx="60.4" cy="35.6" r="0.87" fill="url(#key-glit)"/><circle cx="46.0" cy="41.6" r="0.69" fill="url(#key-glit)"/><circle cx="44.9" cy="43.0" r="1.60" fill="url(#key-glit)"/><circle cx="57.8" cy="38.4" r="1.12" fill="url(#key-glit)"/><circle cx="50.6" cy="36.0" r="1.26" fill="url(#key-glit)"/><circle cx="69.3" cy="39.4" r="1.48" fill="url(#key-glit)"/><circle cx="63.0" cy="35.4" r="1.69" fill="url(#key-glit)"/><circle cx="60.6" cy="78.1" r="1.47" fill="url(#key-glit)"/><circle cx="60.7" cy="29.2" r="0.77" fill="url(#key-glit)"/><circle cx="60.5" cy="38.4" r="0.50" fill="url(#key-glit)"/><circle cx="67.2" cy="29.2" r="0.97" fill="url(#key-glit)"/><circle cx="59.8" cy="36.9" r="0.90" fill="url(#key-glit)"/><circle cx="67.0" cy="36.0" r="0.70" fill="url(#key-glit)"/><circle cx="49.1" cy="39.9" r="1.23" fill="url(#key-glit)"/><circle cx="61.1" cy="34.6" r="0.66" fill="url(#key-glit)"/><circle cx="38.3" cy="43.3" r="0.67" fill="url(#key-glit)"/><circle cx="46.8" cy="33.3" r="0.79" fill="url(#key-glit)"/><circle cx="66.7" cy="29.1" r="1.39" fill="url(#key-glit)"/><circle cx="60.3" cy="84.0" r="1.55" fill="url(#key-glit)"/><circle cx="39.0" cy="34.6" r="0.72" fill="url(#key-glit)"/><circle cx="46.1" cy="37.3" r="0.64" fill="url(#key-glit)"/><path d="M44.1 34.1 L44.5 36.2 L46.6 36.6 L44.5 37.0 L44.1 39.1 L43.7 37.0 L41.6 36.6 L43.7 36.2 Z" fill="#fff" opacity="0.94"/><path d="M63.0 19.0 L63.3 20.6 L64.9 20.9 L63.3 21.2 L63.0 22.8 L62.7 21.2 L61.1 20.9 L62.7 20.6 Z" fill="#fff" opacity="0.71"/><path d="M50.3 35.3 L50.7 37.6 L53.1 38.1 L50.7 38.5 L50.3 40.9 L49.8 38.5 L47.4 38.1 L49.8 37.6 Z" fill="#fff" opacity="0.97"/><path d="M57.2 84.0 L57.6 86.2 L59.8 86.6 L57.6 87.0 L57.2 89.1 L56.8 87.0 L54.6 86.6 L56.8 86.2 Z" fill="#fff" opacity="0.76"/><path d="M59.2 77.2 L59.6 79.2 L61.6 79.5 L59.6 79.9 L59.2 81.9 L58.9 79.9 L56.9 79.5 L58.9 79.2 Z" fill="#fff" opacity="0.98"/><path d="M63.4 36.9 L63.9 39.5 L66.5 40.0 L63.9 40.5 L63.4 43.1 L62.9 40.5 L60.3 40.0 L62.9 39.5 Z" fill="#fff" opacity="0.98"/><path d="M61.6 21.9 L61.8 23.4 L63.4 23.7 L61.8 23.9 L61.6 25.5 L61.3 23.9 L59.8 23.7 L61.3 23.4 Z" fill="#fff" opacity="0.83"/><path d="M55.8 31.6 L56.1 33.3 L57.8 33.6 L56.1 33.9 L55.8 35.5 L55.5 33.9 L53.9 33.6 L55.5 33.3 Z" fill="#fff" opacity="0.79"/><path d="M63.5 21.5 L63.9 23.8 L66.2 24.3 L63.9 24.7 L63.5 27.0 L63.1 24.7 L60.8 24.3 L63.1 23.8 Z" fill="#fff" opacity="0.90"/></g></svg></button>
-              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
             </div>
           </div>
         </div>
         <div class="face back" aria-hidden="true"></div>
       </div>
-
-    </div>
-
-    <!-- Volume II -->
-    <div class="book" id="bookC" data-vol="career">
-      <div class="back-cover" aria-hidden="true"></div>
-      <div class="page page-l"><div class="page-inner"></div></div>
-      <div class="page page-r" role="region" aria-label="Open book">
-        <div class="page-inner" tabindex="0"></div>
-        <div class="page-foot">
-          <button class="pf-btn" data-go="front">&#8592; Contents</button>
-          <div class="pf-turn">
-            <button data-prev aria-label="Previous page">&#8249; Prev</button>
-            <span class="folio"></span>
-            <button data-next aria-label="Next page">Next &#8250;</button>
-          </div>
-        </div>
-      </div>
-      <div class="leaf" aria-hidden="true"></div>
-      <div class="cover">
-        <div class="face front rg">
-          <div class="cover-frame"></div>
-          <div class="cover-inner">
-            <div class="cv-top">Vol. II &middot; A Career</div>
-            <div class="cv-mid">
-              <div class="cv-name gradtext">Robert&nbsp;Gregory</div>
-              <div class="cv-sub">A Career</div>
-            </div>
-            <div class="lock">
-              <button class="keybtn" aria-label="Turn the key to open the book" aria-expanded="false"><svg viewBox="0 0 100 100" fill="none" stroke="url(#emC)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="emC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/><circle cx="50" cy="36" r="2.6" fill="url(#emC)" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg></button>
-              <div class="cv-hint"><span class="pulse"></span>Turn the key to open</div>
-            </div>
-          </div>
-        </div>
-        <div class="face back" aria-hidden="true"></div>
-      </div>
-    </div>
-
     </div>
   </div>
 </main>
 
-<footer class="foot">Alastair Zeved Designs &middot; portfolio in progress</footer>
+<footer class="foot">Robert Gregory &middot; Career &amp; Craft</footer>
 
 <script>
 (function(){
@@ -393,7 +474,7 @@ body[data-open="1"] .vol-tag{opacity:0}
   var DATA={
     portfolio:{
       brand:'Alastair Zeved Designs',
-      toc:{title:'Alastair Zeved',sub:'Designs',epi:'Five domains — completed work, the guides written along the way, and the skills each one demands.'},
+      toc:{title:'Alastair Zeved',sub:'Designs',epi:'Five domains of completed work and the skills each one demands. The guides written along the way live in The Atlas.'},
       about:{eyebrow:'About Alastair Zeved',title:'About',desc:'The person doing the work.',
         body:[
           "I'm a self-taught maker working across five crafts most people would file in separate drawers — horticulture, arboriculture, technology, music, and woodworking. To me they're one practice. The instinct that roots a cutting in a jar of stones is the same one that solders a joint, aligns a vocal, or squares a frame: notice how a thing wants to work, then build with the grain of it.",
@@ -411,14 +492,14 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'nutrition',label:'Nutrition',h:'Nutrition',img:'Nutrient mixing',body:["Feeding plants in a soil-free system — reading the substrate, dialing nutrient solutions, and keeping pon-grown plants fed without over-fertilizing."]},
             {id:'climbing',label:'Climbing',h:'Climbing',img:'Moss pole · trellis',body:["Training vines upward, intentionally and aesthetically — moss poles and custom climbing apparatus that give aroids something to grip as they mature."]},
             {id:'builds',label:'Build Projects',h:'Build Projects',img:'Build in progress',body:["Physical builds for growing — custom hydroponic planters, a climbing apparatus, and a planted wall installation pairing a grass wall with mounted planted tanks, glow accents, and roses."]},
-            {id:'documents',label:'Documents',h:'Documents',img:'Planting in Pon · Why Pon Works',body:["Customer education written in plain language — “Planting in Pon,” a step-by-step conversion guide, and “Why Pon Works,” a deeper dive into the science of semi-hydroponics."]}
+            {id:'digs',label:'Continuing Education',h:'DIGS — Dig Into Gardening Series',img:'Penn State Extension · DIGS',body:["Completed DIGS, a six-part Penn State Extension series covering garden science, vegetables, entomology and pollinators, weeds and invasives, native plants, and landscape design — a focused run through the science behind the growing.","It draws on topics from the Master Gardener curriculum but is <em>not</em> the Master Gardener program, which is a separate year-long commitment with its own depth and volunteering requirements."]}
           ]},
         {id:'arboriculture',title:'Arboriculture',desc:"Tree tending to ensure the right trees are grown in the right places, with the care to improve the city's urban canopy.",hero:'Tree planting photos',
           cats:[
             {id:'treetenders',label:'PHL Tree Tenders',h:'PHL Tree Tenders',img:'Tree Tenders event',body:["Volunteering with the city's tree-tending community — planting and caring for street trees to strengthen the urban canopy."]},
             {id:'bareroot',label:'Bare Root',h:'Bare Root',img:'Bare-root planting',body:["Planting bare-root trees — handling, positioning, and establishing young trees while they're dormant."]},
             {id:'treecare',label:'Tree Care',h:'Tree Care',img:'Pruning · mulching',body:["The ongoing work of keeping trees healthy — mulching, watering, structural pruning, and monitoring young plantings through their first seasons."]},
-            {id:'righttree',label:'Right Tree Right Place',h:'Right Tree, Right Place',img:'Species selection',body:["Matching species to site — choosing trees whose mature size, roots, and needs fit the space, so they thrive instead of fighting the location."]}
+            {id:'righttree',label:'Right Tree, Right Place',h:'Right Tree, Right Place',img:'Species selection',body:["Matching species to site — choosing trees whose mature size, roots, and needs fit the space, so they thrive instead of fighting the location."]}
           ]},
         {id:'technology',title:'Technology',desc:'Hardware, electronics, and the physical demands of making things work.',hero:'Workbench · builds · repairs',
           cats:[
@@ -426,15 +507,13 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'repairs',label:'Repairs & Mods',h:'Repairs & Mods',img:'Controller · smart mirror',body:["PS5 controller modding — TMR joysticks, clicky bumpers, and button swaps, which meant learning to desolder fourteen joints per stick through solder with a higher melting point than the board can safely take. Plus a Raspberry Pi smart mirror built from a salvaged monitor."]},
             {id:'homelab',label:'Home Lab',h:'Home Lab',img:'NAS · Home Assistant',body:["A local network-attached storage box to back up years of photos outside the cloud, and a Home Assistant smart-home buildout pulling lighting, sound, TVs, consoles, and computers into one control layer."]},
             {id:'apps',label:'Apps',h:'Apps',img:'App screens',body:["A concert-tracker app that watches local venues for artist announcements matching my music library, and a utility app ecosystem — calendar, to-do, and reminders — designed around how I actually think."]},
-            {id:'data',label:'Data',h:'Data',img:'Dashboard',body:["Turning raw data into actionable insight end to end — API-driven pipelines, cleaning and rules logic to filter noise without over-filtering, KPI development and metric tracking, and clear visualizations built on the 3-30-300 principle."]},
-            {id:'guides',label:'Guides',h:'Guides',img:'Guide pages',body:["Practical write-ups — hardening a home WiFi router in plain language, and a project-based path into Android app development from zero."]}
+            {id:'data',label:'Data',h:'Data',img:'Dashboard',body:["Turning raw data into actionable insight end to end — API-driven pipelines, cleaning and rules logic to filter noise without over-filtering, KPI development and metric tracking, and clear visualizations built on the 3-30-300 principle."]}
           ]},
         {id:'music',title:'Music & Audio Production',desc:'Audio production — each track a design problem, each mix a plan executed in real time.',hero:'REAPER session',
           cats:[
-            {id:'discography',label:'Discography',h:'Discography',img:'Album art',body:["Four albums, self-produced: Daytime Dreams (learning to narrate through music), Drifting Awake (a three-part concept album), Wide Eyed (finished but unreleased — finding home in people rather than a place), and I Am Alastair Zeved (in progress)."]},
+            {id:'discography',label:'Discography',h:'Discography',img:'Album art',shots:[{src:'images/music/album-art.jpg',cap:'Latest album — cover art (unreleased)',cover:true}],audio:[{src:'audio/with-love-math.mp3',title:'With Love, Math — teaser'},{src:'audio/ps-im-home.mp3',title:'P.S. I’m Home — teaser'}],body:["Four albums, self-produced: Daytime Dreams (learning to narrate through music), Drifting Awake (a three-part concept album), Wide Eyed (finished but unreleased — finding home in people rather than a place), and I Am Alastair Zeved (in progress).","Two teasers from the latest, still-unreleased record are below, under its cover art."]},
             {id:'remixes',label:'Remixes',h:'Remixes',img:'Remix session',body:["A hardstyle remix — rebuilding a track in a new genre, with precision vocal alignment and time-stretching feeding into a full mastering chain."]},
-            {id:'production',label:'Production',h:'Production',img:'Mixing console',body:["The craft under the songs — mixing and mastering in REAPER, gain staging, LUFS metering, spectral balance, and vocal editing, each track shaped by hand."]},
-            {id:'primers',label:'Primers',h:'Primers',img:'Primer notes',body:["A self-authored reference set written while learning — MIDI, the frequency spectrum, effects and arrangement, and EDM production fundamentals."]}
+            {id:'production',label:'Production',h:'Production',img:'Mixing console',body:["The craft under the songs — mixing and mastering in REAPER, gain staging, LUFS metering, spectral balance, and vocal editing, each track shaped by hand."]}
           ]},
         {id:'woodworking',title:'Woodworking',desc:'Working in matter — four boards at a time, the same framework that works anywhere.',hero:'Shop · builds',
           cats:[
@@ -442,127 +521,309 @@ body[data-open="1"] .vol-tag{opacity:0}
             {id:'restorations',label:'Restorations',h:'Restorations',img:'Curio cabinet',body:["A marketplace curio cabinet torn down, stripped, conditioned, and re-stained to match the kitchen cabinetry — mirror backing swapped for a wallpapered panel, with grow lights and circulation fans built in."]},
             {id:'builtins',label:'Built-Ins',h:'Built-Ins',img:'Bump-out',body:["A basement studio build-out — framing new stud walls and a paneled bump-out to mount monitors and a desk, turning an unfinished corner into a working studio."]},
             {id:'renovations',label:'Renovations',h:'Renovations',img:'Powder room',body:["A powder-room renovation — stripping decades-old wallpaper to bare wall, skim coating, and rebuilding the fixtures, art, and door — plus a round of front-of-house exterior fixes."]},
-            {id:'outdoor',label:'Outdoor',h:'Outdoor',img:'Outdoor enclosure',body:["A pair of pressure-treated trash-can enclosures built from scratch — slatted siding, a drained slat roof, and hinged doors made to weather the outdoors for years."]},
-            {id:'guides',label:'Guides',h:'Guides',img:'Guide',body:["A step-by-step walkthrough for framing, siding, and finishing a weatherproof outdoor enclosure — from cut list to final coat of sealant."]}
+            {id:'outdoor',label:'Outdoor',h:'Outdoor',img:'Outdoor enclosure',body:["A pair of pressure-treated trash-can enclosures built from scratch — slatted siding, a drained slat roof, and hinged doors made to weather the outdoors for years."]}
+          ]},
+        {id:'composting',title:'Composting',desc:'Running the systems that turn a neighborhood\'s food scraps into finished compost for the beds.',hero:'Growing Together Community Garden · South Philadelphia',
+          cats:[
+            {id:'program',label:'The Program',h:'Growing Together Community Garden',img:'Compost site · South Philadelphia',body:["Composting for Growing Together, a South Philadelphia community garden — turning neighborhood food scraps into finished compost for the beds, run as a standing program rather than one-off volunteering.","Serves on the garden's Composting Committee, part of the wider Farm Philly community-composting network, keeping the collection, education, and signage systems running at neighborhood scale."]},
+            {id:'systems',label:'Systems & Operations',h:'Collection & Processing',img:'Compost bays',body:["The work behind the pile: taking in food scraps, balancing greens against browns to the right recipe, and building and turning the pile so it heats, breaks down, and comes back out as finished compost for the beds.","Keeping it running is its own discipline — staying on top of moisture and the turn schedule, and managing the pile so it stays active and doesn't invite pests."]},
+            {id:'signage',label:'Signage',h:'Signage',img:'Sort signage',body:["A shared bin only works if people sort it right, so the program leans on clear signage — simple what-goes-in, what-stays-out guides at the point of drop-off — to let the bin do its own teaching instead of a volunteer standing over it."]},
+            {id:'training',label:'Training Materials',h:'Training & Handouts',img:'Training handout',body:["Onboarding and education for new contributors and committee members — the plain-language guidance that turns “please sort correctly” into something people can actually follow, and keeps a shared neighborhood system consistent as volunteers come and go."]}
           ]}
       ]
     },
     career:{
       brand:'Robert Gregory',
-      toc:{title:'Robert Gregory',sub:'A Career',epi:'A working life in systems, operations, and problem-solving. In progress.'},
-      about:{eyebrow:'About',title:'Robert Gregory',desc:'The career volume.',
-        body:["This volume is being written — a record of professional work and the systems thinking behind it. Check back soon."],method:null},
+      toc:{title:'Robert Gregory',sub:'A Career',epi:'A working life in financial operations — trade execution, workflow design, and the analytics infrastructure built to support both.'},
+      about:{eyebrow:'About Robert Gregory',title:'About',desc:'The person behind the desk.',
+        body:[
+          "I've spent my career in financial operations — starting in retail banking, moving into trust administration, and landing on a trading desk where the real work turned out to be systems, not spreadsheets: mapping how a process actually moves, finding where it breaks, and building the guardrails and dashboards that keep it from breaking again.",
+          "A B.S. in Accounting gave me the vocabulary; years on a regulated trading desk gave me the instinct for where risk actually hides. Somewhere along the way I stopped treating &ldquo;the numbers&rdquo; and &ldquo;the workflow that produces them&rdquo; as two different jobs.",
+          "It's the same instinct behind Alastair Zeved — notice how a thing wants to work, then build with the grain of it. This volume is that instinct applied to a career instead of a workshop."
+        ],
+        method:['Map the process','Find the failure points','Build the guardrails','Scale the system']},
       chapters:[
-        {id:'overview',title:'Overview',desc:'Career details coming soon.',hero:'Coming soon',
-          cats:[{id:'soon',label:'Coming soon',h:'Coming soon',img:'',body:["This volume is in progress."]}]}
+        {id:'brinker',title:'Brinker Capital',desc:'Senior Portfolio Specialist at Brinker Capital, an Orion company — trade execution, workflow design, and the analytics infrastructure built to support both.',hero:'Brinker Capital (an Orion company) · Berwyn, PA',
+          cats:[
+            {id:'workflow',label:'Workflow & Automation',h:'Workflow Design & Process Automation',img:'KPI dashboard',body:["Mapped Brinker's full multi-sleeve UMA trade-execution workflow across its four regulated platforms — Wealthscape, Eclipse, Orion, and Docupace — capturing every handoff, trigger, and failure point, then used that map to build the firm's first trading KPI dashboard in Power BI from a seven-field event-log API feed, stood up in a week.","That rollout was credited by Orion's COO with cutting Docupace processing time 25%+ firm-wide. Designed the pre-trade validation checks and standardized operating procedures that catch problems before they reach execution, and wrote the exception-tracking protocols that keep a growing multi-trader desk running consistently."]},
+            {id:'execution',label:'Trade Execution',h:'Trade Execution & Risk Control',img:'Trade desk',body:["Executes daily equity trades across multi-sleeve UMA portfolios against subscribed model allocations under a 24-hour SLA — rebalancing, liquidity events, model delivery, tax-sensitive transitions, full liquidations, and custom blends for high-net-worth accounts ($1M+ minimums).","Leads block-order execution for proprietary fund holdings via auction, and serves as the desk's escalation point for reconciliation breaks, drift exceptions, and liquidity constraints — partnering across Compliance, Operations, and Technology. While covering the Director of Trading's desk, caught a $500M share-quantity error at the auction stage that had cleared every upstream check."]},
+            {id:'scaling',label:'Scaling & Training',h:'Scaling & Cross-Training',img:'Cross-training',body:["Originated and solo-traded the Core Select UMA queue at launch, then designed and ran the cross-training program that moved four single-sleeve traders into full multi-sleeve UMA execution — scaling the desk from one UMA trader to five.","Onboarded a sixth trader to Wealth Advisory UMAs, extending coverage to Brinker's highest-AUM, highest-complexity book."]},
+            {id:'analytics',label:'Analytics & Oversight',h:'Operational Analytics & AI-Agent Oversight',img:'Analytics build',body:["Built the analytical model behind the desk's KPI dashboard independently — request-type segmentation, 90th-percentile queue-time SLAs, trade-flow views by sub-desk, and staffing-capacity analysis that now informs leadership's headcount and workload decisions.","Now extending that dashboard into a real-time monitoring layer for AI-agent-driven workflow automation — watching for bottlenecks and exceptions as the firm scales agentic tooling on the trading desk."]}
+          ]},
+        {id:'pnc',title:'PNC Wealth Management',desc:'Trust administration, then retail branch banking — the foundation the trade desk work was built on.',hero:'PNC · Philadelphia',
+          cats:[
+            {id:'trust',label:'Trust Administration',h:'Portfolio & Trust Administrator, Irrevocable Trust Specialty Group',img:'Trust administration',body:["Administered trust portfolios through tax-loss harvesting, liquidity management, and Reg 9 compliance workflows, and presented Reg 9 exceptions biannually to the Investment Committee in support of regulatory and internal-risk assessments.","Produced ad hoc performance reporting and asset-allocation analysis to support portfolio reviews."]},
+            {id:'branch',label:'Branch Banking',h:'Financial Services Associate, Branch Banking',img:'Branch banking',body:["Supported advisors across personal banking, lending, and account maintenance at a high-volume retail branch, partnering with Mortgage, Investments, Business Banking, and Wealth Management on integrated client financial plans."]}
+          ]},
+        {id:'eddiebauer',title:'Eddie Bauer',desc:'Assistant Manager — visual merchandising, team leadership, and multi-store expansion at one of the country’s highest-volume locations.',hero:'Eddie Bauer · King of Prussia',
+          cats:[
+            {id:'visual',label:'Visual Merchandising',h:'Visual Merchandising',img:'Floor move · King of Prussia',shots:[{src:'images/eddiebauer/chase-the-horizon-window.jpeg',cap:'“Chase the Horizon” window',wide:true},{src:'images/eddiebauer/guide-pro-window.jpeg',cap:'“Guide Pro” window'},{src:'images/eddiebauer/live-for-summer-window.jpeg',cap:'“Live for Summer” window'},{src:'images/eddiebauer/limited-edition-table.jpeg',cap:'Limited-edition feature table'},{src:'images/eddiebauer/lifestyle-wall.jpeg',cap:'Lifestyle wall & denim floor set',wide:true}],body:["Ran visual merchandising at the King of Prussia store — one of the highest-volume locations in the country — translating corporate directives onto the floor every month and working with payroll to execute each reset on time and to a standard high enough to make the store a proving ground for others."]},
+            {id:'team',label:'Team Leadership',h:'Team Leadership & Training',img:'Visual team',body:["Hired and trained a visual team from the ground up, building the bench needed to hit a demanding monthly reset cycle without letting the standard slip."]},
+            {id:'expansion',label:'Store Openings',h:'Store Openings & Expansion',img:'Montgomeryville build-out',body:["Helped open two additional stores, then relocated to Montgomeryville to close the outgoing location and help open its replacement — carrying the same visual standard into a new build from day one."]},
+            {id:'sales',label:'Sales Performance',h:'Sales Performance',img:'Sales recognition',body:["Closed out one year as the top salesperson in the Northeast region, on the way to promotion into assistant manager."]}
+          ]},
+        {id:'education',title:'Education & Licensing',desc:'The credentials underneath the work.',hero:'Diploma · Series 65',
+          cats:[
+            {id:'creds',label:'Credentials',h:'Education & Licensing',img:'Maryville University · Series 65',body:["A Bachelor of Science in Accounting, magna cum laude, from Maryville University (St. Louis, May 2021) — the foundation for a career that turned out to be less about the numbers themselves and more about the systems that produce them.","Series 65 licensed, with a Python in Excel certificate (LinkedIn) and working Python built through continued self-study."]}
+          ]},
+        {id:'volunteering',title:'Volunteering & Community Engagement',desc:"Civic work in urban greening — the community-impact side of the same instinct that shows up in the Portfolio.",hero:'Street trees · South Philadelphia',
+          cats:[
+            {id:'treetenders',label:'PHS Tree Tenders',h:'PHS Tree Tenders',img:'Street tree planting',body:["Volunteers with PHS Tree Tenders, planting and establishing street trees as part of the citywide effort to grow Philadelphia's urban canopy. It's civic work with a documented return: a growing body of urban research ties expanded tree cover to measurably safer, more stable blocks, alongside the more familiar gains in air quality, cooler streets, and stormwater management."]},
+            {id:'flowershow',label:'PHS Flower Show',h:'PHS Flower Show',img:'PHS Flower Show',body:["Volunteers each year at the PHS Flower Show, the Society's flagship public event and one of the largest horticultural exhibitions in the country — direct, hands-on support for the organization behind the city's tree-planting and greening work."]},
+            {id:'composting',label:'Composting Committee',h:'Growing Together Community Garden — Composting Committee',img:'Composting systems',body:["Serves on the Composting Committee at Growing Together Community Garden, helping run the systems — collection, education, signage — that keep a shared South Philadelphia composting program functioning at neighborhood scale rather than as one-off volunteering."]}
+          ]},
+        {id:'skillset',title:'Skillset & Technologies',desc:'The skills and platforms behind the work — built across a trading desk, a bank, and a sales floor.',hero:'Dashboards · workstation',
+          cats:[
+            {id:'workflow',label:'Workflow & Automation',h:'Workflow & Automation',img:'Process map',body:["Mapping a process end to end — every handoff, every trigger, every place it can fail — before building the standard operating procedures, validation checks, and automation that make it repeatable."]},
+            {id:'analytics',label:'Analytics & Oversight',h:'Analytics & Oversight',img:'Power BI dashboard',body:["Turning raw operational data into decision-ready dashboards: Power BI built from live API feeds, Tableau, advanced Excel and Python in Excel, and the KPI architecture that ties it all to a business question worth answering."]},
+            {id:'execution',label:'Trade Execution',h:'Trade Execution',img:'Execution screens',body:["The mechanics of moving client assets correctly — multi-sleeve rebalancing, model alignment, tax-aware liquidations, and block-order auction trading — under service-level windows that don't move."]},
+            {id:'risk',label:'Risk & Compliance',h:'Risk & Compliance',img:'Compliance review',body:["The guardrails around execution: Reg 9, trade suitability, audit preparation, SLA management, and the escalation judgment to know when something needs a second set of eyes."]},
+            {id:'platforms',label:'Platforms & Tools',h:'Platforms & Tools',img:'Platform logos',body:["Wealthscape, Eclipse, Orion, and Docupace for execution; Salesforce, Bloomberg Terminal, FactSet, and Morningstar for everything around it."]}
+          ]}
+      ]
+    },
+    atlas:{
+      brand:'The Atlas',
+      toc:{title:'The Atlas',sub:'Field Guides',epi:'The how-tos, primers, and references written along the way — collected out of the portfolio and into one place.'},
+      about:{eyebrow:'About The Atlas',title:'The Atlas',desc:'A field guide to the work.',
+        body:[
+          "The Atlas gathers the written guides and primers produced across every craft — the plain-language how-tos, conversion walkthroughs, and reference sheets written while learning — out of the individual portfolio chapters and into a single volume.",
+          "Each one started as notes to a future version of myself, then got cleaned up enough to hand to someone else. They span horticulture, technology, audio production, and woodworking.",
+          "More are added as they're written."
+        ],
+        method:null},
+      chapters:[
+        {id:'horticulture',title:'Horticulture',desc:'Guides for growing without soil.',hero:'Planting in Pon · Why Pon Works',
+          cats:[
+            {id:'planting-in-pon',label:'Planting in Pon',h:'Planting in Pon',img:'Planting in Pon',body:["A step-by-step conversion guide for moving a plant from soil into pon, a soil-free stone substrate — written in plain language for someone doing it for the first time."]},
+            {id:'why-pon-works',label:'Why Pon Works',h:'Why Pon Works',img:'Why Pon Works',body:["A deeper dive into the science of semi-hydroponics — what pon actually does at the root, why it works, and how to reason about water and nutrients in a soil-free system."]}
+          ]},
+        {id:'technology',title:'Technology',desc:'Practical write-ups for hardware and software.',hero:'Router hardening · Android dev',
+          cats:[
+            {id:'router-hardening',label:'Router Hardening',h:'Hardening a Home Router',img:'Router hardening',body:["A plain-language walkthrough for locking down a home WiFi router — the settings that matter, why they matter, and the order to change them in."]},
+            {id:'android-dev',label:'Android Dev Path',h:'A Path Into Android Development',img:'Android dev path',body:["A project-based path into Android app development from zero — what to build first and the order that keeps a beginner moving instead of stuck."]},
+            {id:'data-privacy',label:'Data Privacy',h:'A Practical Guide to Data Privacy',img:'Data privacy',body:["Start from the uncomfortable premise: if a service is free, you're usually what's being sold. Every day, ordinary tech collects a startling amount about you — not just your name and contacts, but a device fingerprint (IP, screen size, fonts, battery, OS, browser) precise enough that no two setups look alike, plus a running log of where you go, what you click, what you watch, and what you buy.","Don't be reassured by the word &ldquo;anonymous.&rdquo; Stripped of your name, data can still be matched back to you — a few points like where you sleep and where you work are usually enough. Researchers have re-identified real people from &ldquo;anonymized&rdquo; movie ratings and location sets that were supposed to be safe to release.","And it doesn't sit still — it's bought and sold. A whole broker industry stitches app data, purchases, and public records into detailed profiles and sells them to advertisers, insurers, and, increasingly, the government. Once a copy is out there you've lost control of it: more copies mean more breaches, more exposure, and decisions made about you from a profile you never saw.","You can't opt out of all of it, but the floor is higher than most people think. Harden your home router — change the DNS, kill the default admin login, disable remote access, isolate smart devices on their own band. Use a password manager with long, unique passwords. Audit app permissions; that game doesn't need your microphone. Block trackers in your browser. And delete the accounts you stopped using: you stopped using it, it didn't stop using you.","You have rights too, though in the US they're a patchwork. Several states let you see, download, delete, and stop the sale of your data, and tools like SimpleOptOut and JustDeleteMe make the requests less painful. Pennsylvania has no broad law yet — one's been proposed — so for now it's federal protections plus breach-notification rules. None of this means going off-grid. It just means refusing to hand everything over by default.","<em>General information, not legal advice.</em>"]}
+          ]},
+        {id:'music',title:'Music & Audio Production',desc:'Primers written while learning to produce.',hero:'Production primers',
+          cats:[
+            {id:'midi',label:'MIDI',h:'MIDI',img:'MIDI primer',body:["MIDI is not sound — it's a set of instructions telling an instrument what to play: start this note, stop that one, play it this hard, move this knob over time. An instrument like Vital turns those instructions into audio. Because it's just instructions, MIDI is tiny, fast, and endlessly editable.","That's what makes it powerful: write an emotional melody once and audition it through a warm pad, a soft lead, or a glassy arp without re-recording a thing — one idea, many feelings. The tradeoff versus audio is easy to hold in your head: MIDI you can still change (notes, key, instrument); audio is the tone captured forever. Write in MIDI for flexibility, bounce to audio when a part is locked, and keep both.","The messages worth knowing are few: note on and off (pitch), velocity (how hard, usually louder and brighter), pitch bend, and control changes like the mod wheel for vibrato or filter movement and the sustain pedal for holding notes into pad-like tails.","In practice you either record MIDI from a keyboard or draw it in REAPER's piano roll — move notes in pitch and time, drag their length, set velocity underneath — then hit play and let the instrument voice it. You're editing the performance, not the recording."]},
+            {id:'frequency-spectrum',label:'Frequency Spectrum',h:'The Frequency Spectrum',img:'Frequency spectrum',body:["Frequency is just how fast a sound vibrates, measured in Hertz — low frequencies feel deep, high ones feel bright, and the whole audible range runs from about 20 Hz to 20 kHz. Learn where things live on that map and mixing stops being guesswork.","The bands each have a job. Sub (20–60 Hz) you feel more than hear; bass (60–120 Hz) is punch and note definition; the low-mids (120–400 Hz) are warmth — and where a mix turns to mud. The mids (400 Hz–2.5 kHz) carry clarity and words; presence (2.5–5 kHz) is detail that goes harsh if you overdo it; the air up top (10 kHz+) is shimmer that turns to hiss.","When two sounds fight for the same band they mask each other, and the fix is usually subtractive: instead of boosting the vocal, dip a small notch out of whatever's covering it. A −2 to −4 dB cut around 2 kHz in the pad does more than any boost, with none of the harshness.","Two habits keep a mix clean — high-pass anything that isn't kick or bass so the low-mids don't pile up, and roll the lows off your reverb buses so the space doesn't muddy the room. For harshness, sweep a narrow band between 2.5 and 5 kHz, find the spot that stings, and cut it a couple dB: you keep the emotion and lose the sting.","And keep the bottom mono — club systems sum the lows, so a wide sub can cancel out in the real world. Center the sub and kick, save your width for pads and sparkle, and remember the best EQ move is often just choosing a sound that already fits: a darker pad in the verse, an open one in the drop, so the spectrum makes room for the vocal up close and blooms wide when it counts."]},
+            {id:'effects-arrangement',label:'Effects & Arrangement',h:'Effects & Arrangement',img:'Effects & arrangement',body:["Most effects share one idea: wet versus dry. Dry is the original sound; wet is the processed version — the reverb tail, the echo, the EQ'd signal. A wet/dry control just balances the two, and the clean way to work is to put reverb or delay on its own bus at 100% wet and blend the amount with each track's send, so the direct sound stays clear and the space is mixed separately.","Reverb is the sound of a room — short and bright feels intimate, long and lush feels epic. A short plate keeps a vocal close but polished; a hall opens the world for pads in a drop. Keep the vocal's plate short and steady across the whole song so it stays close, and send the pads to a bigger space when the drop hits — then EQ the reverb bus to roll off the lows so the space doesn't turn cloudy.","Delay repeats the sound in time and adds rhythm, width, and drama. Time sets when the echo lands, feedback sets how many repeats, and filtering the repeats — rolling off lows and highs — tucks them behind the lead instead of cluttering it.","Arrangement is where the effects earn their keep: the same loop becomes a story through contrast — strip it back to a close, human verse, build tension by opening filters and adding a quiet arp, then release into a wide, rich drop. Bigger should come from width, harmony, and layering, not just from turning it up."]},
+            {id:'edm-fundamentals',label:'EDM Fundamentals',h:'EDM Production Fundamentals',img:'EDM fundamentals',body:["Before the genre tricks make sense you need the toolkit, jargon-free. There are only a handful of tools and each does one thing: EQ turns bands up or down, a compressor evens out loud and quiet, a limiter stops the master going over, and a saturator adds warmth to anything lifeless.","Then the tools that move air. Sidechain makes one sound duck when another hits — the synth breathing under the kick. Automation tells a knob what to do over time; panning slides a sound left or right to give layers room; an LFO or volume-shaper makes pads bounce without a kick. And for space: reverb for depth, delay for echo, a reverse-reverb swell to build emotion, and a stereo widener on pads and vocals — never on the bass.","Most mix problems have a stock fix. Too harsh? Cut a few dB around 2–5 kHz. Kick disappearing? Sidechain the synth and bass harder. Mix feels flat? Add panning and a little reverb or delay. Muddy vocals? Send them to reverb and delay and duck the sends instead of drowning the dry.","Chains are just tools in order. A vocal runs EQ → compressor → de-esser, then reverb and delay on sends; a pad runs EQ → sidechain → reverb → widener; a drop lead stacks saturator → EQ → delay → reverb → compressor → sidechain. Learn the order once and you stop reaching randomly.","None of it is really about the plugins, though. The bigger project is building the ear and the mindset — learning to hear what a track needs and having the tools ready when you do. Get the fundamentals solid and everything genre-specific after them is just seasoning."]},
+            {id:'what-is-production',label:'What Is Music Production',h:'What Is Music Production?',img:'Production overview',body:["Music production is the whole path from an idea to a finished, listenable track, and it wears three hats: writing (the melody, chords, and rhythm — the song you'd still recognize on a bare piano), sound design (choosing and shaping the instruments that carry it), and mixing and mastering (presenting it clearly so it holds up on earbuds, in a car, and in a club). In a home studio one person wears all three — that's you.","It helps to work to one emotion. Pick a single word — bittersweet, resolute, wide-eyed — and let it be the north star for every choice, because the listener never sees the session; they feel the arc.","From there it's a sequence, not a single button: build a short loop that already moves you (if eight bars don't, an arrangement won't fix it), give every sound a job so nothing fights for the same space, then sketch the sections — intimate verse, build, wide drop, breathe, final drop, outro. Contrast is what makes the emotion land.","Vocals go on last, as the narrator — kept close and mostly dry in the verse, given room in the drop. Then you mix for balance first and reach for EQ and compression second, and premaster with headroom (peaks near −6 dBFS) so the master has room to breathe. None of it is one big skill; it's a handful of small ones in order."]},
+            {id:'signal-flow',label:'Signal Flow',h:'Signal Flow',img:'Signal flow',body:["Signal flow is the path your sound takes from the moment it's made to the moment it reaches your ears: source, then the track's plugins in order, then the fader, then any sends to buses, then the master. Know the path and you can predict what a change will do; don't, and mixing feels random.","Order matters because every plugin hears the one before it. A reverb inserted straight onto a vocal runs the whole voice through the room and pushes it back; the same reverb on a shared bus, fed by a send, lets you blend in just enough space while the dry vocal stays close and clear. That one distinction is how you get an in-the-room verse.","Sends have two modes worth knowing: post-fader follows the track fader (turn the vocal down and its reverb follows) and is what you want most of the time; pre-fader ignores the fader, so you can throw a single word into a delay and pull the voice out from under it.","Sidechaining lives in the flow too — route the kick to a compressor on the pad or bass so the low end ducks a couple dB on every hit and the kick always has its moment. Get the plumbing right and the emotional choices get easy: clean, direct routes for intimate verses; parallel sends and wider returns for drops that open up."]},
+            {id:'gain-staging',label:'Gain Staging',h:'Gain Staging',img:'Gain staging',body:["Gain staging is keeping healthy levels at every step — from the instrument, through the plugins, to the buses, to the master — so nothing distorts and every tool behaves. Think safe water pressure: too little and nothing works, too much and pipes burst.","The scale that matters in the box is dBFS, where 0 is the hard ceiling; go over and the signal clips into harsh distortion, so you leave headroom. While you build, aim individual tracks around −18 to −10 dBFS at their loudest and the master around −6 dBFS on the drop, with no limiter on the master while you mix.","Fix levels as early as you can — turn a hot synth down at its own output instead of fighting it later — and level-match inside each plugin chain so you're judging tone, not loudness (the oldest trap in mixing is thinking louder means better). Feed a compressor or saturator its sweet spot, then match the output so bypassed and active sound equally loud.","Really it's about contrast. Peaks keep you clear of clipping; average loudness tells the story — the verse should feel quieter than the drop on purpose. If the drop sounds crushed instead of big, you're out of headroom: pull everything down together and build size from width, harmony, and layering, not from shoving the faders up."]},
+            {id:'routing-buses',label:'Routing & Buses',h:'Routing & Buses',img:'Routing & buses',body:["This is the plumbing of a session, in plain English. A bus is just a track that other tracks feed into so you can treat them together; a send copies a slice of a track's signal off to a bus without pulling it out of the mix. Get the plumbing right and the emotional choices get easy.","Buses earn their keep four ways: consistency (one reverb makes everything sound like the same room), speed (one fader moves a whole group), CPU (one plugin instead of thirty), and color (a parallel bus adds grit or glue without touching the dry signal). REAPER gives you two ways to build them — folder buses, where child tracks nest under a parent, and aux buses you feed with sends. Folders for groups like DRUMS, MUSIC, and VOX; aux buses for shared effects like VERB, HALL, and DELAY.","Sends come in two flavors. Post-fader follows the track's fader — pull the vocal down and its reverb comes with it, which is what you want most of the time. Pre-fader ignores the fader, which is how you get a delay throw: automate a pre-fader send on a single word, drop the vocal for half a beat, and let the echo spotlight that one syllable.","Sidechaining is what gives the music its bounce. Route the kick to a compressor on the pad or bass through an aux channel, tell the compressor to listen to that channel, and dial in a 2–4 dB duck on every kick. Keep the sub out of it — you want the low end solid, not gasping.","The core template is small on purpose: DRUMS, MUSIC, and VOX folders plus VERB, HALL, and DELAY sends. Keep a short plate on the vocal for intimate verses, open the hall for wide drops, and you're steering the listener's whole sense of space with a couple of faders. The usual mistakes are double-routing a folder and its children to the master, or looping a bus back into itself — keep the signal flowing one way and it stays clean."]},
+            {id:'time-rhythm',label:'Time & Rhythm',h:'Time & Rhythm',img:'Time & rhythm',body:["Rhythm is how music sits on a timeline. A beat is one steady pulse; tempo is how fast those beats arrive, in BPM; a bar is a box holding a fixed number of beats; and a time signature says how many go in each box. 4/4 — four beats to the bar — is home for dance music because your body already understands it: one pulse per step, nothing to think about.","Detail lives in the subdivisions (halves, quarters, eighths, sixteenths, triplets) and in where you put the accents. The backbeat — claps and snares on 2 and 4 — is what makes you move; four-on-the-floor, a kick on every beat, is the heartbeat under most of it. For an emotional-but-danceable feel, ~118–128 BPM is the pocket: slower reads reflective, faster reads club.","Build a groove from the floor up — kick on every beat, clap on 2 and 4, hats in eighths — then lay a long, slightly dark pad underneath and a simple sub on the root so the low end supports without cluttering.","Two tools keep it human: quantization snaps notes to the grid for tightness, but lean on it too hard and the life drains out; humanization adds tiny timing and velocity variations so a programmed part feels played. A little swing — nudging the off-beats late — relaxes the whole thing. The steady grid is what frees the vocal and pads to carry the story."]},
+            {id:'synth-building',label:'Synth Building',h:'Building a Synth Patch',img:'Synth building',body:["A synth is a sound you build instead of record, and Vital is a wavetable synth — its raw material is a set of stored shapes you can scan through. The signal runs a little factory line: MIDI notes tell it what to play, oscillators make the raw sound, a filter shapes the tone, effects add space, and the output sets the level.","Oscillators are the ingredient. A sine is pure and deep (great for sub-bass); a saw is bright and rich (pads and leads); a square is hollow and woody; noise adds breath and attack. Stack copies with unison, nudge them apart with detune, and spread them across the stereo field for width — a little detune is warm, a lot gets messy.","The filter is a sieve for sound. A low-pass keeps the lows and rolls off the highs to make something warmer and darker — perfect for a verse; a high-pass clears mud off sparkle layers so they don't fight the bass. Cutoff is the main tone knob, resonance adds a whistle or vowel at the cutoff, and key-tracking keeps the brightness even across the keyboard.","Envelopes shape how a parameter moves over time — ADSR: attack (how fast it fades in, from an instant pluck to a blooming pad), decay, sustain (the level held while the key is down), and release (the tail after you let go). Put it together and a patch becomes something you design on purpose — a dark pad that blooms in the verse, an open one that widens in the drop — instead of a preset you settled for."]}
+          ]},
+        {id:'woodworking',title:'Woodworking',desc:'Build walkthroughs, cut list to final coat.',hero:'Weatherproof enclosure build',
+          cats:[
+            {id:'enclosure',label:'Weatherproof Enclosure',h:'Building a Weatherproof Outdoor Enclosure',img:'Enclosure walkthrough',body:["A step-by-step walkthrough for framing, siding, and finishing a weatherproof outdoor enclosure — from cut list to the final coat of sealant."]},
+            {id:'pony-wall',label:'Pony Wall',h:'Building a Pony Wall',img:'Pony wall build',body:["A pony wall is a short, non-load-bearing half wall — knee- to counter-height — and it frames up like any stud wall, just lower. You need 2x4s for the top and bottom plates and the studs, drywall if you're finishing it, and either wood screws for a subfloor or Tapcon masonry screws for concrete to anchor the bottom plate.","Lay it out first: mark the wall's line on the floor, square to the existing walls, then mark studs 16 inches on-center on both plates. Build the frame flat on the ground — studs screwed to the top and bottom plates, toe-screwed for grip — then stand it up and anchor the bottom plate every 16–24 inches, shimming until it's dead level.","Because it's freestanding at one end, bracing is the whole game: tie the end stud to the nearest wall with L-brackets, add a 45° diagonal brace inside the frame, or run a post up to the ceiling — whatever the spot allows.","Finish it like any wall — half-inch drywall, then tape, mud, and sand two or three coats to a seamless face, prime and paint, and trim the base to match the room. Or skip the drywall and cap it with a 1x6 or 2x6 plank for a warmer, furniture-like top."]},
+            {id:'route-edges',label:'Routing Edges',h:'Routing a Finished Edge',img:'Routed edge',body:["A router turns a raw sawn edge into a finished one, and the whole job is choosing a bit and moving in the right direction. A roundover bit softens the edge to a curve; a bevel bit cuts a clean angle. Set the depth to match the bit's radius or angle, and clamp the workpiece down with room for the router base to ride flat.","If you've got a scrap of the same stock, test on it first. Then let the router reach full speed before it touches the wood and move in one steady, continuous pass, keeping the base flat the whole way.","The one rule that saves you: move against the spin of the bit — counter-clockwise around the outside of a piece — so the router pulls into the work instead of skating and digging in. Flip the board and repeat so every visible edge matches.","Finish with a light pass of fine-grit sandpaper to knock down any burrs, then vacuum the dust off before the next step. It's a small operation that's the difference between an edge that looks built and one that looks cut."]},
+            {id:'non-load-bearing-wall',label:'Partition Wall',h:'Building a Non-Load-Bearing Wall',img:'Partition wall build',body:["A non-load-bearing partition carries nothing but itself, so you can put up a full-height one without touching the structure — the trick is anchoring it top and bottom without tearing anything up. Find the ceiling joists for the top plate, and bond the floor plate down with heavy-duty VHB tape instead of drilling a finished floor.","Set the plates first: cut the top plate to length, level and shim it, and screw it into the joists; clean the floor with alcohol, tape the bottom plate, and press it in directly under the top one. Then measure between the plates, cut the studs a hair short so they drop in, and fasten them with angled or pocket screws.","Stability comes from bracing — L-brackets tying the partition to the existing wall at top, middle, and bottom, plus 45° diagonal blocks between studs. From there it's drywall on both faces, screws into every stud at 12 inches, then joint compound over the seams and screw heads.","Finishing is patience: two coats of compound with a sanding in between, feathered flat, then prime, paint, and base molding to match the room. Done right, a wall that holds nothing up looks exactly like one that does."]},
+            {id:'ottoman-table',label:'Ottoman Table',h:'Building a C-Shaped Ottoman Table',img:'Ottoman table build',body:["A C-shaped ottoman table is a small hardwood piece that slides in over a couch or bed — a flat top on two side panels, open on one side like the letter C, on casters or a rail so it rolls in and out. The build is all in the joinery: one-inch hardwood for the top and sides, joined with glued dowels rather than visible fasteners.","Cut clean — a 40.5 by 20-inch top and two 18-inch sides on the table saw — and rout the edges if you want them softened. Then mark and drill the dowel holes with a jig and a stop collar so every hole lands at the same depth and the panels pull up square.","Dry-fit the whole thing before any glue touches it: assemble it dry to confirm the fit, then glue the dowels and holes, tap it together with a rubber mallet, and clamp it until it sets. Skipping the dry fit is how you end up clamping a mistake.","Finish by sanding up through the grits, wiping clean, and laying on polyurethane a coat at a time with a light sanding between. Add casters or a track underneath and felt pads to save the floor, and it slides where you need it and disappears when you don't."]},
+            {id:'drywall-repair',label:'Drywall Repair',h:'Stripping, Repairing & Repainting Drywall',img:'Powder-room drywall',shots:[{src:'images/woodworking/powder-room-drywall.jpeg',cap:'Powder room — wallpaper stripped to bare drywall',wide:true}],body:["Stripped wallpaper leaves a wall that looks wrecked — torn paper face, old adhesive, ragged edges — and the repair is less about patching holes than getting back to a flat, sealed, paintable surface. First strip everything loose; for stubborn glue, a spray of one-part vinegar to two-parts boiling water, left to sit, scrapes right off. Feather any sharp ridges with 80–120 grit until the wall is flat to the touch.","The step people skip is sealing. A coat of a clear problem-surface sealer (Zinsser Gardz) locks down the fuzzy torn paper and old adhesive so your joint compound doesn't blister and the old surface doesn't flash through the paint. It rolls on milky and dries clear in half an hour.","Then you skim-coat: all-purpose joint compound thinned with a little water to a pourable, pancake-batter consistency, rolled on thick with a high-nap roller and immediately pulled flat with a wide taping knife held at a low angle. The move that makes it seamless is feathering — two-thirds of the knife over the mud, one-third on bare wall, all the pressure on the bare side, dragging the edge paper-thin.","Let each coat dry fully — a day in winter — then a second, lighter coat and a final sanding until, eyes closed and hand on the wall, you can't feel an edge or a dip. Prime, paint, and it reads like the damage was never there."]},
+            {id:'signpost',label:'Outdoor Signpost',h:'Building an Outdoor Signpost',img:'Signpost build',body:["Building a freestanding outdoor signpost — the post, the footing, and the mounting that keeps a sign upright and readable through the seasons. Built for the community-garden signage, so it lives in both the Woodworking and Composting shelves. <em>Full write-up in progress from the build notes.</em>"]}
+          ]}
       ]
     }
   };
 
-  var curVol=null, curIdx=0, activeCat={};
-  function book(v){ return document.querySelector('.book[data-vol="'+v+'"]'); }
-  function keys(v){ return ['front'].concat(DATA[v].chapters.map(function(c){return c.id;})); }
+  var curVol=null, activeCat={};
 
-  function tocHTML(v){
-    var d=DATA[v];
-    var items=d.chapters.map(function(c,i){
-      return '<li><button class="toc-item" data-goidx="'+(i+1)+'"><span class="ch">Ch. '+ROM[i+1]+'</span><span class="tt">'+c.title+'</span><span class="dots"></span><span class="pg">'+(i+1)+'</span></button></li>';
-    }).join('');
-    return '<div class="toc-head">'+TOC_EMBLEM+'<div><div class="th-t">'+d.toc.title+'</div><div class="th-s">'+d.toc.sub+'</div></div></div>'+
-      '<p class="toc-epi">'+d.toc.epi+'</p><p class="toc-h">Contents</p><ol class="toc-list">'+items+'</ol>';
+  // ---- volumes: each spine is one volume, mapped onto the existing DATA ----
+  // shelf 'career' (top, resume order, current first) - 'craft' (bottom, A-Z)
+  var VOLUMES=[
+    {id:'brinker',shelf:'career',title:'Brinker Capital',spine:'Brinker',years:'Feb 2021 - Present',sy:'2021–',src:'career',ch:'brinker',accent:'#5ef2e8'},
+    {id:'pnc-wm',shelf:'career',title:'PNC Wealth Management',spine:'PNC Wealth',years:'2019 - 2021',sy:'2019–21',src:'career',ch:'pnc',cats:['trust'],accent:'#3b82f6'},
+    {id:'pnc-bank',shelf:'career',title:'PNC Bank',years:'2017 - 2019',sy:'2017–19',src:'career',ch:'pnc',cats:['branch'],accent:'#4f7bff'},
+    {id:'eddiebauer',shelf:'career',title:'Eddie Bauer',years:'2013 - 2017',sy:'2013–17',src:'career',ch:'eddiebauer',accent:'#7c5cff'},
+    {id:'education',shelf:'career',title:'Education & Licensing',spine:'Education',src:'career',ch:'education',accent:'#9b7cff'},
+    {id:'skillset',shelf:'career',title:'Skillset & Technologies',spine:'Skillset',src:'career',ch:'skillset',accent:'#b25cff'},
+    {id:'volunteering',shelf:'career',title:'Volunteering & Community Engagement',spine:'Volunteering',src:'career',ch:'volunteering',accent:'#22a7f0'},
+    {id:'arboriculture',shelf:'craft',title:'Arboriculture',src:'portfolio',ch:'arboriculture',accent:'#43b6ff'},
+    {id:'composting',shelf:'craft',title:'Composting',src:'portfolio',ch:'composting',guides:[['woodworking','signpost']],accent:'#8b5e3c'},
+    {id:'horticulture',shelf:'craft',title:'Horticulture',src:'portfolio',ch:'horticulture',exclude:['hydroponics'],accent:'#5ef2a0'},
+    {id:'hydroponics',shelf:'craft',title:'Hydroponics',src:'portfolio',ch:'horticulture',cats:['hydroponics'],guides:[['horticulture','planting-in-pon'],['horticulture','why-pon-works']],accent:'#22d3ee'},
+    {id:'music',shelf:'craft',title:'Music & Audio Production',spine:'Music & Audio',src:'portfolio',ch:'music',guides:[['music','what-is-production'],['music','signal-flow'],['music','gain-staging'],['music','routing-buses'],['music','time-rhythm'],['music','synth-building'],['music','midi'],['music','frequency-spectrum'],['music','effects-arrangement'],['music','edm-fundamentals']],accent:'#b25cff'},
+    {id:'technology',shelf:'craft',title:'Technology',src:'portfolio',ch:'technology',guides:[['technology','router-hardening'],['technology','android-dev'],['technology','data-privacy']],accent:'#ff8a2b'},
+    {id:'woodworking',shelf:'craft',title:'Woodworking',src:'portfolio',ch:'woodworking',guides:[['woodworking','enclosure'],['woodworking','pony-wall'],['woodworking','non-load-bearing-wall'],['woodworking','route-edges'],['woodworking','ottoman-table'],['woodworking','drywall-repair'],['woodworking','signpost']],accent:'#ff5a3d'}
+  ];
+  var SHELF_LABEL={career:'The Career of Robert Gregory',craft:'The Craft of Alastair Zeved'};
+  var SHELF_BRAND={career:'Robert Gregory',craft:'Alastair Zeved'};
+  function byId(id){ for(var i=0;i<VOLUMES.length;i++){ if(VOLUMES[i].id===id) return VOLUMES[i]; } return null; }
+  function curV(){ return byId(curVol); }
+  function shelfVols(sh){ return VOLUMES.filter(function(v){return v.shelf===sh;}); }
+  function srcChapter(V){ var cs=DATA[V.src].chapters; for(var i=0;i<cs.length;i++){ if(cs[i].id===V.ch) return cs[i]; } return null; }
+
+  // the categories a volume shows, as {cat, dom}
+  // look up a guide category that lives in The Atlas (redistributed into a Craft volume)
+  function atlasCat(chId,catId){
+    var chs=DATA.atlas.chapters;
+    for(var i=0;i<chs.length;i++){ if(chs[i].id===chId){
+      for(var j=0;j<chs[i].cats.length;j++){ if(chs[i].cats[j].id===catId) return chs[i].cats[j]; }
+    } }
+    return null;
   }
-  function aboutHTML(v){
-    var a=DATA[v].about;
-    var b=a.body.map(function(p){return '<p>'+p+'</p>';}).join('');
-    var m=a.method?('<p class="ch-eyebrow" style="margin-top:1.6rem">The Method</p><ol class="steps">'+a.method.map(function(s,i){return '<li class="step"><span class="num">'+pad(i+1)+'</span><span class="stxt"><span class="st-t">'+s+'</span></span></li>';}).join('')+'</ol>'):'';
-    return '<p class="ch-eyebrow">'+a.eyebrow+'</p><h2 class="ch-title">'+a.title+'</h2><p class="ch-desc">'+a.desc+'</p><div class="ch-body">'+b+'</div>'+
-      '<div class="scaffold fm-portrait" style="margin-top:1.2rem"><div class="sk-block">Portrait &mdash; to come</div></div>'+m;
+  function volCats(V){
+    var ch=srcChapter(V), list=ch.cats;
+    if(V.cats){ list=V.cats.map(function(id){ return ch.cats.filter(function(k){return k.id===id;})[0]; }); }
+    else if(V.exclude){ list=ch.cats.filter(function(k){ return V.exclude.indexOf(k.id)<0; }); }
+    var out=list.map(function(k){ return {cat:k,dom:ch.title}; });
+    // append any field guides carried over from The Atlas, marked as guides
+    if(V.guides){ V.guides.forEach(function(g){ var k=atlasCat(g[0],g[1]); if(k) out.push({cat:k,dom:'Field Guide',guide:true}); }); }
+    return out;
   }
-  function openerHTML(v,ci){
-    var c=DATA[v].chapters[ci];
-    var hero=c.hero?'<div class="ph hero-ph">'+c.hero+'</div>':'';
-    return '<p class="ch-eyebrow">Chapter '+ROM[ci+1]+' &middot; '+c.title+'</p><h2 class="ch-title">'+c.title+'</h2><p class="ch-desc">'+c.desc+'</p>'+hero;
+  function volMeta(V){
+    var ch=srcChapter(V);
+    return {eyebrow:SHELF_LABEL[V.shelf],desc:ch.desc,hero:ch.hero,years:V.years||''};
   }
-  function sectionHTML(c,catId){
-    var k=c.cats[0]; c.cats.forEach(function(x){if(x.id===catId)k=x;});
-    var ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
-    var img=k.img?'<div class="ph">'+k.img+'</div>':'';
-    return '<div class="sec"><p class="sec-k">'+c.title+'</p><h3>'+k.h+'</h3>'+ps+img+'</div>';
+
+  // ---- emblems (the key motif) ----
+  function keyEmblem(id,stops){
+    return '<svg viewBox="0 0 100 100" fill="none" stroke="url(#'+id+')" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+      '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'+stops+'</linearGradient></defs>'+
+      '<circle cx="50" cy="36" r="15"/><path d="M57 23 A15 15 0 0 1 57 49 A11 11 0 0 0 57 23 Z" stroke-width="3"/>'+
+      '<circle cx="50" cy="36" r="2.6" fill="url(#'+id+')" stroke="none"/><path d="M50 51 L50 72 C50 81 56 83 62 79"/></svg>';
   }
-  function rightChapterHTML(v,ci){
-    var c=DATA[v].chapters[ci];
-    var cat=activeCat[v+':'+c.id]||c.cats[0].id;
-    var nav='<div class="catnav">'+c.cats.map(function(k){return '<button data-cat="'+k.id+'" aria-selected="'+(k.id===cat?'true':'false')+'">'+k.label+'</button>';}).join('')+'</div>';
-    return nav+sectionHTML(c,cat);
+  var STOPS={
+    career:'<stop offset="0%" stop-color="#5ef2e8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c5cff"/>',
+    craft:'<stop offset="0%" stop-color="#ffb43d"/><stop offset="45%" stop-color="#ff2d78"/><stop offset="100%" stop-color="#7c5cff"/>'
+  };
+  var SHELF_EMBLEM={career:keyEmblem('tbc',STOPS.career),craft:keyEmblem('tbp',STOPS.craft)};
+
+  // ---- the two shelves of spines ----
+  function shade(hex,al){
+    var h=hex.replace('#',''); if(h.length===3){h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];}
+    var r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    return 'rgba('+r+','+g+','+b+','+al+')';
+  }
+  function spineHTML(V,uid){
+    var stops=V.shelf==='career'?STOPS.career:STOPS.craft;
+    var yr=V.sy?'<span class="sp-year">'+V.sy+'</span>':'';
+    return '<button class="spine'+(V.apart?' apart':'')+'" data-vol="'+V.id+'" aria-current="'+(V.id===curVol?'true':'false')+'"'+
+      ' style="--sp-accent:'+V.accent+';--sp-bg:linear-gradient(100deg,'+shade(V.accent,0.20)+','+shade(V.accent,0.06)+')"'+
+      ' title="'+V.title+(V.years?' · '+V.years:'')+'">'+
+      '<span class="sp-emblem">'+keyEmblem('sp'+uid,stops)+'</span>'+
+      '<span class="sp-title">'+(V.spine||V.title)+'</span>'+yr+'</button>';
+  }
+  function buildShelves(){
+    [['career','shelfCareer'],['craft','shelfCraft']].forEach(function(pair){
+      var host=document.querySelector('#'+pair[1]+' .shelf-books');
+      host.innerHTML=shelfVols(pair[0]).map(function(v,i){return spineHTML(v,pair[0]+i);}).join('');
+    });
+  }
+  function markCurrent(){
+    document.querySelectorAll('.spine').forEach(function(b){ b.setAttribute('aria-current', b.dataset.vol===curVol?'true':'false'); });
+    var nav=document.getElementById('tbNav');
+    if(nav){ Array.prototype.forEach.call(nav.children,function(b){ b.setAttribute('aria-current', b.dataset.vol===curVol?'true':'false'); }); }
+  }
+  function buildNav(sh){
+    var nav=document.getElementById('tbNav'); nav.innerHTML='';
+    shelfVols(sh).forEach(function(v){
+      var b=document.createElement('button'); b.dataset.vol=v.id; b.textContent=(v.spine||v.title);
+      b.setAttribute('aria-current', v.id===curVol?'true':'false'); nav.appendChild(b);
+    });
+    document.getElementById('tbBrand').textContent=SHELF_BRAND[sh];
+    document.getElementById('tbEmblem').innerHTML=SHELF_EMBLEM[sh];
   }
 
   function render(){
-    var bk=book(curVol); if(!bk) return;
+    var V=curV(); if(!V) return;
+    var bk=document.getElementById('book');
+    var meta=volMeta(V), cats=volCats(V);
+    var sel=activeCat[V.id]||cats[0].cat.id;
+    var entry=cats.filter(function(x){return x.cat.id===sel;})[0]||cats[0];
+    var yrs=meta.years?'<p class="ch-eyebrow" style="color:var(--ink-3);margin-top:.5rem">'+meta.years+'</p>':'';
+    var hero=meta.hero?'<div class="ph hero-ph">'+meta.hero+'</div>':'';
+    var lh='<p class="ch-eyebrow">'+meta.eyebrow+'</p><h2 class="ch-title">'+V.title+'</h2>'+yrs+
+      '<p class="ch-desc">'+meta.desc+'</p>'+hero;
+    var nav='<div class="catnav">'+cats.map(function(x){return '<button data-cat="'+x.cat.id+'"'+(x.guide?' class="is-guide"':'')+' aria-selected="'+(x.cat.id===sel?'true':'false')+'">'+x.cat.label+'</button>';}).join('')+'</div>';
+    var k=entry.cat, ps=k.body.map(function(p){return '<p>'+p+'</p>';}).join('');
+    var img=k.img?'<div class="ph">'+k.img+'</div>':'';
+    var shots=k.shots?'<div class="shots">'+k.shots.map(function(s){var c=(s.cap||'').replace(/"/g,'&quot;');return '<figure class="shot'+(s.wide?' wide':'')+(s.cover?' cover':'')+'"><img loading="lazy" src="'+s.src+'" alt="'+c+'"><figcaption>'+(s.cap||'')+'</figcaption></figure>';}).join('')+'</div>':'';
+    var audio=k.audio?'<div class="tracks">'+k.audio.map(function(a){return '<figure class="track"><figcaption>'+(a.title||'')+'</figcaption><audio controls preload="none" src="'+a.src+'"></audio></figure>';}).join('')+'</div>':'';
+    var rh=nav+'<div class="sec"><p class="sec-k">'+entry.dom+'</p><h3>'+k.h+'</h3>'+ps+(shots||img)+audio+'</div>';
     var L=bk.querySelector('.page-l .page-inner'), R=bk.querySelector('.page-r .page-inner');
-    var ks=keys(curVol), key=ks[curIdx], lh, rh;
-    if(key==='front'){ lh=aboutHTML(curVol); rh=tocHTML(curVol); }
-    else { var ci=curIdx-1; lh=openerHTML(curVol,ci); rh=rightChapterHTML(curVol,ci); }
-    if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; }
-    else { L.innerHTML=''; R.innerHTML=lh+rh; }
+    if(spreadMQ.matches){ L.innerHTML=lh; R.innerHTML=rh; } else { L.innerHTML=''; R.innerHTML=lh+rh; }
     L.scrollTop=0; R.scrollTop=0;
-    bk.querySelector('.folio').textContent=(key==='front'?'—':String(curIdx));
-    bk.querySelector('[data-prev]').disabled=curIdx<=0;
-    bk.querySelector('[data-next]').disabled=curIdx>=ks.length-1;
-    bk.querySelector('.pf-btn').style.visibility=(key==='front'?'hidden':'visible');
-    var nav=document.getElementById('tbNav');
-    Array.prototype.forEach.call(nav.children,function(b){ b.setAttribute('aria-current', b.dataset.goidx===String(curIdx)?'true':'false'); });
+    var sv=shelfVols(V.shelf), pos=sv.indexOf(V);
+    bk.querySelector('.folio').textContent=(pos+1)+' / '+sv.length;
+    bk.querySelector('[data-prev]').disabled=pos<=0;
+    bk.querySelector('[data-next]').disabled=pos>=sv.length-1;
+    markCurrent();
   }
   (spreadMQ.addEventListener?spreadMQ.addEventListener.bind(spreadMQ,'change'):spreadMQ.addListener.bind(spreadMQ))(render);
 
-  function buildNav(v){
-    var nav=document.getElementById('tbNav'); nav.innerHTML='';
-    var mk=function(idx,label){ var b=document.createElement('button'); b.dataset.goidx=String(idx); b.textContent=label; nav.appendChild(b); };
-    mk(0,'Contents'); DATA[v].chapters.forEach(function(c,i){ mk(i+1,c.title); });
-    document.getElementById('tbBrand').textContent=DATA[v].brand;
+  // dress the closed cover for a volume
+  function dressCover(V){
+    var bk=document.getElementById('book');
+    var front=bk.querySelector('.cover .front');
+    front.className='face front '+(V.shelf==='career'?'rg':'');
+    var meta=volMeta(V);
+    bk.querySelector('.cv-top').textContent=meta.eyebrow;
+    var nm=bk.querySelector('.cv-name'); nm.textContent=V.title;
+    nm.className='cv-name '+(V.shelf==='career'?'gradtext-cool':'gradtext');
+    bk.querySelector('.cv-sub').textContent=(V.shelf==='career'?'A Career':'A Craft');
+    bk.querySelector('.cv-years').textContent=(V.years||'');
   }
-  function goIdx(idx,animate){
-    var ks=keys(curVol); if(idx<0||idx>=ks.length) return;
-    if(idx===curIdx){ render(); return; }
-    curIdx=idx;
-    if(animate&&!reduce){ var lf=book(curVol).querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); setTimeout(render,120); }
-    else render();
+
+  function activateVolume(id, updateHash, keepOpen){
+    var V=byId(id); if(!V) return; curVol=id;
+    dressCover(V); buildNav(V.shelf); buildShelves();
+    body.dataset.open = keepOpen?'1':'0';
+    render();
+    if(keepOpen && !reduce){ var lf=document.getElementById('book').querySelector('.leaf'); lf.classList.remove('turn'); void lf.offsetWidth; lf.classList.add('turn'); }
+    if(updateHash!==false){ history.replaceState(null,'','#'+id); }
   }
-  function openVolume(v){
-    curVol=v; curIdx=0;
-    document.querySelectorAll('.book').forEach(function(b){ b.removeAttribute('data-active'); });
-    book(v).setAttribute('data-active','');
-    buildNav(v); body.dataset.open='1'; render();
-    setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:1000);
+  function openActive(focus){
+    body.dataset.open='1'; render();
+    if(focus!==false){ setTimeout(function(){ var n=document.getElementById('tbNav'); if(n.firstChild) n.firstChild.focus(); }, reduce?0:900); }
   }
-  function openWith(v){ if(!reduce){ setTimeout(function(){openVolume(v);},360); } else openVolume(v); }
-  function close(){ body.dataset.open='0'; document.querySelectorAll('.book').forEach(function(b){b.removeAttribute('data-active');}); curVol=null; history.replaceState(null,'','#'); }
+  function openWith(){ if(!reduce){ setTimeout(function(){openActive(true);},360); } else openActive(true); }
+  function closeBook(){ body.dataset.open='0'; render(); }
+  // pick a book off the shelf: arrives closed, awaiting its key
+  function switchTo(id){
+    if(!byId(id)) return;
+    if(id===curVol && body.dataset.open==='1'){ return; }
+    activateVolume(id);
+    if(!spreadMQ.matches){ document.getElementById('book').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }
+  }
+  // flip to the previous/next volume on the same shelf, keeping the book open
+  function siblingVol(delta){
+    var V=curV(); var sv=shelfVols(V.shelf); var i=sv.indexOf(V)+delta;
+    if(i<0||i>=sv.length) return;
+    activateVolume(sv[i].id, true, body.dataset.open==='1');
+  }
 
   document.addEventListener('click', function(e){
-    var cat=e.target.closest('[data-cat]');
-    if(cat){ var ci=curIdx-1; if(ci>=0){ activeCat[curVol+':'+DATA[curVol].chapters[ci].id]=cat.dataset.cat; render(); } return; }
-    var gi=e.target.closest('[data-goidx]'); if(gi){ e.preventDefault(); goIdx(parseInt(gi.dataset.goidx,10),true); return; }
-    if(e.target.closest('[data-go="front"]')){ goIdx(0,true); return; }
-    if(e.target.closest('[data-close]')){ close(); return; }
-    if(e.target.closest('[data-prev]')){ goIdx(curIdx-1,true); return; }
-    if(e.target.closest('[data-next]')){ goIdx(curIdx+1,true); return; }
+    var sp=e.target.closest('.spine'); if(sp){ switchTo(sp.dataset.vol); return; }
+    var nv=e.target.closest('#tbNav button'); if(nv){ activateVolume(nv.dataset.vol, true, true); return; }
+    var cat=e.target.closest('[data-cat]'); if(cat){ activeCat[curVol]=cat.dataset.cat; render(); return; }
+    if(e.target.closest('[data-close-foot]')){ closeBook(); return; }
+    if(e.target.closest('[data-close]')){ closeBook(); return; }
+    if(e.target.closest('[data-prev]')){ siblingVol(-1); return; }
+    if(e.target.closest('[data-next]')){ siblingVol(1); return; }
     var kb=e.target.closest('.keybtn');
-    if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(kb.closest('.book').dataset.vol); } return; }
-    var cov=e.target.closest('.cover');
-    if(cov&&body.dataset.open!=='1'){ openWith(cov.closest('.book').dataset.vol); return; }
+    if(kb){ e.stopPropagation(); if(body.dataset.open!=='1'){ openWith(); } return; }
   });
   document.addEventListener('keydown', function(e){
     var kb=e.target.closest&&e.target.closest('.keybtn');
-    if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(kb.closest('.book').dataset.vol); return; }
+    if(kb&&(e.key==='Enter'||e.key===' ')&&body.dataset.open!=='1'){ e.preventDefault(); openWith(); return; }
     if(body.dataset.open!=='1') return;
     if(e.target.matches('input,textarea')) return;
-    if(e.key==='ArrowRight'){ e.preventDefault(); goIdx(curIdx+1,true); }
-    else if(e.key==='ArrowLeft'){ e.preventDefault(); goIdx(curIdx-1,true); }
-    else if(e.key==='Escape'){ close(); }
+    if(e.key==='ArrowRight'){ e.preventDefault(); siblingVol(1); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); siblingVol(-1); }
+    else if(e.key==='Escape'){ closeBook(); }
   });
+  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(byId(h)&&h!==curVol){ activateVolume(h); } });
 
-  window.addEventListener('hashchange', function(){ var h=location.hash.replace('#',''); if(DATA[h]&&body.dataset.open!=='1'){ openVolume(h); } });
+  buildShelves();
   var init=location.hash.replace('#','');
-  if(DATA[init]){ openVolume(init); }
+  var startVol=byId(init)?init:'brinker';
+  activateVolume(startVol, !!byId(init));
 })();
 </script>
 </body>
