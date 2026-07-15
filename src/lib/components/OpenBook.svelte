@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, afterUpdate } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
   export let book;
   export let view = 'toc';
@@ -59,24 +59,27 @@
 </script>
 
 <!-- ── Book spread container ─────────────────────── -->
-<div class="book-spread" style="--cover: {book.coverColor}">
+<div class="book-spread">
 
-  <!-- Close button -->
-  <button class="close-btn" on:click={() => dispatch('close')} aria-label="Close book">
-    ✕
-  </button>
+  <button class="close-btn" on:click={() => dispatch('close')} aria-label="Close the book">✕</button>
 
-  <!-- Left page — cover endpaper -->
+  <!-- Left page — front matter / endpaper -->
   <div class="page page-left">
     <div class="endpaper">
-      <div class="ep-ornament">
-        <!-- Vesica Piscis ornament in cover colour -->
+      <div class="ep-ornament" aria-hidden="true">
         <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="40" r="22" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-          <circle cx="48" cy="40" r="22" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
-          <circle cx="40" cy="40" r="14" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.35"/>
-          <circle cx="40" cy="40" r="7"  fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.25"/>
-          <circle cx="40" cy="40" r="2"  fill="currentColor" opacity="0.4"/>
+          <defs>
+            <linearGradient id="epGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#d9641a"/>
+              <stop offset="52%" stop-color="#b3266e"/>
+              <stop offset="100%" stop-color="#236fc9"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="40" r="22" fill="none" stroke="url(#epGrad)" stroke-width="0.9" opacity="0.6"/>
+          <circle cx="48" cy="40" r="22" fill="none" stroke="url(#epGrad)" stroke-width="0.9" opacity="0.6"/>
+          <circle cx="40" cy="40" r="14" fill="none" stroke="url(#epGrad)" stroke-width="0.7" opacity="0.4"/>
+          <circle cx="40" cy="40" r="7"  fill="none" stroke="url(#epGrad)" stroke-width="0.7" opacity="0.3"/>
+          <circle cx="40" cy="40" r="2"  fill="url(#epGrad)" opacity="0.5"/>
         </svg>
       </div>
       <div class="ep-title">{book.title}</div>
@@ -93,28 +96,26 @@
     >
 
       {#if displayedView === 'toc'}
-        <!-- ── Table of Contents ───────────────────── -->
         <div class="toc">
-          <div class="page-header">
-            <div class="ph-title">{book.title}</div>
-            <div class="ph-sub">{book.subtitle}</div>
+          <div class="toc-head">
+            <div>
+              <div class="th-t">{book.title}</div>
+              <div class="th-s">{book.subtitle}</div>
+            </div>
           </div>
-          <hr class="rule" />
-          <div class="toc-label">Contents</div>
+          <div class="toc-h">Contents</div>
 
           {#if book.chapters.length === 0}
             <p class="toc-empty">This volume is still being written.</p>
           {:else}
-            <ol class="chapter-list">
+            <ol class="toc-list">
               {#each book.chapters as ch, i (ch.id)}
-                <li class="chapter-entry">
-                  <button
-                    class="chapter-link"
-                    on:click={() => dispatch('chapterclick', ch)}
-                  >
-                    <span class="ch-title">{ch.title}</span>
-                    <span class="ch-dots" aria-hidden="true"></span>
-                    <span class="ch-num">{i + 1}</span>
+                <li>
+                  <button class="toc-item" on:click={() => dispatch('chapterclick', ch)}>
+                    <span class="ch">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="tt">{ch.title}</span>
+                    <span class="dots" aria-hidden="true"></span>
+                    <span class="pg">{ch.pages.length}p</span>
                   </button>
                 </li>
               {/each}
@@ -123,20 +124,17 @@
         </div>
 
       {:else if displayedView === 'reading' && currentPage}
-        <!-- ── Reading view ─────────────────────────── -->
         <div class="reading">
-          <div class="page-header">
-            <div class="ph-chapter">{displayedChapter?.title}</div>
-            <div class="ph-pager">p. {pageNum} / {pageTotal}</div>
-          </div>
-          <hr class="rule" />
+          <div class="ch-eyebrow">{book.title}</div>
+          <h2 class="ch-title">{displayedChapter?.title}</h2>
+
           <div class="page-body">
-            <p class="page-text">{@html currentPage.content}</p>
+            <div class="prose">{@html currentPage.content}</div>
 
             {#if currentPage.shots?.length}
-              <div class="shots-grid" class:shots-wide={currentPage.shots.some(s => s.wide)}>
+              <div class="shots" class:one={currentPage.shots.length === 1}>
                 {#each currentPage.shots as shot}
-                  <figure class="shot" class:shot-wide={shot.wide}>
+                  <figure class="shot" class:wide={shot.wide} class:cover={shot.cover}>
                     <img src={shot.src} alt={shot.cap} loading="lazy" />
                     <figcaption>{shot.cap}</figcaption>
                   </figure>
@@ -145,424 +143,240 @@
             {/if}
 
             {#if currentPage.audio?.length}
-              <div class="audio-tracks">
+              <div class="tracks">
                 {#each currentPage.audio as track}
-                  <div class="audio-track">
-                    <span class="audio-label">{track.title}</span>
+                  <figure class="track">
+                    <figcaption>{track.title}</figcaption>
                     <audio controls src={track.src}></audio>
-                  </div>
+                  </figure>
                 {/each}
               </div>
             {/if}
           </div>
-          <hr class="rule rule-bottom" />
-          <div class="page-nav">
-            {#if hasPrev}
-              <button class="nav-btn" on:click={() => dispatch('navigate', -1)}>← Prev</button>
-            {:else}
-              <span class="nav-spacer"></span>
-            {/if}
 
-            <button class="nav-btn nav-home" on:click={() => dispatch('home')}>Home</button>
-
-            {#if hasNext}
-              <button class="nav-btn" on:click={() => dispatch('navigate', 1)}>Next →</button>
-            {:else}
-              <span class="nav-spacer"></span>
-            {/if}
+          <div class="page-foot">
+            <button class="pf-btn" on:click={() => dispatch('home')}>↑ Contents</button>
+            <div class="pf-turn">
+              <button on:click={() => dispatch('navigate', -1)} disabled={!hasPrev} aria-label="Previous page">‹ Prev</button>
+              <span class="folio">{pageNum} / {pageTotal}</span>
+              <button on:click={() => dispatch('navigate', 1)} disabled={!hasNext} aria-label="Next page">Next ›</button>
+            </div>
           </div>
         </div>
 
       {:else}
-        <!-- Empty/no-content state -->
         <div class="toc">
-          <div class="page-header">
-            <div class="ph-title">{book.title}</div>
-            <div class="ph-sub">{book.subtitle}</div>
+          <div class="toc-head">
+            <div>
+              <div class="th-t">{book.title}</div>
+              <div class="th-s">{book.subtitle}</div>
+            </div>
           </div>
-          <hr class="rule" />
           <p class="toc-empty">This volume is still being written.</p>
         </div>
       {/if}
 
-    </div><!-- /content-wrap -->
-  </div><!-- /page-right -->
+    </div>
+  </div>
 
-</div><!-- /book-spread -->
+</div>
 
 <style>
-  /* ── Spread ─────────────────────────────────────── */
-
   .book-spread {
     position: relative;
     display: flex;
     width: 100%;
-    max-width: 740px;
     height: 100%;
-    max-height: 520px;
-    border-radius: 6px 12px 12px 6px;
-    box-shadow:
-      0 40px 80px -20px rgba(0,0,0,0.85),
-      0 0 0 1px rgba(255,255,255,0.06);
+    border-radius: 7px 12px 12px 7px;
+    background: #0d0a14;
+    box-shadow: 0 40px 90px -30px #000, 0 0 0 1px #ffffff10;
     overflow: visible;
   }
 
-  /* ── Close button ───────────────────────────────── */
-
   .close-btn {
     position: absolute;
-    top: -18px;
-    right: 0;
-    width: 32px;
-    height: 32px;
+    top: -16px;
+    right: -6px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: var(--wood);
-    border: 1px solid rgba(184,155,94,0.3);
-    color: var(--brass);
+    background: #140d22;
+    border: 1px solid var(--line-2);
+    color: var(--bone-1);
     font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
-    transition: background 150ms, color 150ms;
+    transition: color .16s, border-color .16s;
   }
-
-  .close-btn:hover {
-    background: var(--wood-lt);
-    color: var(--gold);
-  }
-
-  /* ── Pages ──────────────────────────────────────── */
+  .close-btn:hover { color: var(--bone-0); border-color: var(--violet); }
 
   .page {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: var(--parchment);
     overflow: hidden;
+    background: var(--paper);
   }
 
   .page-left {
-    border-radius: 6px 0 0 6px;
-    background: color-mix(in srgb, var(--cover) 70%, var(--parchment) 30%);
+    flex: 0 0 42%;
+    border-radius: 7px 0 0 7px;
+    background: linear-gradient(270deg, #d9d0bd 0 16px, var(--paper) 26px), var(--paper);
+    box-shadow: inset -22px 0 36px -28px #00000055, inset 6px 0 14px -10px #00000022;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset -6px 0 20px rgba(0,0,0,0.18), inset -1px 0 0 rgba(0,0,0,0.12);
-  }
-
-  /* Hide left page on small screens — book stays single-paged */
-  @media (max-width: 600px) {
-    .page-left { display: none; }
-    .book-spread { border-radius: 6px; }
   }
 
   .page-right {
     border-radius: 0 12px 12px 0;
-    background:
-      linear-gradient(90deg, #ddd5c4 0 18px, var(--parchment) 28px),
-      var(--parchment);
-    box-shadow:
-      inset 6px 0 20px rgba(0,0,0,0.08),
-      inset -4px 0 10px rgba(0,0,0,0.04);
+    background: linear-gradient(90deg, #d9d0bd 0 16px, var(--paper) 26px), var(--paper);
+    box-shadow: inset 22px 0 36px -28px #00000055, inset -6px 0 14px -10px #00000022;
   }
 
-  /* ── Endpaper (left page interior) ─────────────── */
+  @media (max-width: 640px) {
+    .page-left { display: none; }
+    .book-spread { border-radius: 7px; }
+    .page-right { border-radius: 7px; background: var(--paper); }
+  }
 
   .endpaper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 14px;
     padding: 24px;
     text-align: center;
-    color: rgba(244,239,230,0.85);
   }
-
-  .ep-ornament {
-    width: 72px;
-    height: 72px;
-    color: rgba(244,239,230,0.7);
-    margin-bottom: 4px;
-  }
-
-  .ep-ornament svg { width: 100%; height: 100%; }
-
+  .ep-ornament { width: 84px; height: 84px; opacity: .95; }
+  .ep-ornament svg { width: 100%; height: 100%; display: block; }
   .ep-title {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    line-height: 1.3;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    line-height: 1.1;
+    color: var(--ink);
+    max-width: 18ch;
   }
-
   .ep-sub {
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    opacity: 0.7;
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
   }
-
-  /* ── Content wrap + flip animation ─────────────── */
 
   .content-wrap {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    transform-origin: center center;
+    min-height: 0;
+    transform-origin: left center;
   }
-
   @keyframes flip-out {
     from { transform: perspective(1200px) rotateY(0deg);   opacity: 1; }
     to   { transform: perspective(1200px) rotateY(-90deg); opacity: 0.4; }
   }
-
   @keyframes flip-in {
-    from { transform: perspective(1200px) rotateY(90deg); opacity: 0.4; }
-    to   { transform: perspective(1200px) rotateY(0deg);  opacity: 1; }
+    from { transform: perspective(1200px) rotateY(90deg);  opacity: 0.4; }
+    to   { transform: perspective(1200px) rotateY(0deg);   opacity: 1; }
+  }
+  .content-wrap.flip-out { animation: flip-out 300ms ease-in forwards; pointer-events: none; }
+  .content-wrap.flip-in  { animation: flip-in  300ms ease-out forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .content-wrap.flip-out, .content-wrap.flip-in { animation: none; opacity: 1; transform: none; }
   }
 
-  .content-wrap.flip-out {
-    animation: flip-out 300ms ease-in forwards;
-    pointer-events: none;
-  }
+  .toc { flex: 1; overflow-y: auto; padding: clamp(24px,5%,44px) clamp(22px,7%,48px); color: var(--ink); }
+  .toc-head { border-bottom: 1px solid #0000001a; padding-bottom: 16px; margin-bottom: 14px; }
+  .th-t { font-family: var(--serif); font-weight: 600; font-size: clamp(1.3rem,4vw,1.7rem); line-height: 1.05; color: var(--ink); }
+  .th-s { font-family: var(--mono); font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-3); margin-top: 7px; }
+  .toc-h { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .toc-empty { font-family: var(--serif); font-style: italic; color: var(--ink-2); margin-top: 12px; }
 
-  .content-wrap.flip-in {
-    animation: flip-in 300ms ease-out forwards;
-  }
-
-  /* ── TOC ────────────────────────────────────────── */
-
-  .toc, .reading {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 28px 28px 20px 36px;
-    overflow: hidden;
-  }
-
-  .page-header { margin-bottom: 2px; }
-
-  .ph-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: 0.04em;
-    line-height: 1.3;
-  }
-
-  .ph-sub {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--ink-lt);
-    letter-spacing: 0.04em;
-    margin-top: 2px;
-  }
-
-  .ph-chapter {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: 0.03em;
-    line-height: 1.4;
-  }
-
-  .ph-pager {
-    font-size: 10px;
-    color: var(--ink-lt);
-    margin-top: 2px;
-    letter-spacing: 0.04em;
-  }
-
-  .rule {
+  .toc-list { list-style: none; display: flex; flex-direction: column; }
+  .toc-item {
+    width: 100%;
+    appearance: none;
+    background: none;
     border: none;
-    border-top: 1px solid rgba(42,41,40,0.2);
-    margin: 10px 0;
-  }
-
-  .rule-bottom {
-    margin-top: auto;
-    margin-bottom: 0;
-  }
-
-  .toc-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--ink-lt);
-    margin-bottom: 10px;
-  }
-
-  .toc-empty {
-    font-size: 13px;
-    color: var(--ink-lt);
-    font-style: italic;
-    line-height: 1.6;
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .chapter-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-    overflow-y: auto;
-  }
-
-  .chapter-entry { display: block; }
-
-  .chapter-link {
+    cursor: pointer;
     display: flex;
     align-items: baseline;
-    gap: 0;
-    width: 100%;
-    padding: 6px 0;
-    text-align: left;
-    color: var(--ink);
-    font-size: 12.5px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    line-height: 1.4;
-    border-bottom: 1px solid transparent;
-    transition: color 150ms;
-  }
-
-  .chapter-link:hover {
-    color: var(--wood-dk);
-  }
-
-  .chapter-link:hover .ch-title {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .ch-title { flex: 0 1 auto; }
-
-  .ch-dots {
-    flex: 1;
-    border-bottom: 1.5px dotted rgba(42,41,40,0.25);
-    margin: 0 6px 3px;
-    min-width: 12px;
-  }
-
-  .ch-num {
-    flex: 0 0 auto;
-    font-size: 11px;
-    color: var(--ink-lt);
-    font-weight: 400;
-  }
-
-  /* ── Reading ────────────────────────────────────── */
-
-  .page-body {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 4px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(42,41,40,0.2) transparent;
-  }
-
-  .page-text {
-    font-size: 13px;
-    color: var(--ink);
-    line-height: 1.75;
-    letter-spacing: 0.01em;
-  }
-
-  /* ── Inline photos ──────────────────────────────── */
-
-  .shots-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 14px;
-  }
-
-  .shots-grid.shots-wide {
-    grid-template-columns: 1fr;
-  }
-
-  .shot {
-    margin: 0;
-  }
-
-  .shot-wide {
-    grid-column: 1 / -1;
-  }
-
-  .shot img {
-    width: 100%;
-    border-radius: 4px;
-    display: block;
-  }
-
-  .shot figcaption {
-    font-size: 11px;
-    color: var(--ink-lt);
-    margin-top: 4px;
-    font-style: italic;
-  }
-
-  /* ── Audio players ──────────────────────────────── */
-
-  .audio-tracks {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
     gap: 10px;
+    padding: 13px 2px;
+    border-bottom: 1px solid #00000014;
+    text-align: left;
+    min-height: 46px;
+  }
+  .toc-item:hover .tt { color: #000; }
+  .toc-item:hover .ch { color: var(--pink); }
+  .toc-item .ch { font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--ink-3); flex: none; transition: color .16s; }
+  .toc-item .tt { font-family: var(--serif); font-weight: 500; font-size: clamp(1rem,2.6vw,1.2rem); color: var(--ink); transition: color .16s; }
+  .toc-item .dots { flex: 1; border-bottom: 1px dotted #00000040; transform: translateY(-4px); }
+  .toc-item .pg { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); flex: none; }
+
+  .reading { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: clamp(24px,5%,44px) clamp(22px,7%,48px) 0; }
+  .ch-eyebrow { font-family: var(--mono); font-weight: 500; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: #a06a2e; }
+  .ch-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 4.4vw, 2.1rem);
+    line-height: 1.04;
+    letter-spacing: -.015em;
+    margin: .35rem 0 0;
+    background: var(--grad-ink);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
-  .audio-label {
-    display: block;
-    font-size: 11px;
-    color: var(--ink-lt);
-    margin-bottom: 4px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+  .page-body { flex: 1; overflow-y: auto; margin-top: 1.2rem; padding-right: 4px; scrollbar-width: thin; scrollbar-color: #0000002e transparent; }
+  .prose { color: #3a322a; font-size: 1rem; line-height: 1.62; max-width: 60ch; }
+  .prose :global(p + p) { margin-top: .8rem; }
+  .prose :global(em) { font-style: italic; }
 
-  audio {
-    width: 100%;
-    height: 36px;
-  }
+  .shots { margin-top: 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .shots.one { grid-template-columns: 1fr; }
+  .shot { margin: 0; }
+  .shot.wide, .shots.one .shot { grid-column: 1 / -1; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 9px; border: 1px solid #00000018; background: #00000006; image-orientation: from-image; }
+  .shot.cover { max-width: 320px; margin-inline: auto; }
+  .shot figcaption { margin-top: 7px; font-family: var(--mono); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); text-align: center; }
 
-  /* ── Navigation ─────────────────────────────────── */
+  .tracks { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 12px; }
+  .track { margin: 0; }
+  .track figcaption { font-family: var(--mono); font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+  .track audio { width: 100%; height: 36px; }
 
-  .page-nav {
+  .page-foot {
+    flex: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 10px;
+    gap: 10px;
+    padding: 10px 0 14px;
+    margin-top: 6px;
+    border-top: 1px solid #00000016;
   }
-
-  .nav-btn {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-    padding: 4px 8px;
-    border-radius: 3px;
-    transition: color 150ms, background 150ms;
+  .pf-btn, .pf-turn button {
+    appearance: none;
+    background: none;
+    border: 1px solid #0000001f;
+    color: var(--ink-2);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .05em;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-height: 38px;
   }
-
-  .nav-btn:hover {
-    color: var(--wood-dk);
-    background: rgba(42,41,40,0.07);
-  }
-
-  .nav-home {
-    color: var(--ink-lt);
-  }
-
-  .nav-spacer {
-    width: 56px; /* keeps Home centred */
-    display: block;
-  }
+  .pf-btn:hover, .pf-turn button:hover:not([disabled]) { color: var(--ink); border-color: var(--pink); }
+  .pf-turn { display: flex; align-items: center; gap: 10px; }
+  .folio { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); min-width: 4em; text-align: center; }
+  button[disabled] { opacity: .35; cursor: default; }
 </style>
