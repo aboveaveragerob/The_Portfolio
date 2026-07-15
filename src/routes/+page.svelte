@@ -1,7 +1,7 @@
 <script>
   import { fly, fade } from 'svelte/transition';
   import { quintOut, quintIn } from 'svelte/easing';
-  import { tick } from 'svelte';
+  import { tick, onMount } from 'svelte';
 
   import { shelves }   from '$lib/data.js';
   import Backdrop      from '$lib/components/Backdrop.svelte';
@@ -15,6 +15,20 @@
   let activePageIdx  = 0;
   let switching      = false;  // prevent rapid book-switches during animation
   let readerEl;                // the reader container, for scroll-into-view
+
+  // Respect the user's motion preference for the JS-driven book transitions.
+  let reduceMotion = false;
+  onMount(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reduceMotion = mq.matches;
+    const update = () => (reduceMotion = mq.matches);
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  });
+  $: flyInDur   = reduceMotion ? 0 : 420;
+  $: flyOutDur  = reduceMotion ? 0 : 340;
+  $: fadeInDur  = reduceMotion ? 0 : 350;
+  $: fadeOutDur = reduceMotion ? 0 : 180;
 
   // When a book opens, bring the reader into view under the compacted shelves.
   $: if (currentBook && readerEl) {
@@ -87,6 +101,8 @@
 <Backdrop />
 
 <main class="stage">
+  <h1 class="vh">Robert Gregory — Career &amp; Craft</h1>
+
   <!-- Shelves across the top -->
   <ShelfPanel
     {shelves}
@@ -100,8 +116,8 @@
     {#if currentBook}
       <div
         class="book-area"
-        in:fly={{ y: 44, duration: 420, easing: quintOut }}
-        out:fly={{ y: 44, duration: 340, easing: quintIn }}
+        in:fly={{ y: 44, duration: flyInDur, easing: quintOut }}
+        out:fly={{ y: 44, duration: flyOutDur, easing: quintIn }}
       >
         <OpenBook
           book={currentBook}
@@ -115,7 +131,7 @@
         />
       </div>
     {:else}
-      <div class="stage-empty" in:fade={{ duration: 350, delay: 120 }} out:fade={{ duration: 180 }}>
+      <div class="stage-empty" in:fade={{ duration: fadeInDur, delay: 120 }} out:fade={{ duration: fadeOutDur }}>
         <p class="empty-text">Select a volume from the shelves</p>
       </div>
     {/if}
@@ -161,6 +177,16 @@
     align-items: center;
     justify-content: center;
     min-height: 180px;
+  }
+
+  .vh {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .empty-text {

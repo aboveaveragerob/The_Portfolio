@@ -420,7 +420,7 @@ export const shelves = [
                 id: 'pg-music-discography-1',
                 content: "Four albums, self-produced: Daytime Dreams (learning to narrate through music), Drifting Awake (a three-part concept album), Wide Eyed (finished but unreleased — finding home in people rather than a place), and I Am Alastair Zeved (in progress).",
                 shots: [
-                  { src: '/images/music/album-art.jpg', cap: 'Latest album — cover art (unreleased)', wide: true }
+                  { src: '/images/music/album-art.jpg', cap: 'Latest album — cover art (unreleased)', cover: true }
                 ],
                 audio: [
                   { src: '/audio/with-love-math.mp3', title: 'With Love, Math — teaser' },
