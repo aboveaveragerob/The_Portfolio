@@ -130,7 +130,31 @@
             <div class="ph-pager">p. {pageNum} / {pageTotal}</div>
           </div>
           <hr class="rule" />
-          <p class="page-text">{currentPage.content}</p>
+          <div class="page-body">
+            <p class="page-text">{@html currentPage.content}</p>
+
+            {#if currentPage.shots?.length}
+              <div class="shots-grid" class:shots-wide={currentPage.shots.some(s => s.wide)}>
+                {#each currentPage.shots as shot}
+                  <figure class="shot" class:shot-wide={shot.wide}>
+                    <img src={shot.src} alt={shot.cap} loading="lazy" />
+                    <figcaption>{shot.cap}</figcaption>
+                  </figure>
+                {/each}
+              </div>
+            {/if}
+
+            {#if currentPage.audio?.length}
+              <div class="audio-tracks">
+                {#each currentPage.audio as track}
+                  <div class="audio-track">
+                    <span class="audio-label">{track.title}</span>
+                    <audio controls src={track.src}></audio>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          </div>
           <hr class="rule rule-bottom" />
           <div class="page-nav">
             {#if hasPrev}
@@ -436,16 +460,76 @@
 
   /* ── Reading ────────────────────────────────────── */
 
-  .page-text {
-    font-size: 13px;
-    color: var(--ink);
-    line-height: 1.75;
-    letter-spacing: 0.01em;
+  .page-body {
     flex: 1;
     overflow-y: auto;
     padding-right: 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(42,41,40,0.2) transparent;
+  }
+
+  .page-text {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Inline photos ──────────────────────────────── */
+
+  .shots-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .shots-grid.shots-wide {
+    grid-template-columns: 1fr;
+  }
+
+  .shot {
+    margin: 0;
+  }
+
+  .shot-wide {
+    grid-column: 1 / -1;
+  }
+
+  .shot img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .shot figcaption {
+    font-size: 11px;
+    color: var(--ink-lt);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── Audio players ──────────────────────────────── */
+
+  .audio-tracks {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .audio-label {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-lt);
+    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  audio {
+    width: 100%;
+    height: 36px;
   }
 
   /* ── Navigation ─────────────────────────────────── */
