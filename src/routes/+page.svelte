@@ -1,11 +1,12 @@
 <script>
   import { fly, fade } from 'svelte/transition';
   import { quintOut, quintIn } from 'svelte/easing';
+  import { tick } from 'svelte';
 
   import { shelves }   from '$lib/data.js';
+  import Backdrop      from '$lib/components/Backdrop.svelte';
   import ShelfPanel    from '$lib/components/ShelfPanel.svelte';
   import OpenBook      from '$lib/components/OpenBook.svelte';
-  import Podium        from '$lib/components/Podium.svelte';
 
   // ── State ────────────────────────────────────────
   let currentBook    = null;   // the currently open book object
@@ -13,6 +14,14 @@
   let activeChapter  = null;
   let activePageIdx  = 0;
   let switching      = false;  // prevent rapid book-switches during animation
+  let readerEl;                // the reader container, for scroll-into-view
+
+  // When a book opens, bring the reader into view under the compacted shelves.
+  $: if (currentBook && readerEl) {
+    tick().then(() => setTimeout(() => {
+      readerEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120));
+  }
 
   // ── Book open/close/switch ───────────────────────
   async function handleBookClick(book) {
@@ -20,11 +29,9 @@
     switching = true;
 
     if (book.id === currentBook?.id) {
-      // Close the open book
       currentBook = null;
       await sleep(380);
     } else {
-      // Slide old book down first, then open new one
       if (currentBook) {
         currentBook = null;
         await sleep(380);
@@ -74,197 +81,93 @@
 </script>
 
 <svelte:head>
-  <title>Alastair Zeved — Library of Creation</title>
+  <title>Robert Gregory — Career &amp; Craft</title>
 </svelte:head>
 
-<div class="library">
+<Backdrop />
 
-  <!-- ── Left column: shelves ────────────────────── -->
-  <div class="shelf-col">
-    <ShelfPanel
-      {shelves}
-      activeBookId={currentBook?.id}
-      onBookClick={handleBookClick}
-    />
-  </div>
+<main class="stage">
+  <!-- Shelves across the top -->
+  <ShelfPanel
+    {shelves}
+    activeBookId={currentBook?.id}
+    onBookClick={handleBookClick}
+    open={!!currentBook}
+  />
 
-  <!-- ── Right area: reading stage ───────────────── -->
-  <main class="stage" aria-label="Reading stage">
-
+  <!-- The open book, centered below -->
+  <div class="reader" bind:this={readerEl}>
     {#if currentBook}
-      <!-- Book + podium — fly in from below when opened, fly out when closed -->
       <div
-        class="stage-content"
+        class="book-area"
         in:fly={{ y: 44, duration: 420, easing: quintOut }}
         out:fly={{ y: 44, duration: 340, easing: quintIn }}
       >
-        <div class="book-area">
-          <OpenBook
-            book={currentBook}
-            {view}
-            chapter={activeChapter}
-            pageIdx={activePageIdx}
-            on:chapterclick={handleChapterClick}
-            on:navigate={handleNavigate}
-            on:home={handleHome}
-            on:close={handleClose}
-          />
-        </div>
-        <div class="podium-area">
-          <Podium />
-        </div>
+        <OpenBook
+          book={currentBook}
+          {view}
+          chapter={activeChapter}
+          pageIdx={activePageIdx}
+          on:chapterclick={handleChapterClick}
+          on:navigate={handleNavigate}
+          on:home={handleHome}
+          on:close={handleClose}
+        />
       </div>
-
     {:else}
-      <!-- Empty state while no book is open -->
-      <div
-        class="stage-empty"
-        in:fade={{ duration: 350, delay: 120 }}
-        out:fade={{ duration: 180 }}
-      >
-        <div class="empty-inner">
-          <svg class="empty-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 10 Q12 6 16 6 L32 6 L32 58 L16 58 Q12 58 12 54 Z" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.4"/>
-            <path d="M32 6 L48 6 Q52 6 52 10 L52 54 Q52 58 48 58 L32 58 Z" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.4"/>
-            <line x1="32" y1="6" x2="32" y2="58" stroke="currentColor" stroke-width="0.8" opacity="0.25"/>
-          </svg>
-          <p class="empty-text">Select a volume from the shelves</p>
-        </div>
+      <div class="stage-empty" in:fade={{ duration: 350, delay: 120 }} out:fade={{ duration: 180 }}>
+        <p class="empty-text">Select a volume from the shelves</p>
       </div>
     {/if}
-
-  </main>
-</div>
+  </div>
+</main>
 
 <style>
-  /* ── Root layout ────────────────────────────────── */
-
-  .library {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    grid-template-rows: 100dvh;
-    height: 100dvh;
-    overflow: hidden;
-  }
-
-  /* ── Shelf column ───────────────────────────────── */
-
-  .shelf-col {
-    grid-column: 1;
-    overflow: hidden;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    background: linear-gradient(to right, #170F0B, var(--void));
-  }
-
-  /* ── Reading stage ──────────────────────────────── */
-
   .stage {
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 28px 24px 20px;
     position: relative;
-    overflow: hidden;
-  }
-
-  .stage-content {
+    z-index: 1;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 740px;
+    gap: clamp(14px, 2.6vw, 30px);
+    padding: clamp(16px, 3vw, 34px) 16px 60px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
   }
 
-  /* ── Book area: fills available height ──────────── */
+  .reader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    perspective: 2400px;
+  }
 
   .book-area {
-    width: 100%;
-    /* Let the book take up a comfortable portion of the stage height */
-    height: clamp(320px, 56vh, 520px);
+    width: min(94vw, 760px);
+    height: clamp(360px, 66vh, 620px);
     display: flex;
-    align-items: stretch;
   }
 
-  /* Propagate full height into OpenBook */
   .book-area :global(.book-spread) {
-    height: 100%;
     width: 100%;
+    height: 100%;
   }
-
-  .podium-area {
-    width: 90%;
-    max-width: 640px;
-  }
-
-  /* ── Empty state ────────────────────────────────── */
 
   .stage-empty {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-
-  .empty-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    opacity: 0.35;
-  }
-
-  .empty-icon {
-    width: 56px;
-    height: 56px;
-    color: var(--brass);
+    min-height: 180px;
   }
 
   .empty-text {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .28em;
     text-transform: uppercase;
-    color: var(--brass);
-  }
-
-  /* ── Mobile layout ──────────────────────────────── */
-
-  @media (max-width: 720px) {
-    .library {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr auto;
-      height: 100dvh;
-    }
-
-    .shelf-col {
-      grid-column: 1;
-      grid-row: 2;
-      border-right: none;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      background: linear-gradient(to top, #170F0B, var(--void));
-      max-height: 180px;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-
-    .stage {
-      grid-column: 1;
-      grid-row: 1;
-      padding: 16px 12px 8px;
-    }
-
-    .book-area {
-      height: clamp(280px, 55vw, 400px);
-    }
-  }
-
-  /* ── Narrow desktop (between 720–900px) ─────────── */
-
-  @media (min-width: 721px) and (max-width: 900px) {
-    .library {
-      grid-template-columns: 200px 1fr;
-    }
+    color: var(--bone-2);
   }
 </style>
