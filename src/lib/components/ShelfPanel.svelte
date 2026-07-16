@@ -1,6 +1,7 @@
 <script>
   export let shelves = [];
   export let activeBookId = null;
+  export let stagedBookId = null;  // pre-staged volume, highlighted "ready to open"
   export let onBookClick = () => {};
   export let open = false;   // compact the shelves while a book is open
 
@@ -31,6 +32,7 @@
         {#each shelf.books as book (book.id)}
           <button
             class="spine"
+            class:staged={book.id === stagedBookId}
             style="--sp-accent: {accentFor[book.id]}"
             on:click={() => onBookClick(book)}
             title="{book.title} · {book.subtitle}"
@@ -60,13 +62,13 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 2.4vw, 22px);
+    gap: clamp(8px, 1.6vh, 16px);
     transition: gap .5s cubic-bezier(.2,.02,.12,1);
   }
 
   .shelf-rail {
     position: relative;
-    padding: 24px 14px 20px;
+    padding: clamp(16px, 2.4vh, 24px) 14px clamp(12px, 1.8vh, 18px);
     transition: padding .5s cubic-bezier(.2,.02,.12,1);
   }
 
@@ -114,7 +116,7 @@
     z-index: 1;
     flex: none;
     width: clamp(36px, 5vw, 48px);
-    height: clamp(122px, 19vw, 178px);
+    height: clamp(58px, 8.5vh, 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -140,6 +142,22 @@
     box-shadow: 0 28px 34px -14px #000, 0 0 0 1px var(--sp-accent) inset;
   }
   .spine[aria-current="true"] .sp-title { color: var(--bone-0); }
+
+  /* Pre-staged volume: pulled forward, glowing, and gently pulsing so a
+     first-time visitor reads it as the "ready to open" invitation. */
+  .spine.staged {
+    transform: translateY(-16px);
+    box-shadow:
+      0 30px 36px -14px #000,
+      0 0 0 1px var(--sp-accent) inset,
+      0 0 22px -4px var(--violet);
+    animation: staged-pulse 2.6s ease-in-out infinite;
+  }
+  .spine.staged .sp-title { color: var(--bone-0); }
+  @keyframes staged-pulse {
+    0%, 100% { box-shadow: 0 30px 36px -14px #000, 0 0 0 1px var(--sp-accent) inset, 0 0 16px -6px var(--violet); }
+    50%      { box-shadow: 0 32px 40px -14px #000, 0 0 0 1px var(--sp-accent) inset, 0 0 30px 0 var(--violet); }
+  }
 
   .sp-emblem { width: 17px; height: 17px; flex: none; opacity: .92; }
   .sp-emblem svg { width: 100%; height: 100%; display: block; }
@@ -173,18 +191,25 @@
     white-space: nowrap;
     max-height: 74px;
     overflow: hidden;
+    text-overflow: ellipsis;   /* deliberate … instead of a mid-word cut (§4.1) */
   }
 
   .shelves.open { gap: 4px; }
-  .shelves.open .shelf-rail { padding: 8px 14px 16px; }
+  .shelves.open .shelf-rail { padding: clamp(6px, 1vh, 10px) 14px clamp(10px, 1.4vh, 14px); }
   .shelves.open .shelf-head { opacity: 0; pointer-events: none; }
-  .shelves.open .spine { height: clamp(64px, 9vw, 84px); justify-content: center; gap: 0; }
+  .shelves.open .spine { height: clamp(42px, 5.5vh, 62px); justify-content: center; gap: 0; }
+  .shelves.open .spine.staged { animation: none; }
   .shelves.open .sp-title,
   .shelves.open .sp-year { display: none; }
 
-  @media (max-width: 520px) {
+  @media (prefers-reduced-motion: reduce) {
+    .spine.staged { animation: none; }
+  }
+
+  /* Unified breakpoint (shared --bp-sm: 640px) — was 520px here, 640px in OpenBook. */
+  @media (max-width: 640px) {
     .shelf-books { justify-content: flex-start; }
-    .spine { width: clamp(32px, 9vw, 42px); height: clamp(126px, 38vw, 158px); }
+    .spine { width: clamp(32px, 9vw, 42px); height: clamp(78px, 12vh, 140px); }
     .sp-year { display: none; }
     .sp-title { font-size: clamp(.58rem, 2.6vw, .72rem); }
   }
