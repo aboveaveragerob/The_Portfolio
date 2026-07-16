@@ -390,13 +390,6 @@ export const shelves = [
             pages: [
               { id: 'pg-compost-training-1', content: "Onboarding and education for new contributors and committee members — the plain-language guidance that turns “please sort correctly” into something people can actually follow, and keeps a shared neighborhood system consistent as volunteers come and go." }
             ]
-          },
-          {
-            id: 'ch-compost-signpost',
-            title: 'Building an Outdoor Signpost',
-            pages: [
-              { id: 'pg-compost-signpost-1', content: "Building a freestanding outdoor signpost — the post, the footing, and the mounting that keeps a sign upright and readable through the seasons. Built for the community-garden signage, so it lives in both the Woodworking and Composting shelves. <em>Full write-up in progress from the build notes.</em>" }
-            ]
           }
         ]
       }
@@ -720,13 +713,6 @@ export const shelves = [
               { id: 'pg-wood-drywall-repair-2', content: "The step people skip is sealing. A coat of a clear problem-surface sealer (Zinsser Gardz) locks down the fuzzy torn paper and old adhesive so your joint compound doesn't blister and the old surface doesn't flash through the paint. It rolls on milky and dries clear in half an hour." },
               { id: 'pg-wood-drywall-repair-3', content: "Then you skim-coat: all-purpose joint compound thinned with a little water to a pourable, pancake-batter consistency, rolled on thick with a high-nap roller and immediately pulled flat with a wide taping knife held at a low angle. The move that makes it seamless is feathering — two-thirds of the knife over the mud, one-third on bare wall, all the pressure on the bare side, dragging the edge paper-thin." },
               { id: 'pg-wood-drywall-repair-4', content: "Let each coat dry fully — a day in winter — then a second, lighter coat and a final sanding until, eyes closed and hand on the wall, you can't feel an edge or a dip. Prime, paint, and it reads like the damage was never there." }
-            ]
-          },
-          {
-            id: 'ch-wood-signpost',
-            title: 'Building an Outdoor Signpost',
-            pages: [
-              { id: 'pg-wood-signpost-1', content: "Building a freestanding outdoor signpost — the post, the footing, and the mounting that keeps a sign upright and readable through the seasons. Built for the community-garden signage, so it lives in both the Woodworking and Composting shelves. <em>Full write-up in progress from the build notes.</em>" }
             ]
           }
         ]
