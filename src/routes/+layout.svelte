@@ -23,12 +23,21 @@
 
     --paper:   #f3ecdd;
     --paper-2: #e9e0cd;
+    --paper-edge: #d9d0bd;      /* page gutter shadow (was hardcoded in OpenBook) */
     --ink:     #211b16;
     --ink-2:   #5b5247;
-    --ink-3:   #8a7f6c;
+    --ink-3:   #6f6455;         /* darkened from #8a7f6c → clears WCAG AA on paper */
+    --ink-eyebrow: #8a5a1f;     /* chapter kicker — clears AA (was #a06a2e) */
 
     --pink:    #ff2d78;
     --violet:  #b25cff;
+
+    /* Cosmic surfaces — shared by shelves, spines, and the podium so the
+       whole composition reads as one system (no separate wood/gold palette). */
+    --surface-1: #241a33;
+    --surface-2: #160f22;
+    --ledge-hi:  #3c3552;
+    --ledge-lo:  #191524;
 
     --grad:     linear-gradient(100deg,#ffb43d,#ff5a3d 26%,#ff2d78 50%,#b25cff 74%,#43b6ff);
     --grad-ink: linear-gradient(100deg,#d9641a,#d62f5a 30%,#b3266e 52%,#7b3fd6 76%,#236fc9);
@@ -36,6 +45,10 @@
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+    /* Shared responsive breakpoints (documented; used in media queries). */
+    --bp-sm: 640px;
+    --bp-md: 900px;
   }
 
   :global(html) {
@@ -91,11 +104,32 @@
   }
 
   :global(.gradtext) {
+    color: var(--bone-0);            /* solid fallback if background-clip:text is unsupported */
     background: var(--grad);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
   }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    :global(.gradtext) { color: transparent; }
+  }
+
+  /* Skip link — visually hidden until focused (keyboard/SR wayfinding) */
+  :global(.skip-link) {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 50;
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: var(--surface-1);
+    color: var(--bone-0);
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-decoration: none;
+    transition: top .18s ease;
+  }
+  :global(.skip-link:focus) { top: 12px; }
 
   :global(button) {
     font-family: var(--sans);

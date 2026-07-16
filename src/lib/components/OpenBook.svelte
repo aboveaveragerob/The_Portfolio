@@ -238,7 +238,7 @@
   .page-left {
     flex: 0 0 42%;
     border-radius: 7px 0 0 7px;
-    background: linear-gradient(270deg, #d9d0bd 0 16px, var(--paper) 26px), var(--paper);
+    background: linear-gradient(270deg, var(--paper-edge) 0 16px, var(--paper) 26px), var(--paper);
     box-shadow: inset -22px 0 36px -28px #00000055, inset 6px 0 14px -10px #00000022;
     display: flex;
     align-items: center;
@@ -247,7 +247,7 @@
 
   .page-right {
     border-radius: 0 12px 12px 0;
-    background: linear-gradient(90deg, #d9d0bd 0 16px, var(--paper) 26px), var(--paper);
+    background: linear-gradient(90deg, var(--paper-edge) 0 16px, var(--paper) 26px), var(--paper);
     box-shadow: inset 22px 0 36px -28px #00000055, inset -6px 0 14px -10px #00000022;
   }
 
@@ -335,7 +335,7 @@
   .toc-item .pg { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); flex: none; }
 
   .reading { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: clamp(24px,5%,44px) clamp(22px,7%,48px) 0; }
-  .ch-eyebrow { font-family: var(--mono); font-weight: 500; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: #a06a2e; }
+  .ch-eyebrow { font-family: var(--mono); font-weight: 500; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-eyebrow); }
   .ch-title {
     font-family: var(--serif);
     font-weight: 600;
@@ -343,10 +343,13 @@
     line-height: 1.04;
     letter-spacing: -.015em;
     margin: .35rem 0 0;
+    color: var(--ink);          /* solid fallback if background-clip:text is unsupported */
     background: var(--grad-ink);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
+  }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .ch-title { color: transparent; }
   }
 
   .page-body { flex: 1; overflow-y: auto; margin-top: 1.2rem; padding-right: 4px; scrollbar-width: thin; scrollbar-color: #0000002e transparent; }
