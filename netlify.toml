@@ -13,11 +13,19 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options         = "DENY"
-    X-Content-Type-Options  = "nosniff"
-    Referrer-Policy         = "strict-origin-when-cross-origin"
-    Permissions-Policy      = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src https://fonts.gstatic.com https://api.fontshare.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'"
+    X-Frame-Options           = "DENY"
+    X-Content-Type-Options    = "nosniff"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
+    Permissions-Policy        = "camera=(), microphone=(), geolocation=()"
+    # Complements the http->https redirect above: instruct browsers to only ever
+    # reach the site over HTTPS. `preload` is a commitment to HTTPS across the apex
+    # and all subdomains — drop it if any subdomain must ever serve plain HTTP.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # `script-src 'unsafe-inline'` is required by SvelteKit's inline hydration
+    # bootstrap script; removing it breaks hydration. base-uri/object-src/
+    # frame-ancestors/form-action are hardening directives — the site uses no
+    # <base>, <object>/<embed>, framing, or forms.
+    Content-Security-Policy   = "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src https://fonts.gstatic.com https://api.fontshare.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
 
 # HTML — always revalidate so content updates appear immediately
 [[headers]]
