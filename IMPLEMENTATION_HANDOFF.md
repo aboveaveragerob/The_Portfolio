@@ -65,10 +65,14 @@ book, which forces scroll (`src/routes/+page.svelte:142–155`). The auto-`scrol
   inviting pre-staged view: the Brinker spine **pulled out** from the shelf (its `aria-current`
   raised-translateY treatment already exists, `ShelfPanel.svelte:138–141`) and a clear affordance to
   open it.
-- Decide the exact initial state with the owner's intent in mind: either (a) Brinker already *open*
-  on the podium at load, or (b) Brinker *pulled forward and highlighted*, one click from opening.
-  §8.1 says "pulled from the shelf and **ready to open**" → lean toward (b), but confirm.
-- Wire it in `+page.svelte` state init (`currentBook`, `activeBookId`) rather than in data.
+- **Confirmed state (owner):** Brinker lands *pulled forward and highlighted* (not auto-opened), with
+  a **subtle animated hint** — a soft pulse and/or a small "Open" affordance — so it clearly reads as
+  interactive. One click opens it onto the podium.
+- Wire the staged state in `+page.svelte` init (`activeBookId = 'book-brinker'` staged, `currentBook`
+  still `null` until opened) rather than in data. The animated hint should respect
+  `prefers-reduced-motion` (reuse the pattern in `+page.svelte:21–31`).
+- **Two scroll-free states to satisfy** for 8.4: the closed/staged landing *and* the book-open view
+  must each fit one non-scrolling viewport.
 
 ### 8.2 — A podium for the open book to rest on (High)
 An earlier branch already had this component — **restore and update it**. The removed file is
@@ -78,11 +82,11 @@ appended at the end of this doc for reference.
 **Approach:**
 - Reintroduce `Podium.svelte` and render it in `+page.svelte` directly beneath the open book so the
   book visually rests on it (the `.reader` block, `+page.svelte:114–138`).
-- **Caveat:** the old component references `--wood`, `--wood-lt`, `--wood-dk` CSS vars and a
-  `#D4AF37`/`#B89B5E` brass/gold palette that are **not in the current token set**
-  (`+layout.svelte:15–39`). Either add these as new tokens or re-skin the podium to the current
-  cosmic palette (`--violet`/`--pink`/`--bone-*`) so it reads as one system (ties into §1 "two
-  disconnected color systems").
+- **Confirmed skin (owner): cosmic palette.** The old component references `--wood`, `--wood-lt`,
+  `--wood-dk` and a `#D4AF37`/`#B89B5E` brass/gold palette that are **not** in the current token set
+  (`+layout.svelte:15–39`). **Do not** add those tokens — instead re-skin the podium to the existing
+  cosmic palette (`--violet`/`--pink`/`--bone-*`), keeping the sacred-geometry engraving, so it reads
+  as one system. This also discharges §1 "two disconnected color systems."
 - The podium must participate in the 8.4 no-scroll layout — size it with `clamp()` and let it
   collapse/hide on very short viewports if needed.
 
@@ -90,14 +94,15 @@ appended at the end of this doc for reference.
 Reshapes the backdrop (`DESIGN_AUDIT.md` §7). The current `Backdrop.svelte` is a hand-authored ~35 KB
 SVG "colonnade" + starfield with `hue-rotate` + `mix-blend-mode: screen`.
 
-**Approach:**
-- Refine toward restraint: reduce saturation/hue-cycling, make the starfield subtler and more even,
-  favor depth and elegance over bright primary colors.
+**Approach (owner: deeper redesign, not just restraint):**
+- Reshape the backdrop's **composition and depth**, not only its saturation — aim for a professional
+  "Library of the Stars" (elegant depth, considered starfield, on-theme cosmology) rather than the
+  current childlike colonnade. Reducing hue-cycling/saturation is table stakes, not the whole change.
 - **Keep the constraints from §7/§6:** preserve the `prefers-reduced-motion` kill-switch
   (`Backdrop.svelte:59–61`) and watch GPU cost — the body gradient + aurora (`+layout.svelte:46–91`)
   already stack animated layers; don't add more blend-mode passes.
-- This is aesthetic/subjective — **capture a before/after screenshot pair for the owner to sign off**
-  before committing heavily.
+- This is the most subjective goal — **capture a before/after screenshot pair for the owner to sign
+  off** before committing the rework.
 
 ---
 
@@ -210,10 +215,20 @@ From `claude/with-love-math-portfolio-sxcvbm`. Restore and re-skin to the curren
 
 ---
 
-## Open questions to confirm with the owner
+## Owner decisions (confirmed — build to these)
 
-1. **8.1 landing** — Brinker *already open* on the podium at load, or *pulled forward and highlighted*,
-   one click from opening? (§8.1 wording leans toward the latter.)
-2. **8.2 podium skin** — keep the wood/brass "lectern" look (add `--wood*`/gold tokens) or re-skin to
-   the cosmic violet/pink palette for one coherent system?
-3. **8.3 aesthetic** — get sign-off on a before/after backdrop screenshot before committing the rework.
+These three were confirmed by the owner; they are no longer open. The goal sections above already
+reflect them:
+
+1. **8.1 landing** → **Pulled out + gentle hint.** Brinker lands pulled forward and highlighted on the
+   shelf (not auto-opened), with a subtle animated cue (soft pulse and/or an "Open" affordance) so
+   first-time visitors clearly read it as interactive. This means **two scroll-free layout states** to
+   fit — closed/staged landing and book-open — both within one non-scrolling viewport.
+2. **8.2 podium skin** → **Cosmic palette.** Re-skin the restored podium to the existing
+   violet/pink/bone tokens (keep the sacred-geometry engraving), *not* the old wood/brass look — one
+   coherent system. This also discharges §1 "two disconnected color systems." Do **not** add
+   `--wood*`/gold tokens.
+3. **8.3 backdrop** → **Deeper redesign.** Go beyond desaturation: reshape the backdrop's composition
+   and depth toward a professional "Library of the Stars," not just calming the current colonnade.
+   Still capture **before/after screenshots for owner sign-off** before committing, and keep the
+   §6/§7 constraints (reduced-motion kill-switch; watch GPU cost — don't pile on blend-mode passes).
