@@ -27,6 +27,11 @@ cream-paper-on-cosmic-dark contrast, and the restrained motion are all working w
 strong — this audit is about polish, consistency, and a few real accessibility/legibility gaps, not
 a redesign.
 
+> **Owner-directed goals:** Beyond the observations below, the site owner raised four explicit
+> design goals in PR #27 ("Broken Designs"). Those are captured in [§8](#8-owner-directed-design-goals-from-pr-27) —
+> they are *direction-setting requirements* (what the design should become) and should anchor the
+> next implementation pass, whereas §1–§7 are audit observations.
+
 **Top 5 highest-leverage fixes:**
 
 1. **Desktop spine subtitles are truncated mid-word** — "Feb 2021 – Pre", "The credential…",
@@ -169,13 +174,47 @@ disables it. In the captures it reads as an atmospheric, on-theme "grand library
 
 ---
 
+## 8. Owner-directed design goals (from PR #27)
+
+These four items were raised by the site owner in PR #27 ("Broken Designs") as flaws in the current
+live design. Unlike §1–§7 (observations), these are the owner's **explicit intent** — captured here
+so the audit is the single source of truth, with PR #27 closed in favor of this record. They are
+larger, redesign-scale efforts and should be the primary driver of the next implementation session.
+
+> Context: an earlier redesign branch (`claude/with-love-math-portfolio-sxcvbm`) already contained a
+> `Podium.svelte` component (~89 lines) that current `main` dropped — directly relevant to 8.2, and a
+> useful reference when reintroducing it.
+
+| # | Severity | Goal | Relation to this audit / current state |
+|---|---|---|---|
+| 8.1 | High | **Land with the Brinker Capital volume already pulled from the shelf and ready to open** — the site should open in an inviting, pre-staged state, not a cold shelf. | Extends §5.3 (quiet empty state / discoverability). Today the landing state is the low-emphasis "Select a volume from the shelves" with no book staged (`+page.svelte:133–137`). |
+| 8.2 | High | **Add a "podium" for the opened book to rest on** — the book needs to land somewhere and sit on top of something, not float in space. | New compositional element. Reference the removed `Podium.svelte` from the `claude/with-love-math-portfolio-sxcvbm` branch. Interacts with the shelf→book layout (`+page.svelte:114–138`). |
+| 8.3 | Med–High | **Improve the "Alchemical Cosmology Library of the Stars" aesthetic** in the background and star components — richer and more on-theme, but **professional, not childlike**. | Directly reshapes §7 (the backdrop). Any rework must keep the reduced-motion coverage (§6) and the GPU-cost constraints (§7.1) in mind — the current triple animated blend-layer stack is already heavy. |
+| 8.4 | High | **The page must never scroll** — every component should always fit on screen at once, rearranging the layout if necessary. | Conflicts with the current design: `.stage` is `height:100dvh; overflow-y:auto` and stacks shelves + book vertically, which forces scroll (§4.2, §4.4). No-scroll likely means the compacted shelves, a smaller/repositioned book, and the 8.2 podium share one fixed viewport. This also subsumes the "reclaim horizontal space" idea in §4.2. |
+
+**Note:** 8.4 (no-scroll) is the most structurally demanding — it constrains 8.1, 8.2, and the whole
+layout at once, so it should be designed first, with the shelf, podium, and book composed together to
+fit a single viewport across breakpoints.
+
+---
+
 ## Prioritized recommendations
 
 Ranked by impact ÷ effort (do the top rows first). All are suggestions for a future implementation
 session — nothing here was changed.
 
+The **owner-directed goals (§8)** sit outside this ranking: they are larger, redesign-scale efforts
+and are the owner's stated priority for the next pass, so tackle them as a coordinated design task
+(lead with 8.4 no-scroll, which constrains the rest) rather than as isolated quick fixes. Several of
+the polish items below fold naturally into that work — e.g. §4.2 horizontal space into 8.4, §5.3
+empty state into 8.1, and §7 backdrop into 8.3.
+
 | Priority | Fix | Sev | Effort | Refs |
 |---|---|---|---|---|
+| A (owner) | No-scroll: fit shelf + podium + book in one fixed viewport across breakpoints | High | L | 8.4 |
+| B (owner) | Land pre-staged with the Brinker volume pulled and ready to open | High | M | 8.1 |
+| C (owner) | Reintroduce a podium for the open book to rest on | High | M | 8.2 |
+| D (owner) | Elevate the "Library of the Stars" backdrop/star aesthetic — professional, not childlike | Med–High | M | 8.3 |
 | 1 | Fix desktop spine subtitle truncation (remove `max-height` clip / ellipsis / hover) | High | S | 4.1 |
 | 2 | Darken `--ink-3` → ~`#6f6455` to clear AA for all small metadata | High | S | 3.1 |
 | 3 | Add solid `color` fallback to gradient headline so it never vanishes | Med | S | 3.4 |
