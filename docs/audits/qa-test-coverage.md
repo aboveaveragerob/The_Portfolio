@@ -2,9 +2,6 @@
 
 **Date:** 2026-07-17
 **Scope:** Automated-quality tooling for The_Portfolio (SvelteKit, adapter-static).
-**Status:** Findings only. No code, tests, or CI are added by this PR — it documents the
-gap and the recommended fix so the owner can decide when to execute.
-
 ---
 
 ## Finding
