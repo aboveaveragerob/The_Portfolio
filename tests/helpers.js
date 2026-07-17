@@ -15,11 +15,11 @@ import { expect } from '@playwright/test';
 // innerHeight` carry under real zoom, which is what the layout reacts to.
 //
 // `supported: false` marks the viewports where building this gate REVEALED a
-// genuine clip: at viewport heights ≤ ~533px the three always-open shelves
-// (~448px tall) plus the masthead already exceed the screen, so the reader —
-// CTA, podium, book footer — is pushed below the fold. Fitting three shelves +
-// a readable book + podium into a 360–450px landscape/zoomed height is a
-// responsive redesign needing real-device/real-font judgment (owner-owned per
+// genuine clip: at viewport heights ≤ ~533px the four always-open shelves plus
+// the masthead already exceed the screen, so the reader — CTA, podium, book
+// footer — is pushed below the fold. Fitting four shelves + a readable book +
+// podium into a 360–450px landscape/zoomed height is a responsive redesign
+// needing real-device/real-font judgment (owner-owned per
 // DESIGN_QA_HANDOFF §D), not a test tweak. These rows run as `test.fixme` so the
 // gap stays visible and encoded until that design work happens — see
 // docs/audits/qa-test-coverage.md.
@@ -39,7 +39,7 @@ export const VIEWPORTS = [
 
 // Message shown on the skipped short-height rows.
 export const TIGHT_REASON =
-  'Known clip below ~640px viewport height: the three always-open shelves push ' +
+  'Known clip at viewport heights ≤ ~533px: the four always-open shelves push ' +
   'the reader below the fold. Tracked in docs/audits/qa-test-coverage.md.';
 
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'api.fontshare.com'];
