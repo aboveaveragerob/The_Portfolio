@@ -60,9 +60,11 @@
     switching = false;
   }
 
-  // Open the staged volume from the landing hint.
+  // Open the staged volume from the landing hint. Search every shelf so the
+  // CTA keeps working if the staged volume ever lives on a shelf other than
+  // the first (the shelf highlight already matches across all shelves).
   function openStaged() {
-    const book = shelves[0]?.books.find(b => b.id === STAGED_BOOK_ID);
+    const book = shelves.flatMap(s => s.books).find(b => b.id === STAGED_BOOK_ID);
     if (book) handleBookClick(book);
   }
 
