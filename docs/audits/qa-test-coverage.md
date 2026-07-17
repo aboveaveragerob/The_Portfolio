@@ -4,6 +4,14 @@
 **Scope:** Automated-quality tooling for The_Portfolio (SvelteKit, adapter-static).
 ---
 
+> **Update:** The regression gate recommended below has since been implemented in `tests/`
+> (`no-scroll.spec.js`, `helpers.js`), so the "no automated quality gate exists" framing in the
+> Finding is retained only as the original rationale. One known gap remains open and is tracked here:
+> short-height / high-zoom viewports (height ≤ ~533px — landscape phones, 150%/200% zoom) are skipped
+> with `test.fixme` because the **four** always-open shelves push the reader (CTA, podium, book
+> footer) below the fold. Closing it is the owner-owned responsive redesign deferred per
+> `DESIGN_QA_HANDOFF.md` §D; the skipped rows are flagged `supported: false` in `tests/helpers.js`.
+
 ## Finding
 
 The project has **no automated quality gate of any kind**:
