@@ -3,7 +3,7 @@
   import { quintOut, quintIn } from 'svelte/easing';
   import { onMount } from 'svelte';
 
-  import { shelves }   from '$lib/data.js';
+  import { wings }      from '$lib/data.js';
   import Backdrop      from '$lib/components/Backdrop.svelte';
   import ShelfPanel    from '$lib/components/ShelfPanel.svelte';
   import OpenBook      from '$lib/components/OpenBook.svelte';
@@ -11,6 +11,12 @@
 
   // The volume the site lands pre-staged on: pulled from the shelf, ready to open.
   const STAGED_BOOK_ID = 'book-brinker';
+
+  // Wings arrange into a cross around the centred reader: the career/civic rail
+  // across the top, the four personal Wings split down the left and right sides.
+  const topWings   = wings.filter(w => w.position === 'top');
+  const leftWings  = wings.filter(w => w.position === 'left');
+  const rightWings = wings.filter(w => w.position === 'right');
 
   // ── State ────────────────────────────────────────
   let currentBook    = null;   // the currently open book object
@@ -60,11 +66,11 @@
     switching = false;
   }
 
-  // Open the staged volume from the landing hint. Search every shelf so the
-  // CTA keeps working if the staged volume ever lives on a shelf other than
-  // the first (the shelf highlight already matches across all shelves).
+  // Open the staged volume from the landing hint. Search every Wing so the
+  // CTA keeps working wherever the staged volume lives (the spine highlight
+  // already matches across all Wings).
   function openStaged() {
-    const book = shelves.flatMap(s => s.books).find(b => b.id === STAGED_BOOK_ID);
+    const book = wings.flatMap(w => w.books).find(b => b.id === STAGED_BOOK_ID);
     if (book) handleBookClick(book);
   }
 
@@ -117,16 +123,31 @@
     <p class="tagline">Career &amp; Craft — a library</p>
   </header>
 
-  <!-- Shelves across the top -->
-  <ShelfPanel
-    {shelves}
-    activeBookId={currentBook?.id}
-    {stagedBookId}
-    onBookClick={handleBookClick}
-    open={!!currentBook}
-  />
+  <!-- Career & civic Wing: a rail across the top, always visible "upstairs" -->
+  <div class="rail-top">
+    <ShelfPanel
+      wings={topWings}
+      orientation="horizontal"
+      activeBookId={currentBook?.id}
+      {stagedBookId}
+      onBookClick={handleBookClick}
+      open={!!currentBook}
+    />
+  </div>
 
-  <!-- The open book rests on the podium, centered below -->
+  <!-- Personal Wings flank the reader: Physical + Digital left, Cognitive + Social right -->
+  <div class="wing-col wing-left">
+    <ShelfPanel
+      wings={leftWings}
+      orientation="vertical"
+      activeBookId={currentBook?.id}
+      {stagedBookId}
+      onBookClick={handleBookClick}
+      open={!!currentBook}
+    />
+  </div>
+
+  <!-- The open book rests on the podium, centered between the Wings -->
   <div class="reader" id="reader" tabindex="-1">
     <div class="book-dock">
       {#if currentBook}
@@ -161,6 +182,17 @@
     <Podium />
   </div>
 
+  <div class="wing-col wing-right">
+    <ShelfPanel
+      wings={rightWings}
+      orientation="vertical"
+      activeBookId={currentBook?.id}
+      {stagedBookId}
+      onBookClick={handleBookClick}
+      open={!!currentBook}
+    />
+  </div>
+
   <footer class="colophon">
     <span>Robert Gregory</span>
     <span aria-hidden="true">·</span>
@@ -175,11 +207,39 @@
     height: 100dvh;
     overflow: hidden;
     display: grid;
+    /* A cross around the centred reader: masthead / top rail / [left | reader |
+       right] / footer. The side columns take their content width; the reader
+       gets the rest. Row heights: everything is auto except the reader row,
+       which absorbs the free space — so the book-dock fills it and nothing
+       scrolls the page. */
     grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "masthead masthead masthead"
+      "topwing  topwing  topwing"
+      "left     reader   right"
+      "footer   footer   footer";
     /* items stretch to fill their rows (default) so the reader row's free
        space flows into the book-dock — do not set align-items:start here. */
-    gap: clamp(6px, 1.4vh, 16px);
+    gap: clamp(6px, 1.4vh, 16px) clamp(10px, 1.8vw, 22px);
     padding: clamp(8px, 1.8vh, 22px) 16px clamp(8px, 1.6vh, 18px);
+  }
+
+  .masthead  { grid-area: masthead; }
+  .rail-top  { grid-area: topwing; min-width: 0; }
+  .wing-left { grid-area: left; }
+  .reader    { grid-area: reader; }
+  .wing-right{ grid-area: right; }
+  .colophon  { grid-area: footer; }
+
+  /* Side Wing columns: establish a height/width context so the vertical
+     ShelfPanel can fill the reader row and scroll internally without ever
+     growing the page. */
+  .wing-col {
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    align-self: stretch;
   }
 
   /* ── Masthead ─────────────────────────────────── */
@@ -300,6 +360,25 @@
     letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--bone-2);
+  }
+
+  /* ── Narrow (< --bp-md 900px): the cross flattens into a single column —
+        the top rail, then both side Wings (now full-width horizontal rails),
+        then the reader, then the footer. Everything still fits one screen;
+        each rail scrolls sideways internally. ─────────────────────────── */
+  @media (max-width: 899px) {
+    .stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        "masthead"
+        "topwing"
+        "left"
+        "right"
+        "reader"
+        "footer";
+    }
+    .wing-col { align-self: auto; }
   }
 
   @media (max-width: 640px) {
