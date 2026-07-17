@@ -2,8 +2,22 @@
 
 **Date:** 2026-07-17
 **Scope:** Automated-quality tooling for The_Portfolio (SvelteKit, adapter-static).
-**Status:** Findings only. No code, tests, or CI are added by this PR — it documents the
-gap and the recommended fix so the owner can decide when to execute.
+**Status:** ~~Findings only.~~ **Resolved** — the recommendation below is now implemented in this
+PR: a Playwright regression suite (`tests/`, `playwright.config.js`), a GitHub Actions workflow
+(`.github/workflows/ci.yml`) running `svelte-check` → build → tests, and a `check` / `test` script
+pair. The original finding is kept below as the record.
+
+> **Finding surfaced while building the gate — short-height / high-zoom clipping.**
+> The no-scroll matrix passes for every viewport with height ≥ ~640px (portrait mobile, tablet,
+> laptop, desktop, and 125% zoom). At heights ≤ ~533px (landscape phones 740×360 / 812×375 /
+> 900×450, and 150%/200% zoom → 853×533 / 640×400) the three always-open shelves (~448px tall)
+> plus the masthead already exceed the screen, so the CTA / podium / book footer are pushed
+> **below the fold** — clipped, not scrolled: exactly the silent failure this audit warned about.
+> Making three shelves + a readable book + podium fit a 360–450px height is a responsive redesign
+> that needs real-device / real-font judgment (owner-owned per `DESIGN_QA_HANDOFF` §D), so those
+> rows run as documented `test.fixme` skips rather than being force-fixed here. **Follow-up:**
+> decide the short-height behaviour (e.g. collapse to a single scrollable shelf rail, or a
+> reduced-shelf landscape layout), then unskip those viewports.
 
 ---
 

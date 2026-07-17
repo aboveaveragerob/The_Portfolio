@@ -1,0 +1,19 @@
+{
+  // SvelteKit JS project config, consumed by `npm run check` (svelte-check).
+  // `checkJs` is off: the existing components/data are plain untyped JS, so
+  // deep JS type-checking would only report pre-existing implicit-`any`s and
+  // add noise. svelte-check still validates Svelte compiler errors, template
+  // bindings, and accessibility — the parts most likely to regress here.
+  "extends": "./.svelte-kit/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "bundler"
+  }
+}
