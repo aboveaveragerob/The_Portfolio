@@ -1,39 +1,26 @@
 <script>
-  export let shelves = [];
+  // Renders one group of Wings as book spines. Used three times by +page.svelte:
+  // the top career/civic rail (orientation="horizontal") and the two side
+  // columns (orientation="vertical"). Accent colour is fixed per Wing (from
+  // data), so colour carries domain meaning instead of shuffling by index.
+  export let wings = [];
   export let activeBookId = null;
   export let stagedBookId = null;  // pre-staged volume, highlighted "ready to open"
   export let onBookClick = () => {};
-  export let open = false;   // compact the shelves while a book is open
-
-  const PALETTE = [
-    '#5ef2e8', '#3b82f6', '#4f7bff', '#7c5cff', '#9b7cff',
-    '#b25cff', '#22a7f0', '#43b6ff', '#5ef2a0', '#22d3ee',
-    '#ff8a2b', '#ff5a3d', '#ff2d78', '#ffb43d', '#8b5e3c'
-  ];
-
-  $: accentFor = (() => {
-    const map = {};
-    let i = 0;
-    for (const shelf of shelves) {
-      for (const book of shelf.books) {
-        map[book.id] = PALETTE[i % PALETTE.length];
-        i++;
-      }
-    }
-    return map;
-  })();
+  export let open = false;         // compact the rail while a book is open
+  export let orientation = 'horizontal'; // 'horizontal' (top rail) | 'vertical' (side column)
 </script>
 
-<div class="shelves" class:open>
-  {#each shelves as shelf (shelf.id)}
-    <nav class="shelf-rail" aria-label={shelf.title}>
-      <div class="shelf-head">{shelf.title}</div>
+<div class="shelves {orientation}" class:open>
+  {#each wings as wing (wing.id)}
+    <nav class="shelf-rail" aria-label={wing.title} style="--wing-accent: {wing.accent}">
+      <div class="shelf-head">{wing.title}</div>
       <div class="shelf-books">
-        {#each shelf.books as book (book.id)}
+        {#each wing.books as book (book.id)}
           <button
             class="spine"
             class:staged={book.id === stagedBookId}
-            style="--sp-accent: {accentFor[book.id]}"
+            style="--sp-accent: {wing.accent}"
             on:click={() => onBookClick(book)}
             title="{book.title} · {book.subtitle}"
             aria-current={book.id === activeBookId ? 'true' : undefined}
@@ -57,47 +44,82 @@
   .shelves {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top rail (horizontal): wings stack, books run in a row ─────────── */
+  .shelves.horizontal {
     width: 100%;
     max-width: 920px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
     gap: clamp(8px, 1.6vh, 16px);
     transition: gap .5s cubic-bezier(.2,.02,.12,1);
   }
 
+  /* ── Side column (vertical): wings stack, books run down a column, and
+        the whole column scrolls internally so the page never scrolls ──── */
+  .shelves.vertical {
+    width: clamp(122px, 15vw, 182px);
+    height: 100%;
+    gap: clamp(10px, 2vh, 20px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .shelves.vertical::-webkit-scrollbar { display: none; }
+
   .shelf-rail {
     position: relative;
-    padding: clamp(16px, 2.4vh, 24px) 14px clamp(12px, 1.8vh, 18px);
     transition: padding .5s cubic-bezier(.2,.02,.12,1);
   }
+  .shelves.horizontal .shelf-rail { padding: clamp(16px, 2.4vh, 24px) 14px clamp(12px, 1.8vh, 18px); }
+  .shelves.vertical   .shelf-rail { padding: 0; }
 
   .shelf-head {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--bone-1);
+    transition: opacity .3s;
+  }
+  .shelves.horizontal .shelf-head {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     text-align: center;
-    font-family: var(--serif);
-    font-style: italic;
     font-size: clamp(.84rem, 2.2vw, 1.05rem);
-    color: var(--bone-1);
-    transition: opacity .3s;
+  }
+  .shelves.vertical .shelf-head {
+    position: static;
+    text-align: left;
+    font-size: clamp(.78rem, 1.6vw, .96rem);
+    padding: 0 2px 7px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
   }
 
   .shelf-books {
     display: flex;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .shelf-books::-webkit-scrollbar { display: none; }
+  .shelves.horizontal .shelf-books {
     flex-flow: row nowrap;
     align-items: flex-end;
     justify-content: center;
     gap: clamp(5px, 1.1vw, 9px);
     overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
   }
-  .shelf-books::-webkit-scrollbar { display: none; }
+  .shelves.vertical .shelf-books {
+    flex-flow: column nowrap;
+    align-items: stretch;
+    gap: 6px;
+  }
 
-  .shelf-rail::after {
+  /* Horizontal shelf ledge under the row of spines */
+  .shelves.horizontal .shelf-rail::after {
     content: "";
     position: absolute;
     left: 6px;
@@ -115,6 +137,19 @@
     position: relative;
     z-index: 1;
     flex: none;
+    color: var(--bone-1);
+    background: linear-gradient(100deg, #241a33, #160f22);
+    border: 1px solid #ffffff1a;
+    box-shadow:
+      0 14px 22px -12px #000,
+      inset 0 0 0 1px #ffffff0a,
+      inset -8px 0 16px -10px #00000099,
+      inset 7px 0 10px -8px #ffffff18;
+    transition: transform .22s cubic-bezier(.3,.1,.2,1), box-shadow .22s, height .5s cubic-bezier(.2,.02,.12,1);
+  }
+
+  /* Vertical "book edge" tab: colour on the left edge, title reads across */
+  .shelves.horizontal .spine {
     width: clamp(36px, 5vw, 48px);
     height: clamp(58px, 8.5vh, 100px);
     display: flex;
@@ -123,36 +158,47 @@
     justify-content: space-between;
     gap: 5px;
     padding: 9px 3px 8px;
-    color: var(--bone-1);
-    background: linear-gradient(100deg, #241a33, #160f22);
-    border: 1px solid #ffffff1a;
     border-top: 3px solid var(--sp-accent, #ffffff40);
     border-radius: 3px 3px 2px 2px;
-    box-shadow:
-      0 14px 22px -12px #000,
-      inset 0 0 0 1px #ffffff0a,
-      inset -8px 0 16px -10px #00000099,
-      inset 7px 0 10px -8px #ffffff18;
-    transition: transform .22s cubic-bezier(.3,.1,.2,1), box-shadow .22s, height .5s cubic-bezier(.2,.02,.12,1);
   }
-  .spine:hover { transform: translateY(-12px); box-shadow: 0 26px 30px -14px #000; }
+  .shelves.vertical .spine {
+    width: 100%;
+    min-height: 42px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--sp-accent, #ffffff40);
+    border-radius: 2px 4px 4px 2px;
+  }
+
   .spine:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
-  .spine[aria-current="true"] {
+
+  .shelves.horizontal .spine:hover { transform: translateY(-12px); box-shadow: 0 26px 30px -14px #000; }
+  .shelves.horizontal .spine[aria-current="true"] {
     transform: translateY(-14px);
     box-shadow: 0 28px 34px -14px #000, 0 0 0 1px var(--sp-accent) inset;
+  }
+  .shelves.vertical .spine:hover { transform: translateX(4px); box-shadow: 0 18px 26px -14px #000; }
+  .shelves.vertical .spine[aria-current="true"] {
+    transform: translateX(4px);
+    box-shadow: 0 18px 26px -14px #000, 0 0 0 1px var(--sp-accent) inset;
   }
   .spine[aria-current="true"] .sp-title { color: var(--bone-0); }
 
   /* Pre-staged volume: pulled forward, glowing, and gently pulsing so a
      first-time visitor reads it as the "ready to open" invitation. */
   .spine.staged {
-    transform: translateY(-16px);
     box-shadow:
       0 30px 36px -14px #000,
       0 0 0 1px var(--sp-accent) inset,
       0 0 22px -4px var(--violet);
     animation: staged-pulse 2.6s ease-in-out infinite;
   }
+  .shelves.horizontal .spine.staged { transform: translateY(-16px); }
+  .shelves.vertical   .spine.staged { transform: translateX(4px); }
   .spine.staged .sp-title { color: var(--bone-0); }
   @keyframes staged-pulse {
     0%, 100% { box-shadow: 0 30px 36px -14px #000, 0 0 0 1px var(--sp-accent) inset, 0 0 16px -6px var(--violet); }
@@ -163,54 +209,88 @@
   .sp-emblem svg { width: 100%; height: 100%; display: block; }
 
   .sp-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: .01em;
+    overflow: hidden;
+    color: var(--bone-1);
+    transition: color .18s;
+  }
+  .shelves.horizontal .sp-title {
     flex: 1;
     min-height: 0;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     writing-mode: vertical-rl;
-    font-family: var(--serif);
-    font-weight: 500;
     font-size: clamp(.6rem, 1.4vw, .74rem);
-    line-height: 1.15;
-    letter-spacing: .01em;
     white-space: normal;
-    overflow: hidden;
     text-align: center;
-    color: var(--bone-1);
-    transition: color .18s;
+  }
+  .shelves.vertical .sp-title {
+    flex: 1;
+    writing-mode: horizontal-tb;
+    font-size: clamp(.62rem, 1vw, .74rem);
+    text-align: left;
   }
 
   .sp-year {
     flex: none;
-    writing-mode: vertical-rl;
     font-family: var(--mono);
     font-size: .5rem;
     letter-spacing: .06em;
     color: var(--bone-2);
     white-space: nowrap;
-    max-height: 74px;
     overflow: hidden;
     text-overflow: ellipsis;   /* deliberate … instead of a mid-word cut (§4.1) */
   }
+  .shelves.horizontal .sp-year { writing-mode: vertical-rl; max-height: 74px; }
+  .shelves.vertical   .sp-year { display: none; }  /* subtitle stays in title attr */
 
-  .shelves.open { gap: 4px; }
-  .shelves.open .shelf-rail { padding: clamp(6px, 1vh, 10px) 14px clamp(10px, 1.4vh, 14px); }
-  .shelves.open .shelf-head { opacity: 0; pointer-events: none; }
-  .shelves.open .spine { height: clamp(42px, 5.5vh, 62px); justify-content: center; gap: 0; }
-  .shelves.open .spine.staged { animation: none; }
-  .shelves.open .sp-title,
-  .shelves.open .sp-year { display: none; }
+  /* ── Compaction while a book is open (top rail only) ─────────────────── */
+  .shelves.horizontal.open { gap: 4px; }
+  .shelves.horizontal.open .shelf-rail { padding: clamp(6px, 1vh, 10px) 14px clamp(10px, 1.4vh, 14px); }
+  .shelves.horizontal.open .shelf-head { opacity: 0; pointer-events: none; }
+  .shelves.horizontal.open .spine { height: clamp(42px, 5.5vh, 62px); justify-content: center; gap: 0; }
+  .shelves.horizontal.open .spine.staged { animation: none; }
+  .shelves.horizontal.open .sp-title,
+  .shelves.horizontal.open .sp-year { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
     .spine.staged { animation: none; }
   }
 
-  /* Unified breakpoint (shared --bp-sm: 640px) — was 520px here, 640px in OpenBook. */
+  /* ── Narrow (< --bp-md 900px): side columns collapse into full-width
+        horizontal rails so everything still stacks into one no-scroll
+        screen; each rail scrolls sideways internally. ─────────────────── */
+  @media (max-width: 899px) {
+    .shelves.vertical {
+      width: 100%;
+      height: auto;
+      overflow-y: visible;
+      gap: clamp(8px, 1.6vh, 16px);
+    }
+    .shelves.vertical .shelf-books {
+      flex-flow: row nowrap;
+      align-items: stretch;
+      justify-content: flex-start;
+      overflow-x: auto;
+      gap: clamp(5px, 1.1vw, 9px);
+    }
+    .shelves.vertical .spine {
+      width: auto;
+      min-width: 124px;
+      flex: 0 0 auto;
+    }
+    .shelves.vertical .sp-title { white-space: nowrap; text-overflow: ellipsis; }
+  }
+
+  /* Unified breakpoint (shared --bp-sm: 640px). */
   @media (max-width: 640px) {
-    .shelf-books { justify-content: flex-start; }
-    .spine { width: clamp(32px, 9vw, 42px); height: clamp(78px, 12vh, 140px); }
-    .sp-year { display: none; }
-    .sp-title { font-size: clamp(.58rem, 2.6vw, .72rem); }
+    .shelves.horizontal .shelf-books { justify-content: flex-start; }
+    .shelves.horizontal .spine { width: clamp(32px, 9vw, 42px); height: clamp(78px, 12vh, 140px); }
+    .shelves.horizontal .sp-year { display: none; }
+    .shelves.horizontal .sp-title { font-size: clamp(.58rem, 2.6vw, .72rem); }
   }
 </style>
