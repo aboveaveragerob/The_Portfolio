@@ -7,6 +7,50 @@
      hand-placed rects, no hue-cycling, no rainbow primaries.
      Decorative only: aria-hidden, pointer-events:none, reduced-motion aware. -->
 <script>
+  import { onMount } from 'svelte';
+
+  // Pointer parallax: write normalised pointer offset (−1…1) to --px/--py on
+  // :root so each depth tier can shift by its own multiplier — the star-vault
+  // (far) least, the architecture (near) more, the wing back-walls and hero
+  // book shadows nearer still. Style-vars only (never markup) so SSR still
+  // equals the hydrated DOM and the star-count/hydration test stays green.
+  // rAF-throttled, passive, and fully disabled + reset under reduced motion —
+  // including when the preference is toggled on after load.
+  onMount(() => {
+    const root = document.documentElement;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let raf = 0, px = 0, py = 0, attached = false;
+
+    const apply = () => {
+      raf = 0;
+      root.style.setProperty('--px', px.toFixed(3));
+      root.style.setProperty('--py', py.toFixed(3));
+    };
+    const onMove = (e) => {
+      px = (e.clientX / window.innerWidth - 0.5) * 2;
+      py = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const attach = () => {
+      if (attached || mq.matches) return;
+      window.addEventListener('pointermove', onMove, { passive: true });
+      attached = true;
+    };
+    const detach = () => {
+      if (!attached) return;
+      window.removeEventListener('pointermove', onMove);
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      root.style.removeProperty('--px');
+      root.style.removeProperty('--py');
+      attached = false;
+    };
+    const onPref = () => (mq.matches ? detach() : attach());
+
+    attach();
+    mq.addEventListener('change', onPref);
+    return () => { detach(); mq.removeEventListener('change', onPref); };
+  });
+
   // Deterministic PRNG so server-rendered and hydrated markup match exactly.
   function mulberry32(seed) {
     return function () {
@@ -171,7 +215,15 @@
     position: absolute; top: 50%; left: 50%;
     width: max(1440px, 118vw); height: max(900px, 118vh);
     transform: translate(-50%, -50%);
+    /* Pointer parallax rides the independent `translate` property so it
+       composes with the centring `transform` and the vault's drift animation.
+       The 118% overscan absorbs the shift so no edge is ever revealed. */
+    transition: translate .18s ease-out;
   }
+  /* Far tier: the star-vault barely moves. */
+  .stars { translate: calc(var(--px) * 10px * var(--parallax)) calc(var(--py) * 7px * var(--parallax)); }
+  /* Nearer tier: the architecture, glow, and margin shelves move more. */
+  .vault  { translate: calc(var(--px) * 22px * var(--parallax)) calc(var(--py) * 15px * var(--parallax)); }
 
   /* Depth layer drifts slowly toward the viewer — one gentle motion, no hue shift */
   .vault {
@@ -195,5 +247,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .vault, .astrolabe, .stars .tw, .stars .bright { animation: none; }
+    .vault, .stars { translate: none; transition: none; }
   }
 </style>

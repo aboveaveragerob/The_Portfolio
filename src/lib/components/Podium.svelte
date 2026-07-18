@@ -56,8 +56,11 @@
     height: clamp(7px, 1.4vh, 12px);
     margin: 0 auto;
     width: 70%;
-    /* Contact shadow pools slightly right of centre — same upper-left light. */
+    /* Contact shadow pools slightly right of centre — same upper-left light —
+       and drifts with the pointer so the hero area shares the parallax field.
+       Background-position only, so the podium's measured box never moves. */
     background: radial-gradient(60% 100% at 54% 0%, #000000aa, transparent 72%);
+    background-position: calc(var(--px) * var(--parallax) * 10px) 0;
   }
 
   /* While a book is open, collapse to a thin base so no slab shows under it */
