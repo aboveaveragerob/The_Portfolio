@@ -267,4 +267,14 @@
     .closed-book { padding: 12px 22px 14px; }
     .cb-body { height: clamp(104px, 16vh, 148px); }
   }
+
+  /* Short viewports: a small volume so the whole library + reader fit one
+     no-scroll screen; drop the emblem + rule so the title keeps room. #63 */
+  @media (max-height: 560px) {
+    .closed-book { padding: 6px 14px 8px; }
+    .cb-body { height: clamp(50px, 15vh, 128px); }
+    .cb-title { font-size: clamp(.7rem, 2.5vh, 1rem); }
+    .cb-emblem, .cb-rule { display: none; }
+    .cb-cover { gap: clamp(2px, 0.6vh, 7px); padding: 10px 10px 12px 16px; }
+  }
 </style>

@@ -73,4 +73,12 @@
   @media (max-width: 640px) {
     .podium-body { height: clamp(20px, 3.6vh, 34px); }
   }
+
+  /* Short viewports: a slimmer stand so the reader clears the fold. #63 */
+  @media (max-height: 560px) {
+    .podium-wrap { width: clamp(150px, 40vw, 300px); }
+    .podium-ledge { height: clamp(4px, 0.9vh, 8px); }
+    .podium-body { height: clamp(10px, 2.2vh, 26px); }
+    .podium-shadow { height: clamp(4px, 0.9vh, 8px); }
+  }
 </style>

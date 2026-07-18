@@ -397,4 +397,27 @@
   .pf-turn { display: flex; align-items: center; gap: 10px; }
   .folio { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); min-width: 4em; text-align: center; }
   button[disabled] { opacity: .35; cursor: default; }
+
+  /* ── Short viewports: compact the reader chrome (title, paddings, footer) so
+        the two-page spread + its footer fit the shrunken reader row without the
+        page footer sliding below the fold. The page body still scrolls
+        internally. Issue #63. ─────────────────────────────────────────────── */
+  @media (max-height: 560px) {
+    .toc { padding: clamp(10px, 3%, 24px) clamp(14px, 6%, 40px); }
+    .toc-head { padding-bottom: 8px; margin-bottom: 7px; }
+    .th-t { font-size: clamp(1rem, 3.4vh, 1.4rem); }
+    .th-s { margin-top: 3px; }
+    .toc-item { min-height: 30px; padding: 7px 2px; }
+    .endpaper { gap: 7px; padding: 12px; }
+    .ep-ornament { width: 48px; height: 48px; }
+
+    .reading { padding: clamp(10px, 2.4vh, 22px) clamp(14px, 6%, 40px) 0; }
+    .ch-eyebrow { font-size: .58rem; }
+    .ch-title { font-size: clamp(1rem, 3.4vh, 1.6rem); margin-top: .15rem; }
+    .page-body { margin-top: .5rem; }
+    .shots, .tracks { margin-top: .6rem; }
+
+    .page-foot { padding: 5px 0 6px; margin-top: 4px; }
+    .pf-btn, .pf-turn button { min-height: 30px; padding: 5px 9px; font-size: .62rem; }
+  }
 </style>

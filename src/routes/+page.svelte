@@ -362,4 +362,20 @@
   @media (max-width: 640px) {
     .book-area { width: 94vw; }
   }
+
+  /* ── Short viewports (landscape phones, 150–200% zoom): a height-driven
+        compaction so the always-open shelves + masthead never push the reader
+        (closed book, podium, book footer) below the fold. Composes with the
+        width breakpoints above; placed last so it wins on shared properties.
+        Issue #63. ─────────────────────────────────────────────────────────── */
+  @media (max-height: 560px) {
+    .stage {
+      gap: clamp(2px, 0.7vh, 7px) clamp(8px, 1.6vw, 18px);
+      padding: clamp(3px, 0.9vh, 8px) 12px clamp(3px, 0.8vh, 7px);
+    }
+    /* reclaim the tagline's vertical band; keep the wordmark as the landmark */
+    .tagline { display: none; }
+    .wordmark { font-size: clamp(.92rem, 3.4vh, 1.3rem); }
+    .book-dock { padding-top: 8px; }
+  }
 </style>

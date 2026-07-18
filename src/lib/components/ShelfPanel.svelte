@@ -751,4 +751,37 @@
     .bookcase.horizontal .sp-title,
     .bookcase.vertical .sp-title { font-size: clamp(.54rem, 3vw, .66rem); }
   }
+
+  /* ── Short flattened viewports (landscape / high zoom): shrink the face-out
+        covers so five stacked shelves + the reader fit one no-scroll screen.
+        Height-forward clamps let the covers scale with the viewport; the emblem
+        is dropped (title + colour still identify each volume). Placed last so it
+        wins over the width breakpoints. Issue #63. ──────────────────────────── */
+  @media (max-width: 899px) and (max-height: 560px) {
+    .bookcase.vertical { gap: clamp(2px, 0.6vh, 7px); }
+    .bookcase.vertical .stacks { gap: 4px; }
+    .bookcase.vertical .nameplate,
+    .bookcase.horizontal .nameplate {
+      font-size: clamp(.48rem, 1.2vh, .64rem);
+      line-height: 1.05;
+      margin-bottom: 1px; padding-bottom: 1px;
+      border-bottom: none;
+    }
+    /* drop the placard / dimension-line underlines to reclaim height */
+    .wing .nameplate::after { display: none; }
+    .bookcase.horizontal .spine,
+    .bookcase.vertical .spine {
+      width: calc(var(--wf, 1) * clamp(50px, 15vw, 80px));
+      height: clamp(18px, 5vh, 52px);
+      padding: 2px 3px;
+      gap: 1px;
+    }
+    .bookcase.horizontal .sp-title,
+    .bookcase.vertical .sp-title { font-size: clamp(.44rem, 1.9vh, .6rem); -webkit-line-clamp: 2; }
+    .bookcase.horizontal .sp-emblem,
+    .bookcase.vertical .sp-emblem { display: none; }
+    .bookcase.horizontal .books,
+    .bookcase.vertical .books { padding-top: 4px; }
+    .bookcase.horizontal.open .spine { height: clamp(18px, 4.8vh, 42px); }
+  }
 </style>

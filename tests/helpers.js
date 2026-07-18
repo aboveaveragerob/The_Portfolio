@@ -14,15 +14,14 @@ import { expect } from '@playwright/test';
 // zoom → half the CSS pixels on each axis) — the same signal `innerWidth/
 // innerHeight` carry under real zoom, which is what the layout reacts to.
 //
-// `supported: false` marks the viewports where building this gate REVEALED a
-// genuine clip: at viewport heights ≤ ~533px the four always-open shelves plus
-// the masthead already exceed the screen, so the reader — CTA, podium, book
-// footer — is pushed below the fold. Fitting four shelves + a readable book +
-// podium into a 360–450px landscape/zoomed height is a responsive redesign
-// needing real-device/real-font judgment (owner-owned per
-// DESIGN_QA_HANDOFF §D), not a test tweak. These rows run as `test.fixme` so the
-// gap stays visible and encoded until that design work happens — see
-// docs/audits/qa-test-coverage.md.
+// The short-height / high-zoom rows below were once a known clip: at viewport
+// heights ≤ ~533px the always-open shelves plus the masthead exceeded the
+// screen and pushed the reader — CTA, podium, book footer — below the fold.
+// Issue #63's redesign adds a height-driven compaction (a `@media (max-height)`
+// pass in +page.svelte / ShelfPanel.svelte that shrinks the masthead, shelves,
+// book, and podium at short heights) so the whole library now fits one
+// no-scroll screen down to a 360px landscape height. These rows are therefore
+// enforced (no `supported: false`) — see docs/audits/qa-test-coverage.md.
 export const VIEWPORTS = [
   { name: '390x844 · mobile portrait', width: 390, height: 844 },
   { name: '768x1024 · tablet portrait', width: 768, height: 1024 },
@@ -30,11 +29,11 @@ export const VIEWPORTS = [
   { name: '1440x900 · desktop', width: 1440, height: 900 },
   { name: '1920x1080 · large desktop', width: 1920, height: 1080 },
   { name: '1024x640 · 125% zoom @1280x800', width: 1024, height: 640 },
-  { name: '740x360 · landscape short', width: 740, height: 360, supported: false },
-  { name: '812x375 · landscape short', width: 812, height: 375, supported: false },
-  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450, supported: false },
-  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533, supported: false },
-  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400, supported: false },
+  { name: '740x360 · landscape short', width: 740, height: 360 },
+  { name: '812x375 · landscape short', width: 812, height: 375 },
+  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450 },
+  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533 },
+  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400 },
 ];
 
 // Message shown on the skipped short-height rows.
