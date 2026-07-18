@@ -252,10 +252,15 @@
     }
   }
 
-  /* ── Narrow viewports — smaller book so it still fits above the podium ── */
-  @media (max-width: 640px) {
-    .closed-book { padding: 18px 26px 22px; }
-    .cb-body { height: clamp(170px, 28vh, 260px); }
+  /* ── Narrow viewports — smaller book so the whole library + reader still
+        fit one no-scroll screen above the podium (issue #56). ──────────── */
+  @media (max-width: 899px) {
+    .closed-book { padding: 16px 24px 18px; }
+    .cb-body { height: clamp(132px, 21vh, 196px); }
     .cb-title { font-size: clamp(.9rem, 2vh, 1.15rem); }
+  }
+  @media (max-width: 640px) {
+    .closed-book { padding: 12px 22px 14px; }
+    .cb-body { height: clamp(104px, 16vh, 148px); }
   }
 </style>
