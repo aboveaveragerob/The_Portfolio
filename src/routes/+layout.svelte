@@ -53,8 +53,12 @@
     --light-angle:   145deg;      /* light from the upper-left */
     --edge-hi:       #ffffff33;   /* lit top/left bevel */
     --edge-lo:       #00000099;   /* shadowed bottom/right bevel */
-    --shadow-key:    0 14px 26px -12px #000;  /* the canonical drop shadow */
-    --shadow-contact:0 8px 16px -8px #000;    /* short contact shadow under furniture */
+    /* Canonical shadows fall down-and-right, so every faux-3D face reads as
+       lit from the same upper-left source. --shadow-fall is the horizontal
+       throw; Phase-4 hero parallax drives it from the pointer. */
+    --shadow-fall:   3px;
+    --shadow-key:    var(--shadow-fall) 14px 26px -12px #000;  /* canonical drop shadow */
+    --shadow-contact:2px 8px 16px -8px #000;                   /* short contact shadow */
     --haze:          var(--bg);   /* the "air" distant things fade into */
     --depth-haze:    0.55;        /* far-shelf desaturation strength */
 

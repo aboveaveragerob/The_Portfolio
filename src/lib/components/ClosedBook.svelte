@@ -78,8 +78,12 @@
     /* Idle breathe — a slower cadence than the shelf's old pulse so the book
        reads as its own object, not a copy of the spine highlight. */
     animation: cb-breathe 3.8s ease-in-out infinite;
+    /* Contact shadow falls down-and-right (the shared upper-left light); the
+       second is the violet presence glow. --cb-fall lets Phase-4 parallax
+       shift the light field without moving the book's layout box. */
+    --cb-fall: calc(var(--shadow-fall) + 2px);
     filter:
-      drop-shadow(0 24px 28px #000000a6)
+      drop-shadow(var(--cb-fall) 24px 28px #000000a6)
       drop-shadow(0 0 16px #b25cff3d);
   }
 
@@ -230,13 +234,13 @@
     animation: none;
     transform: rotateX(-6deg) rotateY(-20deg) translateY(-6px);
     filter:
-      drop-shadow(0 34px 42px #000000cc)
+      drop-shadow(calc(var(--cb-fall) + 3px) 34px 42px #000000cc)
       drop-shadow(0 0 26px #b25cff80);
   }
   .closed-book:active .cb-body {
     transform: rotateX(-3deg) rotateY(-22deg) translateY(-1px);
     filter:
-      drop-shadow(0 22px 26px #000000a6)
+      drop-shadow(var(--cb-fall) 22px 26px #000000a6)
       drop-shadow(0 0 14px #b25cff66);
   }
 
@@ -247,7 +251,7 @@
     .closed-book:focus-visible .cb-body {
       transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
       filter:
-        drop-shadow(0 24px 28px #000000a6)
+        drop-shadow(var(--cb-fall) 24px 28px #000000a6)
         drop-shadow(0 0 24px #b25cff77);
     }
   }

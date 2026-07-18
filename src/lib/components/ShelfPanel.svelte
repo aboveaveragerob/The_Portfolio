@@ -180,9 +180,9 @@
         color-mix(in oklab, var(--wing-accent) 20%, var(--ledge-hi)) 0%,
         var(--ledge-lo) 100%);
     box-shadow:
-      0 14px 26px -10px #000,
-      inset 0 1px 0 #ffffff33,
-      inset 0 -2px 3px -1px #00000099;
+      var(--shadow-fall) 14px 26px -10px #000,
+      inset 0 1px 0 var(--edge-hi),
+      inset 0 -2px 3px -1px var(--edge-lo);
   }
   .plank::after {
     /* front face — the plank's visible thickness */
@@ -192,7 +192,7 @@
     height: clamp(4px, 0.7vh, 7px);
     background: linear-gradient(180deg, var(--ledge-lo), #0c0916);
     border-radius: 0 0 3px 3px;
-    box-shadow: 0 10px 16px -8px #000;
+    box-shadow: var(--shadow-contact);
   }
 
   /* ── Spine (an upright hardback) ─────────────────────────────────────── */
@@ -215,7 +215,7 @@
         var(--spine, #241a33) 20%,
         color-mix(in oklab, var(--spine, #241a33) 80%, #000000) 100%);
     box-shadow:
-      0 14px 22px -12px #000,
+      var(--shadow-fall) 14px 22px -12px #000,
       inset 0 -6px 10px -8px #000000aa,
       inset 0 1px 0 #ffffff1f;
     display: flex;
@@ -240,10 +240,10 @@
 
   .spine:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
 
-  .spine:hover { transform: translateY(-10px); box-shadow: 0 30px 32px -16px #000, inset 0 1px 0 #ffffff2e; }
+  .spine:hover { transform: translateY(-10px); box-shadow: var(--shadow-fall) 30px 32px -16px #000, inset 0 1px 0 #ffffff2e; }
   .spine[aria-current="true"] {
     transform: translateY(-13px);
-    box-shadow: 0 30px 36px -14px #000, 0 0 0 1px var(--wing-accent) inset, 0 0 18px -4px var(--wing-accent);
+    box-shadow: var(--shadow-fall) 30px 36px -14px #000, 0 0 0 1px var(--wing-accent) inset, 0 0 18px -4px var(--wing-accent);
   }
 
   /* Pre-staged volume: pulled forward with a soft held glow, marking its home
@@ -252,7 +252,7 @@
   .spine.staged {
     transform: translateY(-16px);
     box-shadow:
-      0 34px 38px -14px #000,
+      var(--shadow-fall) 34px 38px -14px #000,
       0 0 0 1px var(--wing-accent) inset,
       0 0 22px -4px var(--violet);
   }

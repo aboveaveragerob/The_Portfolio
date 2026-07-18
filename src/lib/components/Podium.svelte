@@ -37,7 +37,7 @@
     box-shadow:
       0 -1px 0 #b25cff55,
       inset 0 1px 0 #ffffff3a,
-      0 10px 20px -8px #000;
+      var(--shadow-fall) 10px 20px -8px #000;
   }
 
   /* Tapered pedestal — narrower at the base so it reads as a stand, not a bar */
@@ -56,7 +56,8 @@
     height: clamp(7px, 1.4vh, 12px);
     margin: 0 auto;
     width: 70%;
-    background: radial-gradient(60% 100% at 50% 0%, #000000aa, transparent 72%);
+    /* Contact shadow pools slightly right of centre — same upper-left light. */
+    background: radial-gradient(60% 100% at 54% 0%, #000000aa, transparent 72%);
   }
 
   /* While a book is open, collapse to a thin base so no slab shows under it */
