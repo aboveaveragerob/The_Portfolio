@@ -1,9 +1,11 @@
 // ────────────────────────────────────────────────────────────────
 //  Library data — the portfolio organized into Wings (issue #46).
 //  Shape consumed by ShelfPanel (spines) and OpenBook (TOC + reading):
-//    wings[]  → { id, title, position, accent, books[] }
-//    position → 'top' (career/civic rail) | 'left' | 'right' (personal Wings)
+//    wings[]  → { id, title, position, accent, theme, books[] }
+//    position → 'top' (career rail) | 'left' | 'right' (personal Wings)
 //    accent   → fixed accent colour per Wing, so colour carries meaning
+//    theme    → per-Wing aesthetic: 'career' | 'workshop' | 'cyber' |
+//               'greenhouse' | 'soundstage' (drives the bookcase styling)
 //    book     → { id, title, subtitle, coverColor, chapters[] }
 //    chapter  → { id, title, pages[] }
 //    page     → { id, content (inline HTML), shots?[], audio?[] }
@@ -13,9 +15,10 @@
 export const wings = [
   {
     id: "wing-professional",
-    title: "Professional & Civic",
+    title: "Career of Robert Gregory",
     position: "top",
     accent: "#5ef2e8",
+    theme: "career",
     books: [
       {
         id: "book-brinker",
@@ -354,6 +357,7 @@ export const wings = [
     title: "Physical Archive",
     position: "left",
     accent: "#ff8a2b",
+    theme: "workshop",
     books: [
       {
         id: "book-woodworking",
@@ -554,6 +558,7 @@ export const wings = [
     title: "Digital Atelier",
     position: "left",
     accent: "#43b6ff",
+    theme: "cyber",
     books: [
       {
         id: "book-technology",
@@ -691,6 +696,7 @@ export const wings = [
     title: "Cognitive Greenhouse",
     position: "right",
     accent: "#5ef2a0",
+    theme: "greenhouse",
     books: [
       {
         id: "book-arboriculture",
@@ -906,6 +912,7 @@ export const wings = [
     title: "Social Soundstage",
     position: "right",
     accent: "#ff2d78",
+    theme: "soundstage",
     books: [
       {
         id: "book-music",

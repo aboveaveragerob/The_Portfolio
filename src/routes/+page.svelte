@@ -187,7 +187,7 @@
       {/if}
     </div>
 
-    <Podium />
+    <Podium open={!!currentBook} />
   </div>
 
   <div class="wing-col wing-right">
@@ -334,7 +334,7 @@
     color: var(--bone-2);
   }
 
-  /* ── Narrow (< --bp-md 900px): the cross flattens into a single column —
+  /* ── Narrow (< 900px): the cross flattens into a single column —
         the top rail, then both side Wings (now full-width horizontal rails),
         then the reader, then the footer. Everything still fits one screen;
         each rail scrolls sideways internally. ─────────────────────────── */
@@ -349,8 +349,14 @@
         "right"
         "reader"
         "footer";
+      gap: clamp(4px, 0.8vh, 9px) 12px;
+      padding: clamp(6px, 1.2vh, 12px) 10px clamp(6px, 1vh, 10px);
     }
     .wing-col { align-self: auto; }
+    .masthead { line-height: 1; }
+    .wordmark { font-size: clamp(1.05rem, 5vw, 1.4rem); }
+    .tagline { margin-top: 2px; }
+    .reader { justify-content: center; }
   }
 
   @media (max-width: 640px) {

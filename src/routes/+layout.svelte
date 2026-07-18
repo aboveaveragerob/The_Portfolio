@@ -14,7 +14,6 @@
   /* ── Original design tokens ─────────────────────── */
   :global(:root) {
     --bg:      #0b0912;
-    --line:    #ffffff14;
     --line-2:  #ffffff22;
 
     --bone-0:  #f3eddf;
@@ -22,8 +21,8 @@
     --bone-2:  #938aa3;
 
     --paper:   #f3ecdd;
-    --paper-2: #e9e0cd;
     --paper-edge: #d9d0bd;      /* page gutter shadow (was hardcoded in OpenBook) */
+    --paper-line: #00000018;    /* hairline rules on the paper pages (OpenBook) */
     --ink:     #211b16;
     --ink-2:   #5b5247;
     --ink-3:   #6f6455;         /* darkened from #8a7f6c → clears WCAG AA on paper */
@@ -45,10 +44,6 @@
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
-
-    /* Shared responsive breakpoints (documented; used in media queries). */
-    --bp-sm: 640px;
-    --bp-md: 900px;
   }
 
   :global(html) {

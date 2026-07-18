@@ -306,7 +306,7 @@
   }
 
   .toc { flex: 1; overflow-y: auto; padding: clamp(24px,5%,44px) clamp(22px,7%,48px); color: var(--ink); }
-  .toc-head { border-bottom: 1px solid #0000001a; padding-bottom: 16px; margin-bottom: 14px; }
+  .toc-head { border-bottom: 1px solid var(--paper-line); padding-bottom: 16px; margin-bottom: 14px; }
   .th-t { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(1.3rem,4vw,1.7rem); line-height: 1.05; color: var(--ink); }
   .th-s { font-family: var(--mono); font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-3); margin-top: 7px; }
   .toc-h { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
@@ -323,7 +323,7 @@
     align-items: baseline;
     gap: 10px;
     padding: 13px 2px;
-    border-bottom: 1px solid #00000014;
+    border-bottom: 1px solid var(--paper-line);
     text-align: left;
     min-height: 46px;
   }
@@ -361,7 +361,7 @@
   .shots.one { grid-template-columns: 1fr; }
   .shot { margin: 0; }
   .shot.wide, .shots.one .shot { grid-column: 1 / -1; }
-  .shot img { display: block; width: 100%; height: auto; border-radius: 9px; border: 1px solid #00000018; background: #00000006; image-orientation: from-image; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 9px; border: 1px solid var(--paper-line); background: #00000006; image-orientation: from-image; }
   .shot.cover { max-width: 320px; margin-inline: auto; }
   .shot figcaption { margin-top: 7px; font-family: var(--mono); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); text-align: center; }
 
@@ -378,7 +378,7 @@
     gap: 10px;
     padding: 10px 0 14px;
     margin-top: 6px;
-    border-top: 1px solid #00000016;
+    border-top: 1px solid var(--paper-line);
   }
   .pf-btn, .pf-turn button {
     appearance: none;

@@ -61,7 +61,7 @@
         });
         x += w + range(2.2, 5.5);
       }
-      rows.push({ yLedge: yTop + 62, spines });
+      rows.push({ spines });
     }
     return rows;
   }
