@@ -57,7 +57,7 @@
           w: +w.toFixed(1),
           h: +range(30, 62).toFixed(1),
           o: +range(0.06, 0.2).toFixed(2),
-          hue: rnd() < 0.5 ? 'var(--violet)' : '#6f7cff',
+          hue: rnd() < 0.5 ? 'var(--violet)' : 'var(--sapphire)',
         });
         x += w + range(2.2, 5.5);
       }
@@ -96,13 +96,13 @@
   <svg class="vault" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="celestialGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"  stop-color="#ffe0ad" stop-opacity="0.42"/>
-        <stop offset="30%" stop-color="#c77bff" stop-opacity="0.24"/>
-        <stop offset="100%" stop-color="#7c5cff" stop-opacity="0"/>
+        <stop offset="0%"  stop-color="#fcd34d" stop-opacity="0.36"/>
+        <stop offset="30%" stop-color="#8b5cf6" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#4a7cf7" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="archStroke" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"  stop-color="#7c5cff"/>
-        <stop offset="100%" stop-color="#b6a0ff"/>
+        <stop offset="0%"  stop-color="#8b5cf6"/>
+        <stop offset="100%" stop-color="#a78bfa"/>
       </linearGradient>
     </defs>
 
@@ -116,12 +116,12 @@
     </g>
 
     <!-- Astrolabe rings around the glow -->
-    <g class="astrolabe" fill="none" stroke="#c9b6ff">
+    <g class="astrolabe" fill="none" stroke="#a78bfa">
       {#each rings as ring}
         <circle cx={cx} cy={cyy} r={ring.r} stroke-width="0.8" opacity={ring.o}/>
       {/each}
       {#each ticks as t}
-        <line x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} stroke="#d9c8a0" stroke-width="0.7" opacity="0.14"/>
+        <line x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} stroke="#fcd34d" stroke-width="0.7" opacity="0.13"/>
       {/each}
     </g>
 
@@ -135,11 +135,11 @@
     </g>
 
     <!-- Quiet constellations -->
-    <g class="constellations" fill="none" stroke="#b6c4ff" stroke-width="0.6" opacity="0.28">
+    <g class="constellations" fill="none" stroke="#93b0f9" stroke-width="0.6" opacity="0.28">
       {#each constellations as pts}
         <polyline points={pts.map(p => p.join(',')).join(' ')}/>
         {#each pts as p}
-          <circle cx={p[0]} cy={p[1]} r="1.1" fill="#dfe6ff" stroke="none" opacity="0.6"/>
+          <circle cx={p[0]} cy={p[1]} r="1.1" fill="#e8ecfb" stroke="none" opacity="0.6"/>
         {/each}
       {/each}
     </g>
@@ -155,7 +155,7 @@
       />
     {/each}
     {#each brightStars as b}
-      <circle cx={b.x} cy={b.y} r={b.halo} fill="#cbb6ff" opacity="0.05"/>
+      <circle cx={b.x} cy={b.y} r={b.halo} fill="#b3a1f7" opacity="0.05"/>
       <circle
         cx={b.x} cy={b.y} r={b.r} fill="#fff"
         class="bright" style={`--d:${b.dur}s;--delay:${b.delay}s`}
