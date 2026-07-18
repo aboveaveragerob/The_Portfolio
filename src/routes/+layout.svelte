@@ -3,11 +3,22 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { DUR } from '$lib/motion.js';
+
+  // Vesica iris-in: the incoming scene opens through a circular clip — the
+  // Vesica Piscis cross-fade of the design brief, as a Svelte transition.
+  function vesica(node, { duration, delay = 0 }) {
+    return {
+      delay,
+      duration,
+      css: (t) => `clip-path: circle(${(t * 125).toFixed(1)}% at 50% 50%); opacity: ${(0.3 + 0.7 * t).toFixed(3)}`,
+    };
+  }
   import Backdrop from '$lib/components/Backdrop.svelte';
   import CenterSun from '$lib/components/CenterSun.svelte';
   import CompassNav from '$lib/components/CompassNav.svelte';
   import AstrolabeWidget from '$lib/components/geometry/AstrolabeWidget.svelte';
   import MetatronCube from '$lib/components/geometry/MetatronCube.svelte';
+  import StarCursor from '$lib/components/geometry/StarCursor.svelte';
 
   // The scene is keyed on the top-level section only, so opening a nested
   // detail route (/orbit/brinker, /archive/eddie-bauer) never re-renders the
@@ -38,7 +49,7 @@
        the page must never scroll, transiently included. -->
   <main id="view" class="canvas" tabindex="-1">
     {#key section}
-      <div class="scene" in:fade={{ duration: dur, delay: dur }} out:fade={{ duration: dur }}>
+      <div class="scene" in:vesica={{ duration: dur, delay: dur }} out:fade={{ duration: dur }}>
         <slot />
       </div>
     {/key}
@@ -46,6 +57,7 @@
 
   <CenterSun home={section === ''} />
   <CompassNav {section} emphasize={section === '' ? 'orbit' : ''} />
+  <StarCursor />
 
   <footer class="atlas">
     <AstrolabeWidget corner="bl">
@@ -170,6 +182,15 @@
     position: relative;
     height: 100dvh;
     overflow: hidden;
+  }
+
+  /* The star cursor rides the open sky on fine pointers; controls keep their
+     native cursors so they still look like controls. Reduced-motion users
+     also keep the system cursor (the paired trail is motion). */
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .shell {
+      cursor: url('/cursor-star.svg') 11 11, auto;
+    }
   }
 
   .canvas {
