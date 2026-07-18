@@ -20,6 +20,8 @@ export default defineConfig({
 
   use: {
     baseURL: `http://localhost:${PORT}`,
+    // Stable selectors: components stamp data-testid on interactive anchors.
+    testIdAttribute: 'data-testid',
     trace: 'on-first-retry',
     // Keep device-pixel-ratio at 1 so the viewport sizes in the no-scroll
     // matrix map 1:1 to CSS pixels (the unit the layout is written in).

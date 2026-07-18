@@ -1,28 +1,22 @@
 // Shared helpers for the no-scroll / functional regression suite.
 //
-// The redesign's headline invariant is "the page must never scroll" (DESIGN_AUDIT
-// §8.4). Because <body> is overflow:hidden, a control pushed past the viewport is
-// *clipped, not scrolled* — it fails silently. These helpers make that invariant,
-// and the functional flow that depends on it, checkable from the outside.
+// The Orrery Dashboard keeps the site's headline invariant: "the page must
+// never scroll" (DESIGN_AUDIT §8.4). Because <body> is overflow:hidden, a
+// control pushed past the viewport is *clipped, not scrolled* — it fails
+// silently. These helpers make that invariant, and the view flows that depend
+// on it, checkable from the outside.
 
 import { expect } from '@playwright/test';
+import { DUR } from '../src/lib/motion.js';
 
 // ── The DESIGN_QA_HANDOFF §A viewport matrix ─────────────────────────────────
 // Baseline widths, then the tight landscape/short-height budgets, then large
 // desktops. The zoom rows simulate WCAG browser zoom as the reduced CSS
-// viewport a real browser reports at that zoom on a 1280×800 window (e.g. 200%
-// zoom → half the CSS pixels on each axis) — the same signal `innerWidth/
-// innerHeight` carry under real zoom, which is what the layout reacts to.
+// viewport a real browser reports at that zoom on a 1280×800 window.
 //
-// `supported: false` marks the viewports where building this gate REVEALED a
-// genuine clip: at viewport heights ≤ ~533px the four always-open shelves plus
-// the masthead already exceed the screen, so the reader — CTA, podium, book
-// footer — is pushed below the fold. Fitting four shelves + a readable book +
-// podium into a 360–450px landscape/zoomed height is a responsive redesign
-// needing real-device/real-font judgment (owner-owned per
-// DESIGN_QA_HANDOFF §D), not a test tweak. These rows run as `test.fixme` so the
-// gap stays visible and encoded until that design work happens — see
-// docs/audits/qa-test-coverage.md.
+// `supported: false` rows run as `test.fixme` pending the stacked-variant
+// audit (the dashboard's chip + bottom-bar layout is expected to promote at
+// least the ≥450px-height rows) — see docs/audits/qa-test-coverage.md.
 export const VIEWPORTS = [
   { name: '390x844 · mobile portrait', width: 390, height: 844 },
   { name: '768x1024 · tablet portrait', width: 768, height: 1024 },
@@ -39,8 +33,15 @@ export const VIEWPORTS = [
 
 // Message shown on the skipped short-height rows.
 export const TIGHT_REASON =
-  'Known clip at viewport heights ≤ ~533px: the four always-open shelves push ' +
-  'the reader below the fold. Tracked in docs/audits/qa-test-coverage.md.';
+  'Short-height viewports (≤ ~533px) pending the stacked-variant fit audit. ' +
+  'Tracked in docs/audits/qa-test-coverage.md.';
+
+// The four compass views, in compass order (N, E, S, W).
+export const VIEWS = ['orbit', 'constellations', 'scrolls', 'archive'];
+
+// Wait window after a view swap: outgoing fade + incoming fade (delayed by one
+// fade) + margin. DUR is the same constant the shell animates with.
+export const SETTLE_MS = DUR.view * 2 + 200;
 
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'api.fontshare.com'];
 
@@ -123,72 +124,34 @@ export async function assertInViewport(page, locator, label = '') {
 }
 
 // ── State navigation ─────────────────────────────────────────────────────────
+// On the dev server the SSR markup is visible *before* hydration wires the
+// client router, so an early click can be a full-page navigation (fine) or be
+// swallowed mid-transition. The helpers therefore retry via `toPass`, which
+// doubles as a hydration gate — no fixed "wait for hydration" sleep.
 
-// Landing: nothing open, the staged closed book rests on the podium.
-export async function gotoLanding(page) {
+export async function gotoHome(page) {
   await page.goto('/');
-  await expect(page.locator('.stage-empty')).toBeVisible();
-  await expect(page.locator('.closed-book')).toBeVisible();
+  await expect(page.getByTestId('center-sun')).toBeVisible();
+  await expect(page.getByTestId('view-home')).toBeVisible();
 }
 
-// Two timing facts about +page.svelte drive the helpers below:
-//  1. On the dev server the SSR markup is visible *before* hydration wires the
-//     on:click handlers, so an early click is silently ignored. The open helpers
-//     therefore retry the click until it actually takes effect (via `toPass`),
-//     which doubles as a hydration gate — no fixed "wait for hydration" sleep.
-//  2. `handleBookClick` / `handleClose` hold a `switching` guard for a hardcoded
-//     420ms (open) / 380+420ms (switch); a click inside that window is dropped.
-//     After each transition we wait the window out (with margin) so the *next*
-//     interaction is never swallowed. These are fixed source constants, so the
-//     waits are deterministic, not races.
-const OPEN_MS = 550; // one open animation (sleep 420) + margin
-const SWITCH_MS = 950; // close + open when swapping books (sleep 380 + 420) + margin
-
-// Open the staged volume (Brinker) via the closed book resting on the podium.
-// Retries until the book actually opens, absorbing the pre-hydration window on
-// a fresh load.
-export async function openStagedBook(page) {
-  const cta = page.locator('.closed-book');
+// Navigate to a compass view by clicking its (fixed-position) compass point,
+// then wait out the scene cross-fade so the next interaction isn't swallowed.
+export async function gotoView(page, view) {
+  const link = page.getByTestId(`compass-${view}`);
   await expect(async () => {
-    if (await cta.isVisible()) await cta.click();
-    await expect(page.locator('.book-spread')).toBeVisible({ timeout: 1000 });
+    if (!new URL(page.url()).pathname.startsWith(`/${view}`)) await link.click();
+    await expect(page.getByTestId(`view-${view}`)).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
-  await expect(page.locator('.th-t')).toBeVisible();
-  await page.waitForTimeout(OPEN_MS);
+  await page.waitForTimeout(SETTLE_MS);
 }
 
-// Select a spine by its book title. The spine keeps its `title="<Title> · <sub>"`
-// attribute even when the shelves compact (the visible text is hidden while a
-// book is open), so this works from the landing state and while switching books.
-export function spine(page, title) {
-  return page.locator(`.spine[title^="${title}"]`).first();
-}
-
-// Open a book by title and wait for its table of contents to render. Works while
-// another book is open (that path closes + reopens over ~800ms, which the
-// web-first assertion below rides out).
-export async function openBook(page, title) {
-  const target = new RegExp(escapeRe(title));
-  const th = page.locator('.th-t');
+// Return to home via the center sun.
+export async function gotoHomeViaSun(page) {
+  const sun = page.getByTestId('center-sun');
   await expect(async () => {
-    // Only click when the target book isn't already the open one — re-clicking
-    // the already-open book's spine would toggle it shut. When the guard is mid-
-    // switch the click is harmlessly ignored, and the title still resolves.
-    const current = (await th.count()) ? (await th.first().textContent()) ?? '' : '';
-    if (!target.test(current)) await spine(page, title).click();
-    await expect(th).toHaveText(target, { timeout: 1200 });
+    if (new URL(page.url()).pathname !== '/') await sun.click();
+    await expect(page.getByTestId('view-home')).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
-  // Wait out the (possible) close+open switch window before the next click.
-  await page.waitForTimeout(SWITCH_MS);
-}
-
-// From a book's TOC, open the Nth chapter (0-based) and land in the reader.
-export async function openChapter(page, index = 0) {
-  await page.locator('.toc-item').nth(index).click();
-  await expect(page.locator('.reading')).toBeVisible();
-  await expect(page.locator('.page-foot')).toBeVisible();
-}
-
-function escapeRe(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  await page.waitForTimeout(SETTLE_MS);
 }

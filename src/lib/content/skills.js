@@ -50,11 +50,12 @@ export const constellations = [
     label: 'Woodworking',
     solid: 'tetra',
     accent: 'var(--rose)',
+    // Top-center — the map's center belongs to the always-visible sun.
     nodes: [
-      { id: 'furniture', label: 'Furniture', x: 800, y: 400, bookId: 'book-woodworking' },
-      { id: 'restorations', label: 'Restorations', x: 690, y: 585, bookId: 'book-woodworking' },
-      { id: 'builtins', label: 'Built-Ins', x: 910, y: 585, bookId: 'book-woodworking' },
-      { id: 'guides', label: 'Build Guides', x: 800, y: 520, bookId: 'book-woodworking' },
+      { id: 'furniture', label: 'Furniture', x: 800, y: 95, bookId: 'book-woodworking' },
+      { id: 'restorations', label: 'Restorations', x: 690, y: 265, bookId: 'book-woodworking' },
+      { id: 'builtins', label: 'Built-Ins', x: 910, y: 265, bookId: 'book-woodworking' },
+      { id: 'guides', label: 'Build Guides', x: 800, y: 195, bookId: 'book-woodworking' },
     ],
     edges: [
       ['furniture', 'restorations'], ['restorations', 'builtins'], ['builtins', 'furniture'],

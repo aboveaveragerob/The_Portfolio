@@ -1,8 +1,68 @@
+<script>
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import { DUR } from '$lib/motion.js';
+  import Backdrop from '$lib/components/Backdrop.svelte';
+  import CenterSun from '$lib/components/CenterSun.svelte';
+  import CompassNav from '$lib/components/CompassNav.svelte';
+  import AstrolabeWidget from '$lib/components/geometry/AstrolabeWidget.svelte';
+  import MetatronCube from '$lib/components/geometry/MetatronCube.svelte';
+
+  // The scene is keyed on the top-level section only, so opening a nested
+  // detail route (/orbit/brinker, /archive/eddie-bauer) never re-renders the
+  // scene behind its overlay.
+  $: section = $page.url.pathname.split('/')[1] ?? '';
+
+  let dur = DUR.view;
+  onMount(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => (dur = mq.matches ? 0 : DUR.view);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  });
+</script>
+
 <svelte:head>
   <meta name="theme-color" content="#0b0912" />
 </svelte:head>
 
-<slot />
+<a class="skip-link" href="#view">Skip to content</a>
+
+<div class="shell" data-section={section || 'home'}>
+  <Backdrop />
+
+  <!-- Scenes are absolutely positioned so an outgoing and incoming scene can
+       overlap during the cross-fade without ever doubling layout height —
+       the page must never scroll, transiently included. -->
+  <main id="view" class="canvas" tabindex="-1">
+    {#key section}
+      <div class="scene" in:fade={{ duration: dur, delay: dur }} out:fade={{ duration: dur }}>
+        <slot />
+      </div>
+    {/key}
+  </main>
+
+  <CenterSun home={section === ''} />
+  <CompassNav {section} emphasize={section === '' ? 'orbit' : ''} />
+
+  <footer class="atlas">
+    <AstrolabeWidget corner="bl">
+      <address class="coords">
+        <span class="coords-k">Send a signal</span>
+        <a data-testid="atlas-contact" href="mailto:rob.a.gregory@proton.me">rob.a.gregory@proton.me</a>
+        <a href="https://alastairzeved.com/">alastairzeved.com</a>
+      </address>
+    </AstrolabeWidget>
+    <AstrolabeWidget corner="br">
+      <p class="colophon">
+        <MetatronCube size={30} opacity={0.7} showCircles={false} />
+        <span>The Cosmological Library</span>
+      </p>
+    </AstrolabeWidget>
+  </footer>
+</div>
 
 <style>
   :global(*, *::before, *::after) {
@@ -54,6 +114,10 @@
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+    /* Shell metrics shared by scenes (stacked-variant safe areas) */
+    --chip-h: 56px;
+    --bar-h: 64px;
   }
 
   :global(html) {
@@ -98,7 +162,7 @@
     padding: 8px 14px;
     border-radius: 6px;
     background: var(--surface-1);
-    color: var(--bone-0);
+    color: var(--text);
     font-family: var(--mono);
     font-size: .72rem;
     letter-spacing: .08em;
@@ -119,5 +183,92 @@
     outline: 2px solid var(--gold);
     outline-offset: 3px;
     border-radius: 3px;
+  }
+
+  /* ── Shell ──────────────────────────────────────── */
+  .shell {
+    position: relative;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    outline: none;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  /* ── Atlas corners ──────────────────────────────── */
+  .atlas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 14px 18px;
+    pointer-events: none;
+  }
+  .atlas :global(.astrolabe) { pointer-events: none; }
+
+  .coords {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+  .coords-k {
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 0.6rem;
+  }
+  .coords a {
+    color: var(--sapphire);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 2px 0;
+  }
+  .coords a:hover,
+  .coords a:focus-visible { color: var(--gold); }
+
+  .colophon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+
+  /* Narrow / short viewports: corners compact into a slim line above the
+     compass bar (footer stays — it is never hidden). */
+  @media (max-width: 899px), (max-height: 559px) {
+    .atlas {
+      bottom: var(--bar-h);
+      padding: 4px 12px;
+      align-items: center;
+    }
+    .atlas :global(.aw-frame) { display: none; }
+    .atlas :global(.astrolabe) { padding: 0; }
+    .coords { flex-direction: row; gap: 10px; align-items: baseline; }
+    .coords-k { display: none; }
+    .coords a { font-size: 0.6rem; }
+    .colophon span { display: none; }
   }
 </style>

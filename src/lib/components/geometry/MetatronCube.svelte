@@ -3,24 +3,23 @@
      spin used behind the active compass point; reduced-motion kills it. -->
 <script context="module">
   const R = 30;
-  const centers = [{ x: 0, y: 0 }];
+  const CENTERS = [{ x: 0, y: 0 }];
   for (const ring of [1, 2]) {
     for (let i = 0; i < 6; i++) {
       const a = (i * 60 * Math.PI) / 180;
-      centers.push({
+      CENTERS.push({
         x: +(Math.cos(a) * R * ring).toFixed(2),
         y: +(Math.sin(a) * R * ring).toFixed(2),
       });
     }
   }
-  const lines = [];
-  for (let i = 0; i < centers.length; i++) {
-    for (let j = i + 1; j < centers.length; j++) {
-      lines.push([centers[i], centers[j]]);
+  const LINES = [];
+  for (let i = 0; i < CENTERS.length; i++) {
+    for (let j = i + 1; j < CENTERS.length; j++) {
+      LINES.push([CENTERS[i], CENTERS[j]]);
     }
   }
   const R_CIRCLE = 15;
-  export { centers as CENTERS, lines as LINES };
 </script>
 
 <script>
