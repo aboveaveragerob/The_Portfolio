@@ -41,9 +41,9 @@
 <div class="bookcase {orientation}" class:open>
   {#each wings as wing (wing.id)}
     <section class="wing" data-theme={wing.theme} aria-label={wing.title} style="--wing-accent: {wing.accent}">
-      {#if wing.theme === 'soundstage' || wing.theme === 'greenhouse' || wing.theme === 'cyber'}
-        <div class="wing-decor" aria-hidden="true"></div>
-      {/if}
+      <!-- Each wing is its own room: a back-wall (.wing::before) carries the
+           architecture + lighting, and this prop pins a signature object. -->
+      <div class="wing-decor" aria-hidden="true"></div>
       <div class="nameplate"><span>{wing.title}</span></div>
 
       <div class="stacks">
@@ -112,7 +112,30 @@
 
   .wing {
     position: relative;
+    isolation: isolate;   /* own stacking context so the back-wall sits behind */
     --shelf-face: color-mix(in oklab, var(--wing-accent) 16%, #1a1230);
+  }
+
+  /* The wing's back wall + atmosphere. Absolute + inset:0 keeps it bounded to
+     the wing box (never inflates the vertical bookcase's internal scroll), and
+     --z-backwall parks it behind the in-flow shelves and spines. Each theme
+     paints its own architecture + a soft light pool; the base is a quiet vault
+     wash so the unskinned/career wings still read as lit alcoves. A large
+     background-size lets Phase-4 parallax slide it via background-position. */
+  .wing::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-backwall);
+    pointer-events: none;
+    border-radius: 8px;
+    background:
+      radial-gradient(70% 50% at 50% 0%,
+        color-mix(in oklab, var(--wing-accent) 12%, transparent) 0%, transparent 62%),
+      linear-gradient(180deg, #161031 0%, #0c0a1c 100%);
+    background-size: 118% 118%;
+    background-position: calc(50% + var(--px) * -14px) calc(50% + var(--py) * -10px);
+    opacity: .5;
   }
 
   /* ── Nameplate (the wing's engraved shelf label) ─────────────────────── */
@@ -200,7 +223,7 @@
     appearance: none;
     cursor: pointer;
     position: relative;
-    z-index: 1;
+    z-index: var(--z-spine);
     flex: none;
     padding: 8px 2px 7px;
     border: none;
@@ -296,12 +319,158 @@
      so it never affects the no-scroll flow. */
   .wing-decor { position: absolute; pointer-events: none; z-index: 0; }
 
-  /* ═══════════════ Per-Wing aesthetics ═══════════════════════════════════
-     Each personal Wing keeps the same bookcase bones but wears its own skin,
-     so the library reads as distinct rooms without breaking the whole. The
-     career rail and Physical Archive keep the classic cosmic treatment. */
+  /* ═══════════════ Per-Wing aesthetics — five distinct library wings ══════
+     Every wing keeps the same bookcase bones (spine buttons, planks, caps) so
+     the reading flow and its tests are untouched — but each wears a different
+     room: back-wall architecture (.wing::before), lighting, a spine skin, and
+     a pinned prop, so the library reads as five distinct spaces. Issue #63.
+     Back-walls slide a touch under the pointer via background-position, driven
+     by --px/--py (0 until Phase-4 wires the listener; frozen by reduced-motion). */
 
-  /* ── Digital Atelier — a cyber / techno stack (issue #60) ─────────────── */
+  /* ── Career — the Grand Observatory Hall (the formal main hall, top rail) ─
+     A colonnaded reading room under a teal gallery downlight: the restrained
+     anchor the other wings vary from. */
+  .wing[data-theme="career"]::before {
+    background:
+      radial-gradient(52% 64% at 50% -6%,
+        color-mix(in oklab, var(--wing-accent) 20%, transparent) 0%, transparent 60%),
+      repeating-linear-gradient(90deg,
+        transparent 0 90px, #b6a0ff12 90px 92px, transparent 92px 182px),
+      linear-gradient(180deg, #c9b6ff18 0 2px, transparent 2px),
+      linear-gradient(180deg, #14112e 0%, #0b0a1c 100%);
+    background-size: auto, auto, auto, 130% 130%;
+    background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
+    opacity: .5;
+  }
+  /* engraved placard: a hairline rule under the nameplate */
+  .wing[data-theme="career"] .nameplate span { letter-spacing: .02em; }
+  .wing[data-theme="career"] .nameplate::after {
+    content: "";
+    display: block;
+    height: 1px;
+    margin: 4px auto 0;
+    width: 46%;
+    background: linear-gradient(90deg, transparent,
+      color-mix(in oklab, var(--wing-accent) 55%, var(--line-2)) 20% 80%, transparent);
+  }
+  /* bound-tome ridges: two raised bands across each spine, title centred between */
+  .wing[data-theme="career"] .spine {
+    background:
+      linear-gradient(180deg,
+        transparent 0 22%, #00000042 22% 23%, #ffffff16 23% 24%, transparent 24% 76%,
+        #00000042 76% 77%, #ffffff16 77% 78%, transparent 78%),
+      linear-gradient(90deg, #ffffff24 0%, #ffffff00 16% 82%, #00000055 100%),
+      linear-gradient(180deg,
+        color-mix(in oklab, var(--spine) 84%, #ffffff) 0%,
+        var(--spine) 20%,
+        color-mix(in oklab, var(--spine) 80%, #000000) 100%);
+  }
+  /* dentil cornice pinned along the top of the hall */
+  .wing[data-theme="career"] .wing-decor {
+    inset: -2px 0 auto 0; height: 7px;
+    background: repeating-linear-gradient(90deg, #c9b6ff2b 0 6px, transparent 6px 13px);
+    opacity: .5;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16% 84%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 16% 84%, transparent);
+  }
+
+  /* ── Physical Archive — the Fabrication Bay (blueprint wall + workbench) ──
+     A maker's alcove: a blueprint-blue drafting grid and pegboard tool wall lit
+     by a warm task lamp, matte field-manual binders on a heavy workbench. The
+     orange accent is the lamp + the annotation, not the wall. */
+  .wing[data-theme="workshop"]::before {
+    background:
+      radial-gradient(46% 36% at 24% 88%,
+        color-mix(in oklab, var(--wing-accent) 30%, transparent) 0%, transparent 66%),
+      radial-gradient(#8fb7e01f 1px, transparent 1.7px),
+      repeating-linear-gradient(0deg, #8fb7e012 0 1px, transparent 1px 22px),
+      repeating-linear-gradient(90deg, #8fb7e012 0 1px, transparent 1px 22px),
+      linear-gradient(180deg, #10203a 0%, #0a1622 100%);
+    background-size: 130% 130%, 22px 22px, auto, auto, 130% 130%;
+    background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
+    opacity: .55;
+  }
+  /* stencilled bay label with a dimension-line underline */
+  .wing[data-theme="workshop"] .nameplate span {
+    background: none;
+    color: color-mix(in oklab, var(--wing-accent) 68%, #ffe8cf);
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: clamp(.6rem, 1.2vw, .72rem);
+  }
+  .wing[data-theme="workshop"] .nameplate::after {
+    content: "";
+    display: block;
+    height: 5px; margin: 4px 2px 0;
+    border-left: 1px solid #ff8a2b66;
+    border-right: 1px solid #ff8a2b66;
+    background: linear-gradient(#ff8a2b66, #ff8a2b66) center / 100% 1px no-repeat;
+  }
+  .wing[data-theme="workshop"] .plank {
+    /* a heavy matte workbench, not the glossy cosmic ledge */
+    background: linear-gradient(180deg, #2a2333 0%, #14101c 100%);
+    box-shadow: var(--shadow-fall) 14px 26px -10px #000, inset 0 1px 0 #ffffff12;
+  }
+  .wing[data-theme="workshop"] .plank::after {
+    /* worked front edge: fine kerf notches */
+    background:
+      repeating-linear-gradient(90deg, transparent 0 9px, #0000004d 9px 10px),
+      linear-gradient(180deg, #14101c, #08060e);
+  }
+  /* matte field-manual binders: square corners, bookcloth weave */
+  .wing[data-theme="workshop"] .spine {
+    border-radius: var(--radius-xs);
+    background:
+      repeating-linear-gradient(90deg, #ffffff09 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(0deg, #0000000f 0 1px, transparent 1px 3px),
+      linear-gradient(90deg, #ffffff16 0%, #ffffff00 16% 84%, #00000055 100%),
+      linear-gradient(180deg,
+        color-mix(in oklab, var(--spine) 88%, #d9cdb6) 0%,
+        var(--spine) 34%,
+        color-mix(in oklab, var(--spine) 82%, #000000) 100%);
+  }
+  .wing[data-theme="workshop"] .spine .sp-cap {
+    /* a taped binder label at the head */
+    background: linear-gradient(180deg, #e9e2d0, #cabfa6 100%);
+    opacity: .92;
+  }
+  /* a folded blueprint pinned to the bay wall */
+  .wing[data-theme="workshop"] .wing-decor {
+    top: -4px; right: 5px; width: 30px; height: 24px;
+    transform: rotate(-6deg);
+    border-radius: 1px;
+    background:
+      repeating-linear-gradient(0deg, #ffffff26 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(90deg, #ffffff26 0 1px, transparent 1px 5px),
+      linear-gradient(135deg, #2b5a8f, #17324f);
+    box-shadow: var(--shadow-contact), inset 0 0 0 1px #ffffff22;
+    opacity: .82;
+  }
+  .wing[data-theme="workshop"] .wing-decor::before {
+    content: ""; position: absolute; top: 0; right: 0;
+    border-width: 7px; border-style: solid;
+    border-color: #0a1420 #0a1420 transparent transparent;
+  }
+
+  /* ── Digital Atelier — the Server Vault (cyber / techno stack, issue #60) ─ */
+  .wing[data-theme="cyber"]::before {
+    background:
+      /* cool monitor uplight from the floor of the rack */
+      radial-gradient(58% 38% at 50% 100%,
+        color-mix(in oklab, var(--wing-accent) 26%, transparent) 0%, transparent 68%),
+      /* solder-pad corner glints */
+      radial-gradient(3px 3px at 12% 8%, #43b6ff33, transparent 60%),
+      radial-gradient(3px 3px at 88% 8%, #43b6ff33, transparent 60%),
+      /* rack-unit horizontal divisions */
+      repeating-linear-gradient(0deg, #0a1830 0 21px, #0e2038 21px 22px, #0d2240 22px 23px),
+      /* vertical circuit traces */
+      repeating-linear-gradient(90deg, #43b6ff0d 0 1px, transparent 1px 28px),
+      linear-gradient(180deg, #08111f 0%, #050c16 100%);
+    background-size: 130% 130%, auto, auto, auto, auto, 130% 130%;
+    background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
+    opacity: .6;
+  }
   .wing[data-theme="cyber"] .nameplate {
     font-family: var(--mono);
     font-style: normal;
@@ -316,33 +485,62 @@
   }
   .wing[data-theme="cyber"] .nameplate::before { content: "// "; opacity: .7; }
   .wing[data-theme="cyber"] .plank {
+    /* a rack rail — brushed steel with an accent power line */
     background: linear-gradient(180deg, #123049 0%, #070d18 100%);
-    box-shadow: 0 14px 26px -10px #000, inset 0 1px 0 var(--wing-accent), 0 0 14px -4px #43b6ff55;
+    box-shadow: var(--shadow-fall) 14px 26px -10px #000, inset 0 1px 0 var(--wing-accent), 0 0 14px -4px #43b6ff55;
   }
   .wing[data-theme="cyber"] .plank::after { background: linear-gradient(180deg, #070d18, #030509); }
   .wing[data-theme="cyber"] .spine {
+    /* a racked module: scanlines + a bright accent right-edge gutter */
     background:
       repeating-linear-gradient(0deg, #ffffff08 0 1px, transparent 1px 4px),
-      linear-gradient(90deg, #ffffff20 0%, #ffffff00 16% 82%, #00000066 100%),
+      linear-gradient(90deg, #ffffff20 0%, #ffffff00 16% 80%, #43b6ff2e 92%, #00000077 100%),
       linear-gradient(180deg,
         color-mix(in oklab, var(--spine) 78%, #0a1830) 0%,
         color-mix(in oklab, var(--spine) 88%, #061224) 60%,
         #060c18 100%);
-    box-shadow: 0 14px 22px -12px #000, inset 0 1px 0 #ffffff1f, 0 0 12px -4px #43b6ff44;
+    box-shadow: var(--shadow-fall) 14px 22px -12px #000, inset 0 1px 0 #ffffff1f, 0 0 12px -4px #43b6ff44;
   }
   .wing[data-theme="cyber"] .spine .sp-cap {
     background: linear-gradient(180deg, var(--wing-accent), #1b6fb0);
     box-shadow: 0 0 8px -1px #43b6ffaa;
   }
+  /* the reading emblem becomes a lit power LED */
+  .wing[data-theme="cyber"] .sp-emblem svg { display: none; }
+  .wing[data-theme="cyber"] .sp-emblem {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #d9f2ff, var(--wing-accent) 55%, #1b6fb0);
+    box-shadow: 0 0 7px -1px #43b6ffcc;
+  }
+  /* a status-LED strip pinned to the rack (the wall carries the circuitry now) */
   .wing[data-theme="cyber"] .wing-decor {
-    inset: -2px 0 auto 0;
-    height: 100%;
+    top: -3px; right: 4px; width: 34px; height: 6px;
+    border-radius: 1px;
     background:
-      repeating-linear-gradient(90deg, #43b6ff10 0 1px, transparent 1px 26px);
-    opacity: .5;
+      radial-gradient(2px 2px at 4px 3px, #5ef2a0dd, transparent 60%),
+      radial-gradient(2px 2px at 12px 3px, #43b6ffdd, transparent 60%),
+      radial-gradient(2px 2px at 20px 3px, #ffd24a 60%, transparent 62%),
+      radial-gradient(2px 2px at 28px 3px, #43b6ff88, transparent 60%),
+      linear-gradient(180deg, #0c1626, #060c16);
+    box-shadow: inset 0 0 0 1px #ffffff14;
+    opacity: .9;
   }
 
-  /* ── Cognitive Greenhouse — glasshouse of the mind (issue #59) ────────── */
+  /* ── Cognitive Greenhouse — the Glasshouse Conservatory (issue #59) ────── */
+  .wing[data-theme="greenhouse"]::before {
+    background:
+      /* dappled grow-light through the glass */
+      radial-gradient(28% 20% at 30% 18%, #eafff24d 0%, transparent 60%),
+      radial-gradient(24% 18% at 74% 40%, #bfffde33 0%, transparent 62%),
+      /* mullioned glazing bars: vertical + horizontal */
+      repeating-linear-gradient(90deg, #bfffde14 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(0deg, #bfffde10 0 1px, transparent 1px 40px),
+      /* cool glass tint */
+      linear-gradient(180deg, #123528 0%, #0a1f16 100%);
+    background-size: 130% 130%, 130% 130%, auto, auto, 130% 130%;
+    background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
+    opacity: .55;
+  }
   .wing[data-theme="greenhouse"] .nameplate span {
     background: linear-gradient(180deg, #d7ffe9, var(--wing-accent));
     -webkit-background-clip: text;
@@ -352,7 +550,7 @@
   }
   .wing[data-theme="greenhouse"] .plank {
     background: linear-gradient(180deg, #2b5a44 0%, #0f2419 100%);
-    box-shadow: 0 14px 26px -10px #000, inset 0 1px 0 #b9ffdc55, 0 0 16px -6px #5ef2a044;
+    box-shadow: var(--shadow-fall) 14px 26px -10px #000, inset 0 1px 0 #b9ffdc55, 0 0 16px -6px #5ef2a044;
   }
   .wing[data-theme="greenhouse"] .plank::after { background: linear-gradient(180deg, #0f2419, #06120c); }
   .wing[data-theme="greenhouse"] .spine {
@@ -368,7 +566,7 @@
   .wing[data-theme="greenhouse"] .spine .sp-cap {
     background: linear-gradient(180deg, #eafff2, #a9e6c4);
   }
-  /* a soft trailing vine along the top of the wing */
+  /* a trailing vine along the top, with a tendril and two leaves hanging down */
   .wing[data-theme="greenhouse"] .wing-decor {
     inset: 2px 4px auto 4px;
     height: 12px;
@@ -381,10 +579,33 @@
       linear-gradient(90deg, transparent, #5ef2a04d 20% 80%, transparent);
     opacity: .55;
   }
+  .wing[data-theme="greenhouse"] .wing-decor::after {
+    content: ""; position: absolute;
+    left: 22%; top: 9px; width: 1px; height: 16px;
+    background: linear-gradient(#5ef2a0aa, transparent);
+    box-shadow:
+      3px 5px 0 -1px #5ef2a0, -3px 9px 0 -1px #5ef2a0;  /* two hanging leaves */
+    border-radius: 2px;
+  }
 
-  /* ── Social Soundstage — a music library of media, not books (issue #61) ─
+  /* ── Social Soundstage — the Soundstage Lounge (media, not books, #61) ───
      The volumes read as CD / media cases (glossy plastic, a disc peeking from
-     the case, a play-head emblem) and the Wing pins an event poster. */
+     the case, a play-head emblem); the wall is acoustic panelling washed by a
+     magenta stage glow and a spotlight cone, and the wing pins an event poster. */
+  .wing[data-theme="soundstage"]::before {
+    background:
+      /* spotlight cone falling from above */
+      conic-gradient(from 180deg at 50% -12%, transparent 44%, #ff2d7814 50%, transparent 56%),
+      /* stage glow rising from the floor */
+      radial-gradient(60% 46% at 50% 100%,
+        color-mix(in oklab, var(--wing-accent) 24%, transparent) 0%, transparent 70%),
+      /* diagonal acoustic-foam wedges */
+      repeating-linear-gradient(45deg, #ffffff0a 0 6px, transparent 6px 12px),
+      linear-gradient(180deg, #2a0f22 0%, #140611 100%);
+    background-size: 130% 130%, 130% 130%, auto, 130% 130%;
+    background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
+    opacity: .6;
+  }
   .wing[data-theme="soundstage"] .nameplate span {
     background: linear-gradient(180deg, #ffd7e8, var(--wing-accent));
     -webkit-background-clip: text;
@@ -393,7 +614,7 @@
   }
   .wing[data-theme="soundstage"] .plank {
     background: linear-gradient(180deg, #2a0f22 0%, #10060d 100%);
-    box-shadow: 0 14px 26px -10px #000, inset 0 1px 0 #ff2d7877, 0 0 16px -6px #ff2d7855;
+    box-shadow: var(--shadow-fall) 14px 26px -10px #000, inset 0 1px 0 #ff2d7877, 0 0 16px -6px #ff2d7855;
   }
   .wing[data-theme="soundstage"] .plank::after { background: linear-gradient(180deg, #10060d, #070308); }
   /* CD / jewel-case body: glossy plastic with a bright vertical highlight */
