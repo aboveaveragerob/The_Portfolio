@@ -101,16 +101,6 @@
     --ledge-hi:  #342b4d;
     --ledge-lo:  #171126;
 
-    /* Legacy aliases — consumed by pre-overhaul components only; removed
-       with their consumers in the Archive/Folio phase. */
-    --bone-0:  var(--text);
-    --bone-1:  var(--text);
-    --bone-2:  var(--text-2);
-    --pink:    var(--rose);
-
-    --grad:     linear-gradient(100deg, var(--gold), var(--rose) 32%, var(--violet) 68%, var(--sapphire));
-    --grad-ink: linear-gradient(100deg,#a97c14,#a35f2f 32%,#6d3fd6 68%,#2f5fd0);
-
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
@@ -141,16 +131,6 @@
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     overflow: hidden;
-  }
-
-  :global(.gradtext) {
-    color: var(--bone-0);            /* solid fallback if background-clip:text is unsupported */
-    background: var(--grad);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    :global(.gradtext) { color: transparent; }
   }
 
   /* Skip link — visually hidden until focused (keyboard/SR wayfinding) */

@@ -12,6 +12,8 @@ import {
   gotoView,
   gotoHomeViaSun,
   openRole,
+  openFolio,
+  pageShelf,
 } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
@@ -88,6 +90,45 @@ test('compass reaches every view and the sun returns home — no console errors'
   await expect(page.getByTestId('scrolls-card')).toContainText('Series 65');
   await page.getByTestId('tab-certificates').click();
   await expect(page.getByTestId('scrolls-card')).toContainText('Python in Excel');
+
+  // Archive: open an image volume — the Eddie Bauer windows actually load.
+  await gotoView(page, 'archive');
+  await openFolio(page, 'eddie-bauer');
+  const folio = page.getByTestId('folio');
+  await expect(folio).toContainText('Contents');
+  await folio.getByRole('button', { name: /Visual Merchandising/ }).click();
+  await expect(folio.locator('.shots img').first()).toBeVisible();
+  await expect
+    .poll(async () =>
+      folio.locator('.shots img').first().evaluate((img) => img.complete && img.naturalWidth > 0)
+    )
+    .toBe(true);
+
+  // Turn pages and watch the counter move.
+  await expect(page.getByTestId('folio-counter')).toContainText('2 /');
+  await page.getByTestId('folio-next').click();
+  await expect(page.getByTestId('folio-counter')).toContainText('3 /');
+  await page.getByTestId('folio-prev').click();
+  await expect(page.getByTestId('folio-counter')).toContainText('2 /');
+  await page.getByTestId('folio-close').click();
+  await expect(page).toHaveURL(/\/archive$/);
+
+  // The audio volume lives on the Soundstage shelf: page across, open it,
+  // and both mp3 teasers are present.
+  for (let i = 0; i < 4; i++) await pageShelf(page, +1);
+  await openFolio(page, 'music-audio-production');
+  await page.getByTestId('folio').getByRole('button', { name: /Discography/ }).click();
+  const tracks = page.getByTestId('folio').locator('.tracks audio');
+  await expect(tracks).toHaveCount(2);
+  for (const src of await tracks.evaluateAll((els) => els.map((el) => el.getAttribute('src')))) {
+    expect(src).toMatch(/\.mp3$/);
+  }
+
+  // Escape closes the folio too.
+  await expect(async () => {
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/archive$/, { timeout: 800 });
+  }).toPass({ timeout: 8_000 });
 
   await gotoHomeViaSun(page);
   await expect(page).toHaveURL(/\/$/);

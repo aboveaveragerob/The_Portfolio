@@ -156,6 +156,23 @@ export async function openRole(page, id) {
   await page.waitForTimeout(DUR.panel + 150);
 }
 
+// Open a volume's folio by clicking its spine on the archive shelf. The
+// spine must be on the currently visible shelf page (use pageShelf first).
+export async function openFolio(page, slug) {
+  const spine = page.getByTestId(`spine-${slug}`);
+  await expect(async () => {
+    if (!new URL(page.url()).pathname.includes(`/archive/${slug}`)) await spine.click();
+    await expect(page.getByTestId('folio')).toBeVisible({ timeout: 1500 });
+  }).toPass({ timeout: 12_000 });
+  await page.waitForTimeout(DUR.folioTurn + 150);
+}
+
+// Page the archive shelf carousel by clicking the labeled buttons.
+export async function pageShelf(page, dir) {
+  await page.getByTestId(dir > 0 ? 'shelf-next' : 'shelf-prev').click();
+  await page.waitForTimeout(DUR.panel + 200);
+}
+
 // Return to home via the center sun.
 export async function gotoHomeViaSun(page) {
   const sun = page.getByTestId('center-sun');

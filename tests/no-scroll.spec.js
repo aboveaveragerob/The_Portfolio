@@ -15,6 +15,8 @@ import {
   gotoHome,
   gotoView,
   openRole,
+  openFolio,
+  pageShelf,
 } from './helpers.js';
 
 for (const vp of VIEWPORTS) {
@@ -22,6 +24,10 @@ for (const vp of VIEWPORTS) {
     test.use({ viewport: { width: vp.width, height: vp.height } });
 
     const t = vp.supported === false ? test.fixme : test;
+
+    // The journey covers all four views plus role/tab/shelf/folio states,
+    // each riding out shared motion durations — double the default budget.
+    test.setTimeout(60_000);
 
     t(`home and every view fit one screen${vp.supported === false ? ` — ${TIGHT_REASON}` : ''}`, async ({ page }) => {
       await blockFonts(page);
@@ -63,6 +69,22 @@ for (const vp of VIEWPORTS) {
           await assertInViewport(page, page.getByTestId('tab-degrees'), 'scrolls: degrees tab');
           await page.getByTestId('tab-certificates').click();
           await assertNoPageScroll(page, 'scrolls: certificates tab');
+        }
+
+        if (v === 'archive') {
+          // Shelf paging and an open folio must both keep to one screen.
+          await assertInViewport(page, page.getByTestId('shelf-next'), 'archive: next-shelf button');
+          await pageShelf(page, +1);
+          await assertNoPageScroll(page, 'archive: shelf 2');
+          await pageShelf(page, -1);
+
+          await openFolio(page, 'brinker-capital');
+          await assertNoPageScroll(page, 'archive: folio open');
+          await assertInViewport(page, page.getByTestId('folio-close'), 'archive: folio close');
+          await assertInViewport(page, page.getByTestId('folio-counter'), 'archive: folio counter');
+          await page.getByTestId('folio-close').click();
+          await page.waitForTimeout(300);
+          await assertNoPageScroll(page, 'archive: folio closed');
         }
       }
     });
