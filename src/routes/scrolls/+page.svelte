@@ -1,3 +1,7 @@
+<script>
+  import ScrollsCard from '$lib/components/ScrollsCard.svelte';
+</script>
+
 <svelte:head>
   <title>Scrolls — Robert Gregory</title>
   <meta name="description" content="Degrees, licenses, and certificates — B.S. Accounting magna cum laude, Series 65, Python in Excel." />
@@ -8,7 +12,7 @@
     <h1>Scrolls</h1>
     <p class="view-sub">Education &amp; licensing</p>
   </header>
-  <p class="stub">This chart is still being drawn.</p>
+  <ScrollsCard />
 </div>
 
 <style>
@@ -17,6 +21,7 @@
     position: absolute;
     top: clamp(12px, 3vh, 28px);
     left: clamp(14px, 3vw, 32px);
+    z-index: 2;
   }
   h1 {
     font-family: var(--serif);
@@ -29,14 +34,6 @@
     font-size: 0.66rem;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--text-2);
-  }
-  .stub {
-    position: absolute;
-    left: clamp(14px, 3vw, 32px);
-    bottom: clamp(70px, 12vh, 110px);
-    font-family: var(--serif);
-    font-style: italic;
     color: var(--text-2);
   }
   @media (max-width: 899px), (max-height: 559px) {

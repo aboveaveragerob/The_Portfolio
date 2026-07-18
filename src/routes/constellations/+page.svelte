@@ -1,3 +1,7 @@
+<script>
+  import ConstellationMap from '$lib/components/ConstellationMap.svelte';
+</script>
+
 <svelte:head>
   <title>Constellations — Robert Gregory</title>
   <meta name="description" content="Five skill areas — financial operations, technology, horticulture, music, woodworking — mapped as constellations with cross-disciplinary ties." />
@@ -8,7 +12,7 @@
     <h1>Constellations</h1>
     <p class="view-sub">Skills &amp; craft</p>
   </header>
-  <p class="stub">This chart is still being drawn.</p>
+  <ConstellationMap />
 </div>
 
 <style>
@@ -17,6 +21,7 @@
     position: absolute;
     top: clamp(12px, 3vh, 28px);
     left: clamp(14px, 3vw, 32px);
+    z-index: 2;
   }
   h1 {
     font-family: var(--serif);
@@ -29,14 +34,6 @@
     font-size: 0.66rem;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--text-2);
-  }
-  .stub {
-    position: absolute;
-    left: clamp(14px, 3vw, 32px);
-    bottom: clamp(70px, 12vh, 110px);
-    font-family: var(--serif);
-    font-style: italic;
     color: var(--text-2);
   }
   @media (max-width: 899px), (max-height: 559px) {

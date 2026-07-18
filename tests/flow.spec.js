@@ -69,6 +69,26 @@ test('compass reaches every view and the sun returns home — no console errors'
     await expect(page).toHaveURL(/\/orbit$/, { timeout: 800 });
   }).toPass({ timeout: 8_000 });
 
+  // Constellations: zoom Horticulture, its node labels (incl. the civic
+  // bright stars) appear; Escape un-zooms.
+  await gotoView(page, 'constellations');
+  const hortHeader = page.getByTestId('constellation-hort');
+  await expect(async () => {
+    await hortHeader.click();
+    await expect(hortHeader).toHaveAttribute('aria-pressed', 'true', { timeout: 800 });
+  }).toPass({ timeout: 8_000 });
+  await expect(page.getByText('PHS Flower Show')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(hortHeader).toHaveAttribute('aria-pressed', 'false');
+
+  // Scrolls: tabs switch panels; facts are the real credentials.
+  await gotoView(page, 'scrolls');
+  await expect(page.getByTestId('scrolls-card')).toContainText('Bachelor of Science in Accounting');
+  await page.getByTestId('tab-licenses').click();
+  await expect(page.getByTestId('scrolls-card')).toContainText('Series 65');
+  await page.getByTestId('tab-certificates').click();
+  await expect(page.getByTestId('scrolls-card')).toContainText('Python in Excel');
+
   await gotoHomeViaSun(page);
   await expect(page).toHaveURL(/\/$/);
 

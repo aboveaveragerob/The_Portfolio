@@ -49,6 +49,21 @@ for (const vp of VIEWPORTS) {
           await assertInViewport(page, page.getByTestId('role-close'), 'orbit: role close');
           await assertInViewport(page, page.getByTestId('role-prev'), 'orbit: earlier-role link');
         }
+
+        if (v === 'constellations') {
+          // Zooming a cluster is SVG-internal — it must never create overflow.
+          await assertInViewport(page, page.getByTestId('constellation-finops'), 'constellations: finops header');
+          await page.getByTestId('constellation-hort').click();
+          await page.waitForTimeout(650); // zoom transition
+          await assertNoPageScroll(page, 'constellations: zoomed');
+          await page.keyboard.press('Escape');
+        }
+
+        if (v === 'scrolls') {
+          await assertInViewport(page, page.getByTestId('tab-degrees'), 'scrolls: degrees tab');
+          await page.getByTestId('tab-certificates').click();
+          await assertNoPageScroll(page, 'scrolls: certificates tab');
+        }
       }
     });
   });
