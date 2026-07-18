@@ -128,14 +128,25 @@
     inset: 0;
     z-index: var(--z-backwall);
     pointer-events: none;
-    border-radius: 8px;
+    border-radius: 10px;
     background:
-      radial-gradient(70% 50% at 50% 0%,
-        color-mix(in oklab, var(--wing-accent) 12%, transparent) 0%, transparent 62%),
-      linear-gradient(180deg, #161031 0%, #0c0a1c 100%);
+      /* ceiling wash */
+      radial-gradient(84% 46% at 50% -4%,
+        color-mix(in oklab, var(--wing-accent) 24%, transparent) 0%, transparent 60%),
+      /* floor light pool */
+      radial-gradient(92% 30% at 50% 104%,
+        color-mix(in oklab, var(--wing-accent) 18%, transparent) 0%, transparent 58%),
+      /* wall */
+      linear-gradient(180deg, #191233 0%, #0b0919 100%);
     background-size: 118% 118%;
     background-position: calc(50% + var(--px) * -14px) calc(50% + var(--py) * -10px);
-    opacity: .5;
+    /* architrave frame + ceiling shadow + floor uplight — bounds each wing as
+       its own lit alcove, framed in its accent colour so the rooms read apart. */
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--wing-accent) 30%, #ffffff12),
+      inset 0 22px 46px -22px #000,
+      inset 0 -26px 48px -26px color-mix(in oklab, var(--wing-accent) 42%, #000);
+    opacity: .9;
   }
 
   /* ── Nameplate (the wing's engraved shelf label) ─────────────────────── */
@@ -332,15 +343,26 @@
      anchor the other wings vary from. */
   .wing[data-theme="career"]::before {
     background:
-      radial-gradient(52% 64% at 50% -6%,
-        color-mix(in oklab, var(--wing-accent) 20%, transparent) 0%, transparent 60%),
+      /* teal gallery downlight, strong */
+      radial-gradient(46% 96% at 50% -12%,
+        color-mix(in oklab, var(--wing-accent) 42%, transparent) 0%, transparent 56%),
+      /* a coffered cornice band under the ceiling */
+      linear-gradient(180deg, transparent 0 5px,
+        color-mix(in oklab, var(--wing-accent) 34%, #c9b6ff) 5px 7px, #0000 7px 10px,
+        #c9b6ff26 10px 11px, transparent 11px),
+      /* a colonnade of lit/shaded columns receding across the hall */
       repeating-linear-gradient(90deg,
-        transparent 0 90px, #b6a0ff12 90px 92px, transparent 92px 182px),
-      linear-gradient(180deg, #c9b6ff18 0 2px, transparent 2px),
-      linear-gradient(180deg, #14112e 0%, #0b0a1c 100%);
-    background-size: auto, auto, auto, 130% 130%;
+        transparent 0 56px,
+        #00000066 56px 58px,
+        #3a3269 60px 66px,
+        #221c46 66px 73px,
+        #00000066 73px 75px,
+        transparent 75px 132px),
+      /* deep hall wall */
+      linear-gradient(180deg, #1b1539 0%, #0b0a1c 100%);
+    background-size: 118% 118%, auto, auto, 130% 130%;
     background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
-    opacity: .5;
+    opacity: .92;
   }
   /* engraved placard: a hairline rule under the nameplate */
   .wing[data-theme="career"] .nameplate span { letter-spacing: .02em; }
@@ -380,15 +402,22 @@
      orange accent is the lamp + the annotation, not the wall. */
   .wing[data-theme="workshop"]::before {
     background:
-      radial-gradient(46% 36% at 24% 88%,
-        color-mix(in oklab, var(--wing-accent) 30%, transparent) 0%, transparent 66%),
-      radial-gradient(#8fb7e01f 1px, transparent 1.7px),
-      repeating-linear-gradient(0deg, #8fb7e012 0 1px, transparent 1px 22px),
-      repeating-linear-gradient(90deg, #8fb7e012 0 1px, transparent 1px 22px),
-      linear-gradient(180deg, #10203a 0%, #0a1622 100%);
-    background-size: 130% 130%, 22px 22px, auto, auto, 130% 130%;
+      /* strong warm task-lamp cone from the upper-left */
+      radial-gradient(54% 62% at 20% 4%,
+        color-mix(in oklab, var(--wing-accent) 48%, transparent) 0%, transparent 60%),
+      /* pegboard holes */
+      radial-gradient(#8fb7e036 1.3px, transparent 1.9px),
+      /* major blueprint grid lines */
+      repeating-linear-gradient(0deg, #8fb7e038 0 1.5px, transparent 1.5px 96px),
+      repeating-linear-gradient(90deg, #8fb7e038 0 1.5px, transparent 1.5px 96px),
+      /* minor blueprint grid */
+      repeating-linear-gradient(0deg, #8fb7e01c 0 1px, transparent 1px 20px),
+      repeating-linear-gradient(90deg, #8fb7e01c 0 1px, transparent 1px 20px),
+      /* blueprint field */
+      linear-gradient(180deg, #12294c 0%, #0a1526 100%);
+    background-size: 118% 118%, 20px 20px, auto, auto, auto, auto, 130% 130%;
     background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
-    opacity: .55;
+    opacity: .9;
   }
   /* stencilled bay label with a dimension-line underline */
   .wing[data-theme="workshop"] .nameplate span {
@@ -456,20 +485,22 @@
   /* ── Digital Atelier — the Server Vault (cyber / techno stack, issue #60) ─ */
   .wing[data-theme="cyber"]::before {
     background:
-      /* cool monitor uplight from the floor of the rack */
-      radial-gradient(58% 38% at 50% 100%,
-        color-mix(in oklab, var(--wing-accent) 26%, transparent) 0%, transparent 68%),
-      /* solder-pad corner glints */
-      radial-gradient(3px 3px at 12% 8%, #43b6ff33, transparent 60%),
-      radial-gradient(3px 3px at 88% 8%, #43b6ff33, transparent 60%),
-      /* rack-unit horizontal divisions */
-      repeating-linear-gradient(0deg, #0a1830 0 21px, #0e2038 21px 22px, #0d2240 22px 23px),
-      /* vertical circuit traces */
-      repeating-linear-gradient(90deg, #43b6ff0d 0 1px, transparent 1px 28px),
-      linear-gradient(180deg, #08111f 0%, #050c16 100%);
-    background-size: 130% 130%, auto, auto, auto, auto, 130% 130%;
+      /* cyan equipment glow rising off the rack floor */
+      radial-gradient(72% 40% at 50% 104%,
+        color-mix(in oklab, var(--wing-accent) 42%, transparent) 0%, transparent 66%),
+      /* a row of status LEDs on each rack unit */
+      repeating-linear-gradient(0deg,
+        transparent 0 8px, #43b6ff66 8px 9px, transparent 9px 22px),
+      /* 1U rack-unit divisions with a lit top rail on each */
+      repeating-linear-gradient(0deg,
+        #0d2038 0 20px, #05101f 20px 21px, #1c3f68 21px 22px),
+      /* the vertical rack rails down both sides */
+      linear-gradient(90deg,
+        #1c3f68 0 4px, transparent 4px calc(100% - 4px), #1c3f68 calc(100% - 4px)),
+      linear-gradient(180deg, #0a1526 0%, #050b16 100%);
+    background-size: 118% 118%, auto, auto, auto, 130% 130%;
     background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
-    opacity: .6;
+    opacity: .92;
   }
   .wing[data-theme="cyber"] .nameplate {
     font-family: var(--mono);
@@ -529,17 +560,19 @@
   /* ── Cognitive Greenhouse — the Glasshouse Conservatory (issue #59) ────── */
   .wing[data-theme="greenhouse"]::before {
     background:
-      /* dappled grow-light through the glass */
-      radial-gradient(28% 20% at 30% 18%, #eafff24d 0%, transparent 60%),
-      radial-gradient(24% 18% at 74% 40%, #bfffde33 0%, transparent 62%),
-      /* mullioned glazing bars: vertical + horizontal */
-      repeating-linear-gradient(90deg, #bfffde14 0 1px, transparent 1px 32px),
-      repeating-linear-gradient(0deg, #bfffde10 0 1px, transparent 1px 40px),
-      /* cool glass tint */
-      linear-gradient(180deg, #123528 0%, #0a1f16 100%);
-    background-size: 130% 130%, 130% 130%, auto, auto, 130% 130%;
+      /* moonlight shafts pouring through the glass roof */
+      radial-gradient(42% 72% at 28% -10%, #eafff255 0%, transparent 52%),
+      radial-gradient(38% 62% at 72% -8%, #bfffde44 0%, transparent 54%),
+      /* bold mullioned glazing: vertical + horizontal glazing bars */
+      repeating-linear-gradient(90deg, transparent 0 30px, #cffbe736 30px 32px, transparent 32px),
+      repeating-linear-gradient(0deg, transparent 0 40px, #cffbe72e 40px 42px, transparent 42px),
+      /* a vaulted crown that darkens the wall near the roofline */
+      radial-gradient(130% 62% at 50% 0%, transparent 42%, #0a1f1677 74%),
+      /* green glass tint */
+      linear-gradient(180deg, #17432f 0%, #0a1e15 100%);
+    background-size: 118% 118%, 118% 118%, auto, auto, 118% 118%, 130% 130%;
     background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
-    opacity: .55;
+    opacity: .9;
   }
   .wing[data-theme="greenhouse"] .nameplate span {
     background: linear-gradient(180deg, #d7ffe9, var(--wing-accent));
@@ -594,17 +627,18 @@
      magenta stage glow and a spotlight cone, and the wing pins an event poster. */
   .wing[data-theme="soundstage"]::before {
     background:
-      /* spotlight cone falling from above */
-      conic-gradient(from 180deg at 50% -12%, transparent 44%, #ff2d7814 50%, transparent 56%),
-      /* stage glow rising from the floor */
-      radial-gradient(60% 46% at 50% 100%,
-        color-mix(in oklab, var(--wing-accent) 24%, transparent) 0%, transparent 70%),
-      /* diagonal acoustic-foam wedges */
-      repeating-linear-gradient(45deg, #ffffff0a 0 6px, transparent 6px 12px),
-      linear-gradient(180deg, #2a0f22 0%, #140611 100%);
-    background-size: 130% 130%, 130% 130%, auto, 130% 130%;
+      /* two crossing spotlight cones from the rig */
+      conic-gradient(from 202deg at 28% -16%, transparent 45%, #ff2d7826 51%, transparent 58%),
+      conic-gradient(from 158deg at 72% -16%, transparent 45%, #b25cff26 51%, transparent 58%),
+      /* footlight stage glow rising from the boards */
+      radial-gradient(72% 42% at 50% 104%,
+        color-mix(in oklab, var(--wing-accent) 40%, transparent) 0%, transparent 66%),
+      /* bold diagonal acoustic-foam wedges */
+      repeating-linear-gradient(45deg, #ffffff12 0 9px, #00000022 9px 18px),
+      linear-gradient(180deg, #2d1025 0%, #140611 100%);
+    background-size: 118% 118%, 118% 118%, 118% 118%, auto, 130% 130%;
     background-position: calc(50% + var(--px) * -12px) calc(50% + var(--py) * -8px);
-    opacity: .6;
+    opacity: .92;
   }
   .wing[data-theme="soundstage"] .nameplate span {
     background: linear-gradient(180deg, #ffd7e8, var(--wing-accent));
