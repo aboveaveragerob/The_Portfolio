@@ -5,6 +5,7 @@
   import { shelves }   from '$lib/data.js';
   import ShelfPanel    from '$lib/components/ShelfPanel.svelte';
   import OpenBook      from '$lib/components/OpenBook.svelte';
+  import ClosedBook    from '$lib/components/ClosedBook.svelte';
   import Podium        from '$lib/components/Podium.svelte';
 
   // ── State ────────────────────────────────────────
@@ -13,6 +14,11 @@
   let activeChapter  = null;
   let activePageIdx  = 0;
   let switching      = false;  // prevent rapid book-switches during animation
+
+  // ── Landing book (closed, awaiting the key) ─────
+  const landingBook = shelves
+    .flatMap(s => s.books)
+    .find(b => b.id === 'book-brinker');
 
   // ── Book open/close/switch ───────────────────────
   async function handleBookClick(book) {
@@ -115,21 +121,18 @@
         </div>
       </div>
 
-    {:else}
-      <!-- Empty state while no book is open -->
+    {:else if landingBook}
+      <!-- Landing state: Brinker Capital, closed, with the key -->
       <div
-        class="stage-empty"
+        class="stage-landing"
         in:fade={{ duration: 350, delay: 120 }}
         out:fade={{ duration: 180 }}
       >
-        <div class="empty-inner">
-          <svg class="empty-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 10 Q12 6 16 6 L32 6 L32 58 L16 58 Q12 58 12 54 Z" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.4"/>
-            <path d="M32 6 L48 6 Q52 6 52 10 L52 54 Q52 58 48 58 L32 58 Z" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.4"/>
-            <line x1="32" y1="6" x2="32" y2="58" stroke="currentColor" stroke-width="0.8" opacity="0.25"/>
-          </svg>
-          <p class="empty-text">Select a volume from the shelves</p>
-        </div>
+        <ClosedBook
+          book={landingBook}
+          on:open={() => handleBookClick(landingBook)}
+        />
+        <p class="landing-hint">Turn the key to open the volume</p>
       </div>
     {/if}
 
@@ -197,36 +200,25 @@
     max-width: 640px;
   }
 
-  /* ── Empty state ────────────────────────────────── */
+  /* ── Landing state ──────────────────────────────── */
 
-  .stage-empty {
+  .stage-landing {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 22px;
     width: 100%;
     height: 100%;
   }
 
-  .empty-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    opacity: 0.35;
-  }
-
-  .empty-icon {
-    width: 56px;
-    height: 56px;
-    color: var(--brass);
-  }
-
-  .empty-text {
-    font-size: 13px;
+  .landing-hint {
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--brass);
+    opacity: 0.55;
   }
 
   /* ── Mobile layout ──────────────────────────────── */
