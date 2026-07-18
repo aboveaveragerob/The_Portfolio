@@ -165,7 +165,7 @@
 </div>
 
 <style>
-  .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .backdrop { position: fixed; inset: 0; z-index: var(--z-backdrop); pointer-events: none; }
 
   .vault, .stars {
     position: absolute; top: 50%; left: 50%;

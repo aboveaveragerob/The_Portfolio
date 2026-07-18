@@ -222,7 +222,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: var(--z-controls);
     transition: color .16s, border-color .16s;
   }
   .close-btn:hover { color: var(--bone-0); border-color: var(--violet); }

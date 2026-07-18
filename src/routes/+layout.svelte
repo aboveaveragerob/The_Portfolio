@@ -44,6 +44,46 @@
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+    /* ── Depth system (issue #63) ──────────────────────────────────────────
+       One consistent light source + shadow vocabulary so every faux-3D face
+       (planks, spines, podium, book covers) casts the same shadow and the
+       whole library reads as one lit space. Values equal what components
+       already approximated, so adopting them changes no pixels. */
+    --light-angle:   145deg;      /* light from the upper-left */
+    --edge-hi:       #ffffff33;   /* lit top/left bevel */
+    --edge-lo:       #00000099;   /* shadowed bottom/right bevel */
+    --shadow-key:    0 14px 26px -12px #000;  /* the canonical drop shadow */
+    --shadow-contact:0 8px 16px -8px #000;    /* short contact shadow under furniture */
+    --haze:          var(--bg);   /* the "air" distant things fade into */
+    --depth-haze:    0.55;        /* far-shelf desaturation strength */
+
+    /* Pointer-parallax: the pointer writes --px/--py (−1…1) onto :root; each
+       depth tier multiplies them. --parallax is the master gain, zeroed under
+       reduced-motion so all tiers freeze. */
+    --parallax: 1;
+    --px: 0;
+    --py: 0;
+
+    /* Z-ladder: one documented depth order replacing scattered magic numbers.
+       backwall < backdrop < shelf < spine < raised spine < reader < controls
+       < skip. --z-backwall is negative so a wing's back-wall pseudo sits
+       behind its in-flow shelves/spines within an isolated .wing context. */
+    --z-backwall:     -1;
+    --z-backdrop:      0;
+    --z-shelf:         2;
+    --z-spine:         3;
+    --z-spine-raised:  4;
+    --z-reader:        5;
+    --z-controls:     10;
+    --z-skip:         50;
+
+    /* Radius scale — matches values already in use across components. */
+    --radius-xs: 2px;
+    --radius-sm: 3px;
+    --radius-md: 7px;
+    --radius-lg: 12px;
+    --radius-pill: 999px;
   }
 
   :global(html) {
@@ -82,7 +122,7 @@
     content: "";
     position: fixed;
     inset: -25%;
-    z-index: 0;
+    z-index: var(--z-backdrop);
     pointer-events: none;
     background:
       radial-gradient(40% 34% at 32% 30%, #b25cff33 0%, transparent 68%),
@@ -113,7 +153,7 @@
     position: absolute;
     left: 12px;
     top: -60px;
-    z-index: 50;
+    z-index: var(--z-skip);
     padding: 8px 14px;
     border-radius: 6px;
     background: var(--surface-1);
@@ -142,5 +182,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     :global(body), :global(body::before) { animation: none !important; }
+    /* Freeze every parallax tier: gain to 0 and offsets neutralised. */
+    :global(:root) { --parallax: 0; --px: 0; --py: 0; }
   }
 </style>
