@@ -6,11 +6,14 @@
 
 > **Update:** The regression gate recommended below has since been implemented in `tests/`
 > (`no-scroll.spec.js`, `helpers.js`), so the "no automated quality gate exists" framing in the
-> Finding is retained only as the original rationale. One known gap remains open and is tracked here:
-> short-height / high-zoom viewports (height ≤ ~533px — landscape phones, 150%/200% zoom) are skipped
-> with `test.fixme` because the **four** always-open shelves push the reader (CTA, podium, book
-> footer) below the fold. Closing it is the owner-owned responsive redesign deferred per
-> `DESIGN_QA_HANDOFF.md` §D; the skipped rows are flagged `supported: false` in `tests/helpers.js`.
+> Finding is retained only as the original rationale.
+>
+> **Resolved (issue #63):** the short-height / high-zoom gap noted here — viewports ≤ ~533px
+> (landscape phones, 150%/200% zoom) where the always-open shelves pushed the reader (CTA, podium,
+> book footer) below the fold — is now closed by a height-driven compaction (`@media (max-height:
+> 560px)` passes across `+page.svelte`, `ShelfPanel.svelte`, `ClosedBook.svelte`, `Podium.svelte`,
+> and `OpenBook.svelte`). Those rows (`740×360`, `812×375`, `900×450`, `853×533`, `640×400`) are no
+> longer flagged `supported: false`; the full matrix is enforced with zero skips.
 
 ## Finding
 
