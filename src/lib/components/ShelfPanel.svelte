@@ -188,22 +188,18 @@
   }
   .spine[aria-current="true"] .sp-title { color: var(--bone-0); }
 
-  /* Pre-staged volume: pulled forward, glowing, and gently pulsing so a
-     first-time visitor reads it as the "ready to open" invitation. */
+  /* Pre-staged volume: pulled forward with a soft held glow so the shelf
+     still marks the volume's home slot without competing with the closed
+     book on the podium (which now carries the active center-stage signal). */
   .spine.staged {
     box-shadow:
       0 30px 36px -14px #000,
       0 0 0 1px var(--sp-accent) inset,
-      0 0 22px -4px var(--violet);
-    animation: staged-pulse 2.6s ease-in-out infinite;
+      0 0 20px -4px var(--violet);
   }
   .shelves.horizontal .spine.staged { transform: translateY(-16px); }
   .shelves.vertical   .spine.staged { transform: translateX(4px); }
   .spine.staged .sp-title { color: var(--bone-0); }
-  @keyframes staged-pulse {
-    0%, 100% { box-shadow: 0 30px 36px -14px #000, 0 0 0 1px var(--sp-accent) inset, 0 0 16px -6px var(--violet); }
-    50%      { box-shadow: 0 32px 40px -14px #000, 0 0 0 1px var(--sp-accent) inset, 0 0 30px 0 var(--violet); }
-  }
 
   .sp-emblem { width: 17px; height: 17px; flex: none; opacity: .92; }
   .sp-emblem svg { width: 100%; height: 100%; display: block; }
@@ -253,13 +249,8 @@
   .shelves.horizontal.open .shelf-rail { padding: clamp(6px, 1vh, 10px) 14px clamp(10px, 1.4vh, 14px); }
   .shelves.horizontal.open .shelf-head { opacity: 0; pointer-events: none; }
   .shelves.horizontal.open .spine { height: clamp(42px, 5.5vh, 62px); justify-content: center; gap: 0; }
-  .shelves.horizontal.open .spine.staged { animation: none; }
   .shelves.horizontal.open .sp-title,
   .shelves.horizontal.open .sp-year { display: none; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .spine.staged { animation: none; }
-  }
 
   /* ── Narrow (< --bp-md 900px): side columns collapse into full-width
         horizontal rails so everything still stacks into one no-scroll

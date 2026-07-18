@@ -124,11 +124,11 @@ export async function assertInViewport(page, locator, label = '') {
 
 // ── State navigation ─────────────────────────────────────────────────────────
 
-// Landing: nothing open, the staged CTA is visible.
+// Landing: nothing open, the staged closed book rests on the podium.
 export async function gotoLanding(page) {
   await page.goto('/');
   await expect(page.locator('.stage-empty')).toBeVisible();
-  await expect(page.locator('.empty-open')).toBeVisible();
+  await expect(page.locator('.closed-book')).toBeVisible();
 }
 
 // Two timing facts about +page.svelte drive the helpers below:
@@ -144,10 +144,11 @@ export async function gotoLanding(page) {
 const OPEN_MS = 550; // one open animation (sleep 420) + margin
 const SWITCH_MS = 950; // close + open when swapping books (sleep 380 + 420) + margin
 
-// Open the staged volume (Brinker) via the landing CTA. Retries until the book
-// actually opens, absorbing the pre-hydration window on a fresh load.
+// Open the staged volume (Brinker) via the closed book resting on the podium.
+// Retries until the book actually opens, absorbing the pre-hydration window on
+// a fresh load.
 export async function openStagedBook(page) {
-  const cta = page.locator('.empty-open');
+  const cta = page.locator('.closed-book');
   await expect(async () => {
     if (await cta.isVisible()) await cta.click();
     await expect(page.locator('.book-spread')).toBeVisible({ timeout: 1000 });

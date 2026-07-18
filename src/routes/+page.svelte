@@ -7,6 +7,7 @@
   import Backdrop      from '$lib/components/Backdrop.svelte';
   import ShelfPanel    from '$lib/components/ShelfPanel.svelte';
   import OpenBook      from '$lib/components/OpenBook.svelte';
+  import ClosedBook    from '$lib/components/ClosedBook.svelte';
   import Podium        from '$lib/components/Podium.svelte';
 
   // The volume the site lands pre-staged on: pulled from the shelf, ready to open.
@@ -17,6 +18,11 @@
   const topWings   = wings.filter(w => w.position === 'top');
   const leftWings  = wings.filter(w => w.position === 'left');
   const rightWings = wings.filter(w => w.position === 'right');
+
+  // The staged volume itself — resolved once from data so title/subtitle/cover
+  // flow from data.js instead of being duplicated in the landing markup.
+  const stagedBook  = wings.flatMap(w => w.books).find(b => b.id === STAGED_BOOK_ID);
+  const stagedWing  = wings.find(w => w.books.some(b => b.id === STAGED_BOOK_ID));
 
   // ── State ────────────────────────────────────────
   let currentBook    = null;   // the currently open book object
@@ -66,12 +72,10 @@
     switching = false;
   }
 
-  // Open the staged volume from the landing hint. Search every Wing so the
-  // CTA keeps working wherever the staged volume lives (the spine highlight
-  // already matches across all Wings).
+  // Open the staged volume from the landing hint. Same book the ClosedBook on
+  // the podium renders — one source of truth resolved above.
   function openStaged() {
-    const book = wings.flatMap(w => w.books).find(b => b.id === STAGED_BOOK_ID);
-    if (book) handleBookClick(book);
+    if (stagedBook) handleBookClick(stagedBook);
   }
 
   // ── Chapter / page navigation ────────────────────
@@ -168,13 +172,17 @@
           />
         </div>
       {:else}
+        <!-- Landing state: the staged volume rests on the podium, cover facing
+             the visitor. The whole book is the CTA — click, tap, or Enter to
+             open. Copy CTA has been retired; the book itself invites. -->
         <div class="stage-empty" in:fade={{ duration: fadeInDur, delay: 120 }} out:fade={{ duration: fadeOutDur }}>
-          <p class="empty-kicker">Ready to open</p>
-          <p class="empty-lead">
-            <strong>Brinker Capital</strong> is pulled from the shelf and waiting.
-          </p>
-          <button class="empty-open" on:click={openStaged}>Open the volume</button>
-          <p class="empty-hint">or pick any spine from the shelves above</p>
+          <ClosedBook
+            title={stagedBook.title}
+            subtitle={stagedBook.subtitle}
+            coverColor={stagedBook.coverColor}
+            accent={stagedWing?.accent ?? '#5ef2e8'}
+            on:click={openStaged}
+          />
         </div>
       {/if}
     </div>
@@ -303,51 +311,15 @@
     height: 100%;
   }
 
-  /* ── Landing hint (nothing open) ───────────────── */
+  /* ── Landing state (nothing open) ───────────────────────
+     Wrapper for the ClosedBook that rests on the podium. Just a centring
+     container; the book carries its own presence. */
   .stage-empty {
     align-self: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
+    align-items: flex-end;   /* book kisses the top of the podium below */
+    justify-content: center;
     padding: 0 16px;
-  }
-  .empty-kicker {
-    margin: 0;
-    font-family: var(--mono);
-    font-size: .62rem;
-    letter-spacing: .3em;
-    text-transform: uppercase;
-    color: var(--pink);
-  }
-  .empty-lead {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(1rem, 2.6vw, 1.35rem);
-    color: var(--bone-0);
-  }
-  .empty-lead strong { font-weight: 600; }
-  .empty-open {
-    margin-top: 4px;
-    padding: 10px 22px;
-    border-radius: 999px;
-    border: 1px solid var(--violet);
-    background: #b25cff1a;
-    color: var(--bone-0);
-    font-family: var(--mono);
-    font-size: .68rem;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    transition: background .18s, border-color .18s, transform .18s;
-  }
-  .empty-open:hover { background: #b25cff33; transform: translateY(-2px); }
-  .empty-hint {
-    margin: 2px 0 0;
-    font-family: var(--mono);
-    font-size: .58rem;
-    letter-spacing: .12em;
-    color: var(--bone-2);
   }
 
   /* ── Colophon ─────────────────────────────────── */
