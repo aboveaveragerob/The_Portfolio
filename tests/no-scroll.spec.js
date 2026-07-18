@@ -32,7 +32,7 @@ for (const vp of VIEWPORTS) {
       // ── Landing ──────────────────────────────────────────────
       await gotoLanding(page);
       await assertNoPageScroll(page, `${vp.name} · landing`);
-      await assertInViewport(page, page.locator('.empty-open'), `${vp.name} · CTA`);
+      await assertInViewport(page, page.locator('.closed-book'), `${vp.name} · closed book`);
       await assertInViewport(page, page.locator('.podium-wrap'), `${vp.name} · podium (landing)`);
 
       // ── Open (table of contents) ─────────────────────────────
