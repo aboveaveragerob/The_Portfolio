@@ -14,6 +14,7 @@ import {
   assertInViewport,
   gotoHome,
   gotoView,
+  openRole,
 } from './helpers.js';
 
 for (const vp of VIEWPORTS) {
@@ -39,6 +40,15 @@ for (const vp of VIEWPORTS) {
         await assertInViewport(page, page.getByTestId('center-sun'), `${v}: center sun`);
         await assertInViewport(page, page.getByTestId(`compass-${v}`), `${v}: active compass point`);
         await assertInViewport(page, page.getByTestId('atlas-contact'), `${v}: atlas contact`);
+
+        if (v === 'orbit') {
+          // Open a role panel: still one screen, panel controls reachable.
+          await openRole(page, 'brinker');
+          await assertNoPageScroll(page, 'orbit: role open');
+          await assertInViewport(page, page.getByTestId('role-panel'), 'orbit: role panel');
+          await assertInViewport(page, page.getByTestId('role-close'), 'orbit: role close');
+          await assertInViewport(page, page.getByTestId('role-prev'), 'orbit: earlier-role link');
+        }
       }
     });
   });

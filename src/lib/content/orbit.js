@@ -48,6 +48,7 @@ export const PLANETS = roles.map((role, i) => {
     org: role.org,
     title: role.title,
     dates: role.dates,
+    accent: role.accent,
     present: role.end === null,
     ring: +ring.toFixed(1),
     x: +x.toFixed(1),

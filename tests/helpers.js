@@ -146,6 +146,16 @@ export async function gotoView(page, view) {
   await page.waitForTimeout(SETTLE_MS);
 }
 
+// Open a role's detail panel by clicking its planet in the orrery.
+export async function openRole(page, id) {
+  const planet = page.getByTestId(`planet-${id}`);
+  await expect(async () => {
+    if (!new URL(page.url()).pathname.includes(`/orbit/${id}`)) await planet.click();
+    await expect(page.getByTestId('role-panel')).toBeVisible({ timeout: 1500 });
+  }).toPass({ timeout: 12_000 });
+  await page.waitForTimeout(DUR.panel + 150);
+}
+
 // Return to home via the center sun.
 export async function gotoHomeViaSun(page) {
   const sun = page.getByTestId('center-sun');

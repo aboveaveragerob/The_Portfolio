@@ -68,7 +68,10 @@
 
   .vp-body {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
     min-height: 0;
+    overflow: hidden;
     padding: clamp(12px, 2vh, 18px) clamp(14px, 2vw, 22px);
   }
 </style>
