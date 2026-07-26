@@ -1,4 +1,4 @@
-// Archive shelf model: wing-paged shelves and URL slugs for every volume.
+// Library wall model: wing-paged shelves and URL slugs for every volume.
 // data.js remains the single source of truth for books/chapters/pages —
 // this module only maps ids to routes and groups books for the carousel.
 import { wings } from '$lib/data.js';

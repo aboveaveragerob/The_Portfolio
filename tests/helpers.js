@@ -1,10 +1,10 @@
 // Shared helpers for the no-scroll / functional regression suite.
 //
-// The Orrery Dashboard keeps the site's headline invariant: "the page must
-// never scroll" (DESIGN_AUDIT §8.4). Because <body> is overflow:hidden, a
-// control pushed past the viewport is *clipped, not scrolled* — it fails
-// silently. These helpers make that invariant, and the view flows that depend
-// on it, checkable from the outside.
+// The library keeps the site's headline invariant: "the page must never
+// scroll" (DESIGN_AUDIT §8.4). Because <body> is overflow:hidden, a control
+// pushed past the viewport is *clipped, not scrolled* — it fails silently.
+// These helpers make that invariant, and the resume→library flows that
+// depend on it, checkable from the outside.
 
 import { expect } from '@playwright/test';
 import { DUR } from '../src/lib/motion.js';
@@ -13,11 +13,7 @@ import { DUR } from '../src/lib/motion.js';
 // Baseline widths, then the tight landscape/short-height budgets, then large
 // desktops. The zoom rows simulate WCAG browser zoom as the reduced CSS
 // viewport a real browser reports at that zoom on a 1280×800 window.
-//
-// Every row is supported: the dashboard's stacked variant (header chip +
-// bottom compass bar + banded scenes) resolved the old four-shelves clip at
-// heights ≤ ~533px — the whole matrix now runs for real, no fixme rows.
-// History in docs/audits/qa-test-coverage.md.
+// Every row is supported — history in docs/audits/qa-test-coverage.md.
 export const VIEWPORTS = [
   { name: '390x844 · mobile portrait', width: 390, height: 844 },
   { name: '768x1024 · tablet portrait', width: 768, height: 1024 },
@@ -32,11 +28,8 @@ export const VIEWPORTS = [
   { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400 },
 ];
 
-// The four compass views, in compass order (N, E, S, W).
-export const VIEWS = ['orbit', 'constellations', 'scrolls', 'archive'];
-
-// Wait window after a view swap: outgoing fade + incoming fade (delayed by one
-// fade) + margin. DUR is the same constant the shell animates with.
+// Wait window after a scene swap: outgoing fade + incoming iris (delayed by
+// one fade) + margin. DUR is the same constant the shell animates with.
 export const SETTLE_MS = DUR.view * 2 + 200;
 
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'api.fontshare.com'];
@@ -125,39 +118,30 @@ export async function assertInViewport(page, locator, label = '') {
 // swallowed mid-transition. The helpers therefore retry via `toPass`, which
 // doubles as a hydration gate — no fixed "wait for hydration" sleep.
 
-export async function gotoHome(page) {
+// Land on the resume: '/' loads with the Brinker folio already open.
+export async function gotoResume(page) {
   await page.goto('/');
-  await expect(page.getByTestId('center-sun')).toBeVisible();
-  await expect(page.getByTestId('view-home')).toBeVisible();
+  await expect(page.getByTestId('folio')).toBeVisible();
+  await expect(page.getByTestId('folio')).toContainText('Brinker Capital');
 }
 
-// Navigate to a compass view by clicking its (fixed-position) compass point,
-// then wait out the scene cross-fade so the next interaction isn't swallowed.
-export async function gotoView(page, view) {
-  const link = page.getByTestId(`compass-${view}`);
+// Close whatever folio is open; lands on the revealed library wall.
+export async function closeFolio(page) {
+  const close = page.getByTestId('folio-close');
   await expect(async () => {
-    if (!new URL(page.url()).pathname.startsWith(`/${view}`)) await link.click();
-    await expect(page.getByTestId(`view-${view}`)).toBeVisible({ timeout: 1500 });
+    if ((await page.getByTestId('folio').count()) > 0) await close.click();
+    await expect(page).toHaveURL(/\/library$/, { timeout: 1200 });
+    await expect(page.getByTestId('library-wall')).toBeVisible({ timeout: 1200 });
   }).toPass({ timeout: 12_000 });
   await page.waitForTimeout(SETTLE_MS);
 }
 
-// Open a role's detail panel by clicking its planet in the orrery.
-export async function openRole(page, id) {
-  const planet = page.getByTestId(`planet-${id}`);
-  await expect(async () => {
-    if (!new URL(page.url()).pathname.includes(`/orbit/${id}`)) await planet.click();
-    await expect(page.getByTestId('role-panel')).toBeVisible({ timeout: 1500 });
-  }).toPass({ timeout: 12_000 });
-  await page.waitForTimeout(DUR.panel + 150);
-}
-
-// Open a volume's folio by clicking its spine on the archive shelf. The
-// spine must be on the currently visible shelf page (use pageShelf first).
-export async function openFolio(page, slug) {
+// Open a volume's folio by clicking its spine on the library wall. The spine
+// must be on the currently visible shelf page (use pageShelf first).
+export async function openVolume(page, slug) {
   const spine = page.getByTestId(`spine-${slug}`);
   await expect(async () => {
-    if (!new URL(page.url()).pathname.includes(`/archive/${slug}`)) await spine.click();
+    if (!new URL(page.url()).pathname.includes(`/library/${slug}`)) await spine.click();
     await expect(page.getByTestId('folio')).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
   await page.waitForTimeout(DUR.folioTurn + 150);
@@ -175,18 +159,8 @@ export async function turnFolio(page, buttonId, expectedPrefix) {
   }).toPass({ timeout: 8_000 });
 }
 
-// Page the archive shelf carousel by clicking the labeled buttons.
+// Page the library wall carousel by clicking the labeled buttons.
 export async function pageShelf(page, dir) {
   await page.getByTestId(dir > 0 ? 'shelf-next' : 'shelf-prev').click();
   await page.waitForTimeout(DUR.panel + 200);
-}
-
-// Return to home via the center sun.
-export async function gotoHomeViaSun(page) {
-  const sun = page.getByTestId('center-sun');
-  await expect(async () => {
-    if (new URL(page.url()).pathname !== '/') await sun.click();
-    await expect(page.getByTestId('view-home')).toBeVisible({ timeout: 1500 });
-  }).toPass({ timeout: 12_000 });
-  await page.waitForTimeout(SETTLE_MS);
 }

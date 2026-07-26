@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.book.title} — Archive — Robert Gregory</title>
+  <title>{data.book.title} — The Library — Robert Gregory</title>
   <meta name="description" content="{data.book.title} — {data.book.subtitle}. A volume from the {data.wing.title} wing." />
 </svelte:head>
 

@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { bookBySlug, allSlugs } from '$lib/content/archive.js';
+import { bookBySlug, allSlugs } from '$lib/content/library.js';
 
 export function load({ params }) {
   const found = bookBySlug(params.slug);

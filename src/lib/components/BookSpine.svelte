@@ -1,4 +1,4 @@
-<!-- One volume's spine — a real link into /archive/[slug]. Ports the
+<!-- One volume's spine — a real link into /library/[slug]. Ports the
      deterministic per-book height/thickness variance from the old ShelfPanel
      (FNV-style hash of the id, so SSR and hydration agree) with the wing
      accent on cap and emblem. -->
@@ -25,7 +25,7 @@
 <a
   class="spine"
   class:active
-  href="/archive/{slug}"
+  href="/library/{slug}"
   style="--spine:{book.coverColor}; --hf:{hf}; --wf:{wf}; --wing-accent:{wing.accent}"
   title="{book.title} · {book.subtitle}"
   aria-label="{book.title} — {book.subtitle}"

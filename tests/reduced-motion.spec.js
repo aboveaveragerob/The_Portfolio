@@ -1,9 +1,9 @@
 // prefers-reduced-motion is a hard requirement: with it set, nothing animates
-// — not the starfield twinkle, the spiral, the astrolabe, the cursor trail,
-// the scene cross-fade, or the folio turn — and every flow still works.
+// — not the starfield twinkle, the masthead spiral, the shelf slide, the
+// cursor trail, or the folio turn — and every flow still works.
 
 import { test, expect } from '@playwright/test';
-import { blockFonts, gotoHome, gotoView, openFolio, turnFolio } from './helpers.js';
+import { blockFonts, gotoResume, closeFolio, turnFolio, openVolume } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
@@ -21,20 +21,21 @@ test('reduced motion: zero running animations, flows intact', async ({ page }) =
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await blockFonts(page);
 
-  await gotoHome(page);
+  // The resume lands open, turns pages, and stays motion-free.
+  await gotoResume(page);
   await page.waitForTimeout(400);
-  await assertNoRunningAnimations(page, 'home');
-
-  // View swaps still function (durations drop to zero).
-  await gotoView(page, 'orbit');
-  await assertNoRunningAnimations(page, 'orbit');
-
-  // A folio opens, turns, and stays motion-free.
-  await gotoView(page, 'archive');
-  await openFolio(page, 'brinker-capital');
+  await assertNoRunningAnimations(page, 'resume landing');
   await turnFolio(page, 'folio-next', '2 /');
   await page.waitForTimeout(300);
-  await assertNoRunningAnimations(page, 'folio open');
+  await assertNoRunningAnimations(page, 'resume mid-read');
+
+  // The reveal still functions (durations drop to zero) and stays still.
+  await closeFolio(page);
+  await assertNoRunningAnimations(page, 'library reveal');
+
+  // Opening a volume works and remains motion-free.
+  await openVolume(page, 'education-licensing');
+  await assertNoRunningAnimations(page, 'volume open');
 
   // The cursor-trail overlay must not mount at all under reduced motion.
   await page.mouse.move(400, 400);

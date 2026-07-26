@@ -14,15 +14,15 @@
     };
   }
   import Backdrop from '$lib/components/Backdrop.svelte';
-  import CenterSun from '$lib/components/CenterSun.svelte';
-  import CompassNav from '$lib/components/CompassNav.svelte';
+  import Masthead from '$lib/components/Masthead.svelte';
   import AstrolabeWidget from '$lib/components/geometry/AstrolabeWidget.svelte';
   import MetatronCube from '$lib/components/geometry/MetatronCube.svelte';
   import StarCursor from '$lib/components/geometry/StarCursor.svelte';
 
-  // The scene is keyed on the top-level section only, so opening a nested
-  // detail route (/orbit/brinker, /archive/eddie-bauer) never re-renders the
-  // scene behind its overlay.
+  // The scene is keyed on the top-level section only ('' = resume landing,
+  // 'library' = the revealed library), so opening /library/[slug] never
+  // re-renders the wall behind its folio — while closing the landing resume
+  // ('' → 'library') rides the scene transition as the reveal moment.
   $: section = $page.url.pathname.split('/')[1] ?? '';
 
   let dur = DUR.view;
@@ -55,8 +55,7 @@
     {/key}
   </main>
 
-  <CenterSun home={section === ''} />
-  <CompassNav {section} emphasize={section === '' ? 'orbit' : ''} />
+  <Masthead />
   <StarCursor />
 
   <footer class="atlas">
@@ -117,9 +116,11 @@
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
 
-    /* Shell metrics shared by scenes (stacked-variant safe areas) */
+    /* Shell metrics shared by scenes (stacked-variant safe areas):
+       chip = compact masthead height, bar = the slim contact line pinned to
+       the bottom edge on narrow/short viewports. */
     --chip-h: 56px;
-    --bar-h: 64px;
+    --bar-h: 34px;
   }
 
   :global(html) {
@@ -193,10 +194,13 @@
     }
   }
 
+  /* No z-index here on purpose: the canvas must NOT create a stacking
+     context, so the folio modal (z5, rendered inside a scene) can rise above
+     the masthead (z3) and atlas (z2) in the root context. The canvas still
+     paints above the z0 backdrop by DOM order. */
   .canvas {
     position: absolute;
     inset: 0;
-    z-index: 1;
     overflow: hidden;
     outline: none;
   }
@@ -257,13 +261,15 @@
     color: var(--text-2);
   }
 
-  /* Narrow / short viewports: corners compact into a slim line above the
-     compass bar (footer stays — it is never hidden). */
+  /* Narrow / short viewports: corners compact into a slim line pinned to the
+     bottom edge (footer stays — it is never hidden). */
   @media (max-width: 899px), (max-height: 559px) {
     .atlas {
-      bottom: var(--bar-h);
-      padding: 4px 12px;
+      bottom: 0;
+      padding: 4px 12px calc(4px + env(safe-area-inset-bottom, 0px));
       align-items: center;
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-top: 1px solid var(--line-2);
     }
     .atlas :global(.aw-frame) { display: none; }
     .atlas :global(.astrolabe) { padding: 0; }

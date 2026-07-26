@@ -1,20 +1,17 @@
 // Keyboard and assistive-tech behaviors that svelte-check can't verify:
-// the folio's focus trap and focus return, the Scrolls tablist's roving
-// arrow keys, and compass points reachable by Tab with the active one
-// announced.
+// the landing resume takes focus, the folio traps focus and hands it back
+// to the originating spine, and the shelf controls are Tab-reachable.
 
 import { test, expect } from '@playwright/test';
-import { blockFonts, gotoHome, gotoView, openFolio } from './helpers.js';
+import { blockFonts, gotoResume, closeFolio, openVolume, pageShelf } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
-test('folio traps focus, Escape closes and returns focus to the spine', async ({ page }) => {
+test('the landing resume takes focus and traps it', async ({ page }) => {
   await blockFonts(page);
-  await gotoHome(page);
-  await gotoView(page, 'archive');
-  await openFolio(page, 'brinker-capital');
+  await gotoResume(page);
 
-  // Focus lands on the folio heading when the volume opens.
+  // Focus lands on the folio heading when the resume opens.
   await expect(page.getByTestId('folio').getByRole('heading')).toBeFocused();
 
   // Tab far enough to lap every focusable control — focus must stay inside.
@@ -25,72 +22,43 @@ test('folio traps focus, Escape closes and returns focus to the spine', async ({
     );
     expect(inside, `Tab press ${i + 1} stays inside the folio`).toBe(true);
   }
+});
 
-  // Escape closes; the originating spine takes focus back.
+test('closing a volume returns focus to its spine', async ({ page }) => {
+  await blockFonts(page);
+  await gotoResume(page);
+  await closeFolio(page);
+
+  await openVolume(page, 'brinker-capital');
+  await expect(page.getByTestId('folio').getByRole('heading')).toBeFocused();
+
   await expect(async () => {
     await page.keyboard.press('Escape');
-    await expect(page).toHaveURL(/\/archive$/, { timeout: 800 });
+    await expect(page).toHaveURL(/\/library$/, { timeout: 800 });
   }).toPass({ timeout: 8_000 });
   await expect(page.getByTestId('spine-brinker-capital')).toBeFocused();
 });
 
-test('scrolls tablist roves with arrow keys', async ({ page }) => {
+test('shelf controls are Tab-reachable on the library wall', async ({ page }) => {
   await blockFonts(page);
-  await gotoHome(page);
-  await gotoView(page, 'scrolls');
+  await gotoResume(page);
+  await closeFolio(page);
 
-  const degrees = page.getByTestId('tab-degrees');
-  const licenses = page.getByTestId('tab-licenses');
-  const certs = page.getByTestId('tab-certificates');
+  // On shelf 2 both paging buttons are enabled (disabled buttons are
+  // rightly unfocusable on the end shelves).
+  await pageShelf(page, +1);
 
-  // One guarded rove step: press the arrow until the target tab is selected
-  // and focused. The tablist advances one step per press from whichever tab
-  // is active, so a keypress swallowed by CPU-contention render churn is
-  // safely retried and the sequence always converges — while a press that
-  // landed is never doubled past its target.
-  async function rove(key, target) {
-    await expect(async () => {
-      if ((await target.getAttribute('aria-selected')) !== 'true') {
-        await page.getByRole('tab', { selected: true }).focus();
-        await page.keyboard.press(key);
-      }
-      await expect(target).toHaveAttribute('aria-selected', 'true', { timeout: 700 });
-      await expect(target).toBeFocused({ timeout: 700 });
-    }).toPass({ timeout: 10_000 });
-  }
+  // Scan from the top of the document — after the button click, forward-Tab
+  // would never revisit controls earlier in the DOM.
+  await page.evaluate(() => document.activeElement?.blur?.());
 
-  await expect(async () => {
-    await degrees.click();
-    await expect(degrees).toHaveAttribute('aria-selected', 'true', { timeout: 800 });
-  }).toPass({ timeout: 8_000 });
-
-  await rove('ArrowRight', licenses);
-  await rove('ArrowRight', certs);
-  // Wraps around, and ArrowLeft walks back.
-  await rove('ArrowRight', degrees);
-  await rove('ArrowLeft', certs);
-});
-
-test('every compass point is Tab-reachable and the active one is announced', async ({ page }) => {
-  await blockFonts(page);
-  await gotoHome(page);
-
-  // Tab through the page and collect which compass points receive focus.
   const seen = new Set();
-  for (let i = 0; i < 20 && seen.size < 4; i++) {
+  for (let i = 0; i < 60 && seen.size < 2; i++) {
     await page.keyboard.press('Tab');
     const id = await page.evaluate(
       () => document.activeElement?.getAttribute('data-testid') ?? ''
     );
-    if (id.startsWith('compass-')) seen.add(id);
+    if (id === 'shelf-prev' || id === 'shelf-next') seen.add(id);
   }
-  expect([...seen].sort()).toEqual([
-    'compass-archive',
-    'compass-constellations',
-    'compass-orbit',
-    'compass-scrolls',
-  ]);
-
-  await gotoView(page, 'scrolls');
-  await expect(page.getByTestId('compass-scrolls')).toHaveAttribute('aria-current', 'page');
+  expect([...seen].sort()).toEqual(['shelf-next', 'shelf-prev']);
 });

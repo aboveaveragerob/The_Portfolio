@@ -9,9 +9,10 @@ export default defineConfig({
   // Fail the CI build if a `test.only` was left in the source.
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  // A single dev server backs every worker, and the flow/internal-scroll specs
-  // are animation-timing sensitive; cap concurrency so they don't contend.
-  workers: process.env.CI ? 1 : 4,
+  // A single dev server backs every worker, and the journey specs ride out
+  // real animation windows; cap concurrency so they don't starve each other
+  // into their timeouts (CI runs a single worker regardless).
+  workers: process.env.CI ? 1 : 2,
   reporter: process.env.CI
     ? [['github'], ['html', { open: 'never' }]]
     : [['list'], ['html', { open: 'never' }]],

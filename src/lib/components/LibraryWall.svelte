@@ -1,12 +1,12 @@
-<!-- The Physical Archive — one carousel page per wing, slid by labeled
-     buttons (transform-based; nothing scrolls). The shelf indicator
-     announces paging politely; deep links auto-page to the wing holding the
-     open volume, and closing a folio returns focus to its spine. Without JS
-     the pages stack as labeled sections inside an internally scrolling
-     region — every volume stays reachable. -->
+<!-- The library wall — one bookcase page per wing, slid by labeled buttons
+     (transform-based; nothing scrolls). The shelf indicator announces paging
+     politely; deep links auto-page to the wing holding the open volume, and
+     closing a folio returns focus to its spine. Without JS the pages stack
+     as labeled sections inside an internally scrolling region — every
+     volume stays reachable. -->
 <script>
   import { tick } from 'svelte';
-  import { shelves, slugFor } from '$lib/content/archive.js';
+  import { shelves, slugFor } from '$lib/content/library.js';
   import BookSpine from './BookSpine.svelte';
 
   export let activeSlug = null;
@@ -34,7 +34,7 @@
   $: shelf = shelves[pageIdx];
 </script>
 
-<div class="archive" bind:this={root}>
+<div class="archive" data-testid="library-wall" bind:this={root}>
   <div class="band">
     <div class="track" style="transform: translateX({-100 * pageIdx}%)">
       {#each shelves as s, i}

@@ -3,7 +3,7 @@
      data.js page follows in chapter order as one panel. "Turn page" replaces
      scrollbars; panels cross-fade through a vesica clip-path (OpenBook's
      displayed-state-lag flip machine, re-skinned). Focus is trapped; Escape
-     or ✕ closes back to /archive. -->
+     or ✕ closes back to the library. -->
 <script>
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
@@ -12,6 +12,7 @@
 
   export let book;
   export let wing;
+  export let closeHref = '/library';
 
   // Flat panel sequence: contents first, then every page in chapter order.
   $: panels = [
@@ -82,7 +83,7 @@
   let headingEl;
 
   function onKeydown(e) {
-    if (e.key === 'Escape') goto('/archive');
+    if (e.key === 'Escape') goto(closeHref);
   }
 
   onMount(() => {
@@ -98,7 +99,7 @@
 <svelte:window on:keydown={onKeydown} />
 
 <div class="folio-layer">
-  <a class="scrim" href="/archive" tabindex="-1" aria-hidden="true"></a>
+  <a class="scrim" href={closeHref} tabindex="-1" aria-hidden="true"></a>
 
   <div
     class="folio"
@@ -116,7 +117,7 @@
         <h2 class="fo-title" id="folio-title" tabindex="-1" bind:this={headingEl}>{book.title}</h2>
         <p class="fo-sub">{book.subtitle}</p>
       </div>
-      <a class="fo-close" href="/archive" data-testid="folio-close" aria-label="Close this volume">✕</a>
+      <a class="fo-close" href={closeHref} data-testid="folio-close" aria-label="Close this volume">✕</a>
     </header>
 
     <div

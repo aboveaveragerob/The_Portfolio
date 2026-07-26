@@ -1,14 +1,14 @@
-// SSR determinism gate: every route hard-loads with the seeded starfield
-// rendered (>100 circles — the generated-markup anchor testids can't cover)
-// and zero hydration warnings or console errors. Any geometry module that
-// drifts from the module-scope + toFixed rule trips this first.
+// SSR determinism gate: every route shape hard-loads with the seeded
+// starfield rendered (>100 circles — the generated-markup anchor testids
+// can't cover) and zero hydration warnings or console errors. Any module
+// that drifts from the module-scope + toFixed rule trips this first.
 
 import { test, expect } from '@playwright/test';
 import { blockFonts, consoleGuard } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
-const ROUTES = ['/', '/orbit', '/constellations', '/scrolls', '/archive'];
+const ROUTES = ['/', '/library', '/library/brinker-capital', '/library/music-audio-production'];
 
 for (const route of ROUTES) {
   test(`hard load ${route} — starfield renders, no hydration warnings`, async ({ page }) => {
@@ -16,7 +16,7 @@ for (const route of ROUTES) {
     const guard = consoleGuard(page);
 
     await page.goto(route);
-    await expect(page.getByTestId('center-sun')).toBeVisible();
+    await expect(page.getByTestId('masthead')).toBeVisible();
 
     const starCount = await page.locator('.backdrop svg.stars circle').count();
     expect(starCount, 'seeded starfield rendered').toBeGreaterThan(100);
