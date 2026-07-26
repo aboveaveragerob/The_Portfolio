@@ -13,7 +13,6 @@
   <div class="mh-text">
     <h1 class="wordmark">Robert Gregory</h1>
     <p class="mh-role">Financial Operations &amp; Trading</p>
-    <p class="mh-tag">A library among the stars</p>
   </div>
 </header>
 
@@ -57,13 +56,6 @@
     color: var(--text-2);
   }
 
-  .mh-tag {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 0.78rem;
-    color: var(--rose);
-  }
-
   @media (max-width: 899px), (max-height: 559px) {
     .masthead {
       top: 0;
@@ -80,6 +72,5 @@
     .mark :global(svg) { width: 30px; height: 30px; }
     .wordmark { font-size: 0.95rem; }
     .mh-role { font-size: 0.52rem; }
-    .mh-tag { display: none; }
   }
 </style>

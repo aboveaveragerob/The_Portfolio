@@ -61,7 +61,6 @@
   <footer class="atlas">
     <AstrolabeWidget corner="bl">
       <address class="coords">
-        <span class="coords-k">Send a signal</span>
         <a data-testid="atlas-contact" href="mailto:rob.a.gregory@proton.me">rob.a.gregory@proton.me</a>
         <a href="https://alastairzeved.com/">alastairzeved.com</a>
       </address>
@@ -69,7 +68,6 @@
     <AstrolabeWidget corner="br">
       <p class="colophon">
         <MetatronCube size={30} opacity={0.7} showCircles={false} />
-        <span>The Cosmological Library</span>
       </p>
     </AstrolabeWidget>
   </footer>
@@ -235,12 +233,6 @@
     font-size: 0.68rem;
     letter-spacing: 0.04em;
   }
-  .coords-k {
-    color: var(--text-2);
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    font-size: 0.6rem;
-  }
   .coords a {
     color: var(--sapphire);
     text-decoration: underline;
@@ -274,8 +266,6 @@
     .atlas :global(.aw-frame) { display: none; }
     .atlas :global(.astrolabe) { padding: 0; }
     .coords { flex-direction: row; gap: 10px; align-items: baseline; }
-    .coords-k { display: none; }
     .coords a { font-size: 0.6rem; }
-    .colophon span { display: none; }
   }
 </style>
