@@ -19,6 +19,17 @@
 > and focus return, tablist roving keys, compass tab order). At heights ≤ ~420px the orrery
 > renders as a small visual index whose planets fall below the 44px touch-target floor — the
 > adjacent role list carries the accessible 44px links there by design.
+>
+> **Update (owner review pivot — "The Library Among the Stars"):** After preview review the
+> instruments (orrery, constellations, scrolls, compass/sun dashboard) were retired and the site
+> became resume-first: `/` lands with the Brinker volume open over the library wall; closing it
+> reveals the wing-paged library (`/library`, `/library/[slug]`). The suite kept every core
+> assertion and the full 11-row matrix, re-journeyed as resume → reveal → browse: `no-scroll`
+> (per-viewport journey incl. folio-open and shelf-paging states), `flow` (chapter reads, image
+> decode, audio presence, Escape), `hydration` (4 route shapes, starfield determinism),
+> `reduced-motion`, and `a11y` (landing focus, focus trap, focus-return-to-spine, Tab-reachable
+> shelf controls). Local workers are capped at 2 (CI remains 1) so the longer journeys don't
+> starve each other into their timeouts.
 
 ## Finding
 

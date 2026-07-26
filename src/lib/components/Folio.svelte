@@ -6,6 +6,7 @@
      or ✕ closes back to the library. -->
 <script>
   import { onMount } from 'svelte';
+  import FlowerOfLife from './geometry/FlowerOfLife.svelte';
   import { goto } from '$app/navigation';
   import { trapFocus } from '$lib/actions/trapFocus.js';
   import { DUR } from '$lib/motion.js';
@@ -127,6 +128,9 @@
     >
       {#if current.kind === 'contents'}
         <div class="contents">
+          <span class="c-watermark" aria-hidden="true">
+            <FlowerOfLife rings={3} size={300} stroke="var(--ink)" opacity={0.045} />
+          </span>
           <p class="c-h">Contents</p>
           {#if book.chapters.length === 0}
             <p class="c-empty">This volume is still being written.</p>
@@ -301,9 +305,16 @@
 
   /* ── Contents panel ── */
   .contents {
+    position: relative;
     flex: 1;
     overflow-y: auto;
     padding: clamp(16px, 4%, 30px) clamp(18px, 5%, 36px);
+  }
+  .c-watermark {
+    position: absolute;
+    right: -70px;
+    bottom: -80px;
+    pointer-events: none;
   }
   .c-h {
     font-family: var(--mono);

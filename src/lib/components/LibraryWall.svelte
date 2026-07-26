@@ -8,6 +8,17 @@
   import { tick } from 'svelte';
   import { shelves, slugFor } from '$lib/content/library.js';
   import BookSpine from './BookSpine.svelte';
+  import PlatonicIcon from './geometry/PlatonicIcon.svelte';
+
+  // Each wing's plaque carries a Platonic-solid rune — the sacred-geometry
+  // accent surviving from the instruments, now in service of the library.
+  const RUNES = {
+    career: 'cube',
+    workshop: 'tetra',
+    cyber: 'octa',
+    greenhouse: 'icosa',
+    soundstage: 'dodeca',
+  };
 
   export let activeSlug = null;
 
@@ -35,25 +46,34 @@
 </script>
 
 <div class="archive" data-testid="library-wall" bind:this={root}>
-  <div class="band">
-    <div class="track" style="transform: translateX({-100 * pageIdx}%)">
-      {#each shelves as s, i}
-        <section class="shelf-page" aria-label={s.title} aria-hidden={i !== pageIdx ? 'true' : undefined}>
-          <h2 class="nameplate">{s.title}</h2>
-          <div class="row" class:inert-page={i !== pageIdx}>
-            {#each s.books as book (book.id)}
-              <BookSpine
-                {book}
-                wing={s}
-                slug={slugFor[book.id]}
-                active={slugFor[book.id] === activeSlug}
-              />
-            {/each}
-          </div>
-          <div class="plank" aria-hidden="true"></div>
-        </section>
-      {/each}
+  <div class="case">
+    <div class="pediment" aria-hidden="true"></div>
+    <div class="band">
+      <div class="track" style="transform: translateX({-100 * pageIdx}%)">
+        {#each shelves as s, i}
+          <section class="shelf-page" aria-label={s.title} aria-hidden={i !== pageIdx ? 'true' : undefined}>
+            <h2 class="plaque" style="--wing-accent:{s.accent}">
+              <span class="plaque-rune" aria-hidden="true">
+                <PlatonicIcon kind={RUNES[s.theme] ?? 'cube'} size={16} strokeWidth={1.4} />
+              </span>
+              <span>{s.title}</span>
+            </h2>
+            <div class="row" class:inert-page={i !== pageIdx}>
+              {#each s.books as book (book.id)}
+                <BookSpine
+                  {book}
+                  wing={s}
+                  slug={slugFor[book.id]}
+                  active={slugFor[book.id] === activeSlug}
+                />
+              {/each}
+            </div>
+            <div class="plank" aria-hidden="true"></div>
+          </section>
+        {/each}
+      </div>
     </div>
+    <div class="base" aria-hidden="true"></div>
   </div>
 
   <div class="controls">
@@ -85,12 +105,41 @@
     inset: 0;
   }
 
-  .band {
+  /* ── The bookcase ── */
+  .case {
     position: absolute;
     left: clamp(10px, 6vw, 90px);
     right: clamp(10px, 6vw, 90px);
-    bottom: clamp(120px, 20vh, 190px);
+    bottom: clamp(114px, 19vh, 184px);
+    padding: 0 clamp(10px, 1.4vw, 18px);
+    /* Side columns */
+    border-left: clamp(6px, 0.8vw, 10px) solid transparent;
+    border-right: clamp(6px, 0.8vw, 10px) solid transparent;
+    border-image: linear-gradient(180deg, var(--ledge-hi), var(--ledge-lo)) 1;
+  }
+
+  .pediment {
+    height: 12px;
+    margin: 0 calc(-1 * clamp(10px, 1.4vw, 18px));
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(180deg, var(--ledge-hi), var(--ledge-lo));
+    box-shadow: 0 3px 10px -4px #000, inset 0 1px 0 #ffffff1e;
+  }
+
+  .base {
+    height: 8px;
+    margin: 0 calc(-1 * clamp(10px, 1.4vw, 18px));
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(180deg, var(--ledge-lo), #0e0a17);
+    box-shadow: 0 12px 24px -8px #000;
+  }
+
+  .band {
     overflow: hidden;
+    padding-top: 10px;
+    background:
+      linear-gradient(180deg, #ffffff05 0%, transparent 30%),
+      color-mix(in srgb, var(--bg-2) 55%, transparent);
   }
 
   .track {
@@ -106,12 +155,25 @@
     align-items: center;
   }
 
-  .nameplate {
+  .plaque {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    background: var(--surface-1);
+    border: 1px solid color-mix(in srgb, var(--wing-accent, var(--violet)) 35%, transparent);
+    box-shadow: inset 0 1px 3px #00000066, 0 1px 0 #ffffff10;
     font-family: var(--serif);
     font-weight: 500;
-    font-size: clamp(0.9rem, 2.2vmin, 1.15rem);
+    font-size: clamp(0.85rem, 2vmin, 1.05rem);
     color: var(--text);
-    margin-bottom: 12px;
+  }
+  .plaque-rune {
+    display: grid;
+    place-items: center;
+    color: color-mix(in srgb, var(--wing-accent, var(--violet)) 80%, var(--text));
   }
 
   .row {
@@ -119,7 +181,7 @@
     align-items: flex-end;
     justify-content: center;
     gap: clamp(6px, 1vw, 12px);
-    min-height: clamp(130px, 26vh, 210px);
+    min-height: clamp(134px, 27vh, 218px);
     padding: 0 8px;
   }
   /* Off-screen pages must not catch tab stops. */
@@ -173,17 +235,24 @@
   }
 
   /* Without JS: every shelf stacks in an internally scrolling region. */
-  :global(html.no-js) .band { top: 60px; bottom: 100px; overflow-y: auto; }
+  :global(html.no-js) .case { top: 60px; bottom: 90px; }
+  :global(html.no-js) .band { max-height: calc(100% - 20px); overflow-y: auto; }
   :global(html.no-js) .track { flex-direction: column; gap: 28px; transform: none !important; }
   :global(html.no-js) .inert-page { visibility: visible; }
   :global(html.no-js) .controls { display: none; }
 
   @media (max-width: 899px), (max-height: 559px) {
-    .band {
+    .case {
       left: 6px;
       right: 6px;
-      bottom: calc(var(--bar-h) + 96px);
+      bottom: calc(var(--bar-h) + 92px);
+      padding: 0 6px;
+      border-left-width: 4px;
+      border-right-width: 4px;
     }
+    .pediment { margin: 0 -6px; height: 8px; }
+    .base { margin: 0 -6px; height: 6px; }
+    .plaque { padding: 4px 10px; font-size: 0.72rem; margin-bottom: 8px; }
     .row {
       min-height: clamp(110px, 22vh, 170px);
       flex-wrap: wrap;
