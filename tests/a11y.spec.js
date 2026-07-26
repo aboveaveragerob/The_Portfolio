@@ -3,7 +3,7 @@
 // to the originating spine, and the shelf controls are Tab-reachable.
 
 import { test, expect } from '@playwright/test';
-import { blockFonts, gotoResume, closeFolio, openVolume, pageShelf } from './helpers.js';
+import { blockFonts, gotoResume, closeFolio, openVolume } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
@@ -39,26 +39,23 @@ test('closing a volume returns focus to its spine', async ({ page }) => {
   await expect(page.getByTestId('spine-brinker-capital')).toBeFocused();
 });
 
-test('shelf controls are Tab-reachable on the library wall', async ({ page }) => {
+test('spines across the whole wall are Tab-reachable', async ({ page }) => {
   await blockFonts(page);
   await gotoResume(page);
   await closeFolio(page);
 
-  // On shelf 2 both paging buttons are enabled (disabled buttons are
-  // rightly unfocusable on the end shelves).
-  await pageShelf(page, +1);
-
-  // Scan from the top of the document — after the button click, forward-Tab
-  // would never revisit controls earlier in the DOM.
+  // Scan from the top of the document: the first spine of the first bay and
+  // the last spine of the last bay must both take keyboard focus — the whole
+  // collection is one uninterrupted tab run, no paging in between.
   await page.evaluate(() => document.activeElement?.blur?.());
 
   const seen = new Set();
-  for (let i = 0; i < 60 && seen.size < 2; i++) {
+  for (let i = 0; i < 80 && seen.size < 2; i++) {
     await page.keyboard.press('Tab');
     const id = await page.evaluate(
       () => document.activeElement?.getAttribute('data-testid') ?? ''
     );
-    if (id === 'shelf-prev' || id === 'shelf-next') seen.add(id);
+    if (id === 'spine-brinker-capital' || id === 'spine-date-nights') seen.add(id);
   }
-  expect([...seen].sort()).toEqual(['shelf-next', 'shelf-prev']);
+  expect([...seen].sort()).toEqual(['spine-brinker-capital', 'spine-date-nights']);
 });

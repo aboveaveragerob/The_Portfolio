@@ -136,8 +136,8 @@ export async function closeFolio(page) {
   await page.waitForTimeout(SETTLE_MS);
 }
 
-// Open a volume's folio by clicking its spine on the library wall. The spine
-// must be on the currently visible shelf page (use pageShelf first).
+// Open a volume's folio by clicking its spine — every spine is always
+// visible on the one-view wall.
 export async function openVolume(page, slug) {
   const spine = page.getByTestId(`spine-${slug}`);
   await expect(async () => {
@@ -159,8 +159,11 @@ export async function turnFolio(page, buttonId, expectedPrefix) {
   }).toPass({ timeout: 8_000 });
 }
 
-// Page the library wall carousel by clicking the labeled buttons.
-export async function pageShelf(page, dir) {
-  await page.getByTestId(dir > 0 ? 'shelf-next' : 'shelf-prev').click();
-  await page.waitForTimeout(DUR.panel + 200);
-}
+// The five wings, in shelf order — every plaque must always be in view.
+export const WINGS = [
+  'wing-professional',
+  'wing-physical',
+  'wing-digital',
+  'wing-cognitive',
+  'wing-social',
+];

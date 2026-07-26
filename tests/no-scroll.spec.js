@@ -1,31 +1,30 @@
-// The §8.4 regression gate, Library edition: at every supported viewport,
-// the resume landing (folio open), the revealed library, shelf paging, and
-// an open volume must each fit one screen — no page scroll on either axis —
-// with the folio controls, masthead, shelf controls, and the Atlas contact
-// link fully inside the viewport (clipped-not-scrolled is the signature bug
-// this suite exists to reveal).
+// The §8.4 regression gate, one-view-wall edition: at every supported
+// viewport, the resume landing (folio open), the revealed library — with ALL
+// FIVE wing bays and both far-corner spines simultaneously in view, nothing
+// paged or hidden — and an open volume must each fit one screen with no page
+// scroll on either axis (clipped-not-scrolled is the signature bug this
+// suite exists to reveal).
 
 import { test } from '@playwright/test';
 import {
   VIEWPORTS,
+  WINGS,
   blockFonts,
   assertNoPageScroll,
   assertInViewport,
   gotoResume,
   closeFolio,
   openVolume,
-  pageShelf,
 } from './helpers.js';
 
 for (const vp of VIEWPORTS) {
   test.describe(`no-scroll · ${vp.name}`, () => {
     test.use({ viewport: { width: vp.width, height: vp.height } });
 
-    // The journey covers the resume, the reveal, shelf paging, and a second
-    // volume, each riding out shared motion durations — double the budget.
+    // The journey rides out real motion windows — double the default budget.
     test.setTimeout(60_000);
 
-    test('resume, reveal, and every library state fit one screen', async ({ page }) => {
+    test('resume, reveal, and the whole wall fit one screen', async ({ page }) => {
       await blockFonts(page);
 
       // Landing: the resume lies open.
@@ -34,21 +33,20 @@ for (const vp of VIEWPORTS) {
       await assertInViewport(page, page.getByTestId('folio-close'), 'resume: folio close');
       await assertInViewport(page, page.getByTestId('folio-counter'), 'resume: folio counter');
 
-      // The reveal: closing the resume shows the library among the stars.
+      // The reveal: the ENTIRE library is on screen — every wing's plaque,
+      // and the first and last volumes of the collection.
       await closeFolio(page);
       await assertNoPageScroll(page, 'library reveal');
       await assertInViewport(page, page.getByTestId('masthead'), 'library: masthead');
-      await assertInViewport(page, page.getByTestId('shelf-next'), 'library: next-shelf button');
-      await assertInViewport(page, page.getByTestId('shelf-indicator'), 'library: shelf indicator');
+      for (const wing of WINGS) {
+        await assertInViewport(page, page.getByTestId(wing), `library: ${wing} plaque`);
+      }
+      await assertInViewport(page, page.getByTestId('spine-brinker-capital'), 'library: first spine');
+      await assertInViewport(page, page.getByTestId('spine-date-nights'), 'library: last spine');
       await assertInViewport(page, page.getByTestId('atlas-contact'), 'library: atlas contact');
 
-      // Shelf paging stays on one screen.
-      await pageShelf(page, +1);
-      await assertNoPageScroll(page, 'library: shelf 2');
-      await pageShelf(page, -1);
-
-      // A second volume opens and closes without ever scrolling the page.
-      await openVolume(page, 'eddie-bauer');
+      // A volume from the far shelf opens directly — no paging exists.
+      await openVolume(page, 'music-audio-production');
       await assertNoPageScroll(page, 'volume open');
       await assertInViewport(page, page.getByTestId('folio-close'), 'volume: folio close');
       await page.getByTestId('folio-close').click();

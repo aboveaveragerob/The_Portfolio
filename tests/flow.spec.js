@@ -5,12 +5,12 @@
 
 import { test, expect } from '@playwright/test';
 import {
+  WINGS,
   blockFonts,
   consoleGuard,
   gotoResume,
   closeFolio,
   openVolume,
-  pageShelf,
   turnFolio,
 } from './helpers.js';
 
@@ -38,10 +38,13 @@ test('resume opens, the library reveals, volumes read — no console errors', as
   await expect(folio).toContainText('multi-sleeve UMA portfolios');
   await turnFolio(page, 'folio-next', '5 /');
 
-  // The reveal: close the resume, the library appears at /library.
+  // The reveal: close the resume, the whole library appears at /library —
+  // all five wings on the wall at once.
   await closeFolio(page);
   await expect(page.getByTestId('view-library')).toBeVisible();
-  await expect(page.getByTestId('shelf-indicator')).toContainText('Shelf 1 of 5');
+  for (const wing of WINGS) {
+    await expect(page.getByTestId(wing)).toBeVisible();
+  }
 
   // An image volume: the Eddie Bauer windows actually load.
   await openVolume(page, 'eddie-bauer');
@@ -55,9 +58,8 @@ test('resume opens, the library reveals, volumes read — no console errors', as
   await page.getByTestId('folio-close').click();
   await expect(page).toHaveURL(/\/library$/);
 
-  // The audio volume lives on the Soundstage shelf: page across, open it,
+  // The audio volume opens straight off the Soundstage bay — no paging —
   // and both mp3 teasers are present.
-  for (let i = 0; i < 4; i++) await pageShelf(page, +1);
   await openVolume(page, 'music-audio-production');
   await folio.getByRole('button', { name: /Discography/ }).click();
   const tracks = folio.locator('.tracks audio');

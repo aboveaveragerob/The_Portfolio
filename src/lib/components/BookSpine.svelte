@@ -50,8 +50,12 @@
     align-items: center;
     justify-content: space-between;
     align-self: flex-end;
-    width: calc(clamp(30px, 3.4vw, 44px) * var(--wf));
-    height: calc(clamp(120px, 24vh, 200px) * var(--hf));
+    /* Width is a flex share of the shelf row (thickness variance preserved
+       as ratio), so the wall always fits — spines scale, never wrap. */
+    flex: calc(var(--wf) * 100) 1 0;
+    min-width: 0;
+    max-width: calc(46px * var(--wf));
+    height: calc(var(--shelf-h, 150px) * var(--hf));
     padding: 8px 3px 7px;
     border-radius: 4px 4px 2px 2px;
     background:
@@ -104,4 +108,15 @@
     opacity: 0.9;
   }
   .sp-emblem svg { width: 100%; height: 100%; display: block; }
+
+  /* Narrow viewports: the wall is seen "from across the room" — printed
+     titles and emblems go with it; identity stays on aria-label/title. */
+  @media (max-width: 639px) {
+    .spine { padding: 5px 1px 4px; }
+    .sp-title { display: none; }
+    .sp-emblem { width: 9px; height: 9px; }
+  }
+  @media (min-width: 640px) and (max-width: 899px) {
+    .sp-title { font-size: 0.55rem; }
+  }
 </style>
