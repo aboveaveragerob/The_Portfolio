@@ -1,8 +1,77 @@
+<script>
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import { DUR } from '$lib/motion.js';
+
+  // Vesica iris-in: the incoming scene opens through a circular clip — the
+  // Vesica Piscis cross-fade of the design brief, as a Svelte transition.
+  function vesica(node, { duration, delay = 0 }) {
+    return {
+      delay,
+      duration,
+      css: (t) => `clip-path: circle(${(t * 125).toFixed(1)}% at 50% 50%); opacity: ${(0.3 + 0.7 * t).toFixed(3)}`,
+    };
+  }
+  import Backdrop from '$lib/components/Backdrop.svelte';
+  import Masthead from '$lib/components/Masthead.svelte';
+  import AstrolabeWidget from '$lib/components/geometry/AstrolabeWidget.svelte';
+  import MetatronCube from '$lib/components/geometry/MetatronCube.svelte';
+  import StarCursor from '$lib/components/geometry/StarCursor.svelte';
+
+  // The scene is keyed on the top-level section only ('' = resume landing,
+  // 'library' = the revealed library), so opening /library/[slug] never
+  // re-renders the wall behind its folio — while closing the landing resume
+  // ('' → 'library') rides the scene transition as the reveal moment.
+  $: section = $page.url.pathname.split('/')[1] ?? '';
+
+  let dur = DUR.view;
+  onMount(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => (dur = mq.matches ? 0 : DUR.view);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  });
+</script>
+
 <svelte:head>
   <meta name="theme-color" content="#0b0912" />
 </svelte:head>
 
-<slot />
+<a class="skip-link" href="#view">Skip to content</a>
+
+<div class="shell" data-section={section || 'home'}>
+  <Backdrop />
+
+  <!-- Scenes are absolutely positioned so an outgoing and incoming scene can
+       overlap during the cross-fade without ever doubling layout height —
+       the page must never scroll, transiently included. -->
+  <main id="view" class="canvas" tabindex="-1">
+    {#key section}
+      <div class="scene" in:vesica={{ duration: dur, delay: dur }} out:fade={{ duration: dur }}>
+        <slot />
+      </div>
+    {/key}
+  </main>
+
+  <Masthead />
+  <StarCursor />
+
+  <footer class="atlas">
+    <AstrolabeWidget corner="bl">
+      <address class="coords">
+        <a data-testid="atlas-contact" href="mailto:rob.a.gregory@proton.me">rob.a.gregory@proton.me</a>
+        <a href="https://alastairzeved.com/">alastairzeved.com</a>
+      </address>
+    </AstrolabeWidget>
+    <AstrolabeWidget corner="br">
+      <p class="colophon">
+        <MetatronCube size={30} opacity={0.7} showCircles={false} />
+      </p>
+    </AstrolabeWidget>
+  </footer>
+</div>
 
 <style>
   :global(*, *::before, *::after) {
@@ -11,39 +80,45 @@
     padding: 0;
   }
 
-  /* ── Original design tokens ─────────────────────── */
+  /* ── "Nebula Noir" design tokens ────────────────── */
   :global(:root) {
-    --bg:      #0b0912;
+    --bg:      #0b0912;   /* deep space — base (unchanged) */
+    --bg-2:    #110b1a;   /* dark indigo — cards, panels */
     --line-2:  #ffffff22;
 
-    --bone-0:  #f3eddf;
-    --bone-1:  #d2cad9;
-    --bone-2:  #938aa3;
+    --text:    #f0eef3;   /* starlight white — body text (≈16.9:1 on --bg, AAA) */
+    --text-2:  #9a8fa8;   /* cosmic gray — metadata/secondary only (≈6.4:1), never body */
 
+    --sapphire:#4a7cf7;   /* links & interactive — always paired with underline/weight */
+    --violet:  #8b5cf6;   /* section accents, ornament strokes */
+    --rose:    #e8a87c;   /* key data, callouts (≈9.6:1) */
+    --gold:    #fcd34d;   /* hover/active glow, selection (≈13.5:1) */
+
+    /* Paper & ink — the reading surfaces inside folios and scrolls (AA-tuned) */
     --paper:   #f3ecdd;
-    --paper-edge: #d9d0bd;      /* page gutter shadow (was hardcoded in OpenBook) */
-    --paper-line: #00000018;    /* hairline rules on the paper pages (OpenBook) */
+    --paper-edge: #d9d0bd;      /* page gutter shadow */
+    --paper-line: #00000018;    /* hairline rules on the paper pages */
     --ink:     #211b16;
     --ink-2:   #5b5247;
     --ink-3:   #6f6455;         /* darkened from #8a7f6c → clears WCAG AA on paper */
     --ink-eyebrow: #8a5a1f;     /* chapter kicker — clears AA (was #a06a2e) */
 
-    --pink:    #ff2d78;
-    --violet:  #b25cff;
-
-    /* Cosmic surfaces — shared by shelves, spines, and the podium so the
-       whole composition reads as one system (no separate wood/gold palette). */
-    --surface-1: #241a33;
-    --surface-2: #160f22;
-    --ledge-hi:  #3c3552;
-    --ledge-lo:  #191524;
-
-    --grad:     linear-gradient(100deg,#ffb43d,#ff5a3d 26%,#ff2d78 50%,#b25cff 74%,#43b6ff);
-    --grad-ink: linear-gradient(100deg,#d9641a,#d62f5a 30%,#b3266e 52%,#7b3fd6 76%,#236fc9);
+    /* Cosmic surfaces — shared by panels, spines, and ledges so the whole
+       composition reads as one system. */
+    --surface-1: #1d1530;
+    --surface-2: #110b1a;
+    --ledge-hi:  #342b4d;
+    --ledge-lo:  #171126;
 
     --serif: 'Fraunces', Georgia, serif;
     --sans:  'Switzer', 'Helvetica Neue', system-ui, sans-serif;
     --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+    /* Shell metrics shared by scenes (stacked-variant safe areas):
+       chip = compact masthead height, bar = the slim contact line pinned to
+       the bottom edge on narrow/short viewports. */
+    --chip-h: 56px;
+    --bar-h: 34px;
   }
 
   :global(html) {
@@ -53,15 +128,13 @@
 
   :global(body) {
     height: 100%;
+    /* Static nebula bloom — the motion budget lives in chosen moments
+       (spiral, cursor trail), not in an always-running background. */
     background:
-      radial-gradient(60% 42% at 50% 62%, #2a153a4d 0%, #12081f00 60%),
-      radial-gradient(46% 30% at 84% 16%, #22a7f01f 0%, #22a7f000 70%),
-      radial-gradient(50% 34% at 12% 26%, #ff2d7817 0%, #ff2d7800 70%),
-      radial-gradient(120% 80% at 50% 0%, #1c1330 0%, var(--bg) 55%);
+      radial-gradient(58% 44% at 50% 56%, #17102844 0%, transparent 62%),
+      radial-gradient(120% 80% at 50% 0%, var(--bg-2) 0%, var(--bg) 58%);
     background-repeat: no-repeat;
-    background-size: 150% 150%;
-    animation: bg-drift 34s ease-in-out infinite alternate;
-    color: var(--bone-1);
+    color: var(--text);
     font-family: var(--sans);
     line-height: 1.45;
     font-feature-settings: "kern" 1;
@@ -69,43 +142,6 @@
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     overflow: hidden;
-  }
-
-  @keyframes bg-drift {
-    0%   { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
-    50%  { background-position: -9% 7%, 9% -6%, -6% 9%, 0% 0%; }
-    100% { background-position: 8% -9%, -8% 9%, 9% -6%, 0% 0%; }
-  }
-
-  /* Aurora: a slow drifting colour bloom so the void reads as alive */
-  :global(body::before) {
-    content: "";
-    position: fixed;
-    inset: -25%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(40% 34% at 32% 30%, #b25cff33 0%, transparent 68%),
-      radial-gradient(38% 30% at 70% 58%, #22a7f02b 0%, transparent 68%),
-      radial-gradient(34% 28% at 54% 82%, #ff2d7826 0%, transparent 68%);
-    mix-blend-mode: screen;
-    will-change: transform;
-    animation: aurora 30s ease-in-out infinite alternate;
-  }
-
-  @keyframes aurora {
-    0%   { transform: translate3d(-3%,-2%,0) rotate(-6deg) scale(1); }
-    100% { transform: translate3d(4%,3%,0) rotate(8deg) scale(1.16); }
-  }
-
-  :global(.gradtext) {
-    color: var(--bone-0);            /* solid fallback if background-clip:text is unsupported */
-    background: var(--grad);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    :global(.gradtext) { color: transparent; }
   }
 
   /* Skip link — visually hidden until focused (keyboard/SR wayfinding) */
@@ -117,7 +153,7 @@
     padding: 8px 14px;
     border-radius: 6px;
     background: var(--surface-1);
-    color: var(--bone-0);
+    color: var(--text);
     font-family: var(--mono);
     font-size: .72rem;
     letter-spacing: .08em;
@@ -135,12 +171,101 @@
   }
 
   :global(:focus-visible) {
-    outline: 2px solid var(--violet);
+    outline: 2px solid var(--gold);
     outline-offset: 3px;
     border-radius: 3px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    :global(body), :global(body::before) { animation: none !important; }
+  /* ── Shell ──────────────────────────────────────── */
+  .shell {
+    position: relative;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* The star cursor rides the open sky on fine pointers; controls keep their
+     native cursors so they still look like controls. Reduced-motion users
+     also keep the system cursor (the paired trail is motion). */
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .shell {
+      cursor: url('/cursor-star.svg') 11 11, auto;
+    }
+  }
+
+  /* No z-index here on purpose: the canvas must NOT create a stacking
+     context, so the folio modal (z5, rendered inside a scene) can rise above
+     the masthead (z3) and atlas (z2) in the root context. The canvas still
+     paints above the z0 backdrop by DOM order. */
+  .canvas {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    outline: none;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  /* ── Atlas corners ──────────────────────────────── */
+  .atlas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 14px 18px;
+    pointer-events: none;
+  }
+  .atlas :global(.astrolabe) { pointer-events: none; }
+
+  .coords {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+  .coords a {
+    color: var(--sapphire);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 2px 0;
+  }
+  .coords a:hover,
+  .coords a:focus-visible { color: var(--gold); }
+
+  .colophon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+
+  /* Narrow / short viewports: corners compact into a slim line pinned to the
+     bottom edge (footer stays — it is never hidden). */
+  @media (max-width: 899px), (max-height: 559px) {
+    .atlas {
+      bottom: 0;
+      padding: 4px 12px calc(4px + env(safe-area-inset-bottom, 0px));
+      align-items: center;
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-top: 1px solid var(--line-2);
+    }
+    .atlas :global(.aw-frame) { display: none; }
+    .atlas :global(.astrolabe) { padding: 0; }
+    .coords { flex-direction: row; gap: 10px; align-items: baseline; }
+    .coords a { font-size: 0.6rem; }
   }
 </style>

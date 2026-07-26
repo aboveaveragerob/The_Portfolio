@@ -1,28 +1,19 @@
 // Shared helpers for the no-scroll / functional regression suite.
 //
-// The redesign's headline invariant is "the page must never scroll" (DESIGN_AUDIT
-// §8.4). Because <body> is overflow:hidden, a control pushed past the viewport is
-// *clipped, not scrolled* — it fails silently. These helpers make that invariant,
-// and the functional flow that depends on it, checkable from the outside.
+// The library keeps the site's headline invariant: "the page must never
+// scroll" (DESIGN_AUDIT §8.4). Because <body> is overflow:hidden, a control
+// pushed past the viewport is *clipped, not scrolled* — it fails silently.
+// These helpers make that invariant, and the resume→library flows that
+// depend on it, checkable from the outside.
 
 import { expect } from '@playwright/test';
+import { DUR } from '../src/lib/motion.js';
 
 // ── The DESIGN_QA_HANDOFF §A viewport matrix ─────────────────────────────────
 // Baseline widths, then the tight landscape/short-height budgets, then large
 // desktops. The zoom rows simulate WCAG browser zoom as the reduced CSS
-// viewport a real browser reports at that zoom on a 1280×800 window (e.g. 200%
-// zoom → half the CSS pixels on each axis) — the same signal `innerWidth/
-// innerHeight` carry under real zoom, which is what the layout reacts to.
-//
-// `supported: false` marks the viewports where building this gate REVEALED a
-// genuine clip: at viewport heights ≤ ~533px the four always-open shelves plus
-// the masthead already exceed the screen, so the reader — CTA, podium, book
-// footer — is pushed below the fold. Fitting four shelves + a readable book +
-// podium into a 360–450px landscape/zoomed height is a responsive redesign
-// needing real-device/real-font judgment (owner-owned per
-// DESIGN_QA_HANDOFF §D), not a test tweak. These rows run as `test.fixme` so the
-// gap stays visible and encoded until that design work happens — see
-// docs/audits/qa-test-coverage.md.
+// viewport a real browser reports at that zoom on a 1280×800 window.
+// Every row is supported — history in docs/audits/qa-test-coverage.md.
 export const VIEWPORTS = [
   { name: '390x844 · mobile portrait', width: 390, height: 844 },
   { name: '768x1024 · tablet portrait', width: 768, height: 1024 },
@@ -30,17 +21,16 @@ export const VIEWPORTS = [
   { name: '1440x900 · desktop', width: 1440, height: 900 },
   { name: '1920x1080 · large desktop', width: 1920, height: 1080 },
   { name: '1024x640 · 125% zoom @1280x800', width: 1024, height: 640 },
-  { name: '740x360 · landscape short', width: 740, height: 360, supported: false },
-  { name: '812x375 · landscape short', width: 812, height: 375, supported: false },
-  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450, supported: false },
-  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533, supported: false },
-  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400, supported: false },
+  { name: '740x360 · landscape short', width: 740, height: 360 },
+  { name: '812x375 · landscape short', width: 812, height: 375 },
+  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450 },
+  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533 },
+  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400 },
 ];
 
-// Message shown on the skipped short-height rows.
-export const TIGHT_REASON =
-  'Known clip at viewport heights ≤ ~533px: the four always-open shelves push ' +
-  'the reader below the fold. Tracked in docs/audits/qa-test-coverage.md.';
+// Wait window after a scene swap: outgoing fade + incoming iris (delayed by
+// one fade) + margin. DUR is the same constant the shell animates with.
+export const SETTLE_MS = DUR.view * 2 + 200;
 
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'api.fontshare.com'];
 
@@ -123,72 +113,61 @@ export async function assertInViewport(page, locator, label = '') {
 }
 
 // ── State navigation ─────────────────────────────────────────────────────────
+// On the dev server the SSR markup is visible *before* hydration wires the
+// client router, so an early click can be a full-page navigation (fine) or be
+// swallowed mid-transition. The helpers therefore retry via `toPass`, which
+// doubles as a hydration gate — no fixed "wait for hydration" sleep.
 
-// Landing: nothing open, the staged closed book rests on the podium.
-export async function gotoLanding(page) {
+// Land on the resume: '/' loads with the Brinker folio already open.
+export async function gotoResume(page) {
   await page.goto('/');
-  await expect(page.locator('.stage-empty')).toBeVisible();
-  await expect(page.locator('.closed-book')).toBeVisible();
+  await expect(page.getByTestId('folio')).toBeVisible();
+  await expect(page.getByTestId('folio')).toContainText('Brinker Capital');
 }
 
-// Two timing facts about +page.svelte drive the helpers below:
-//  1. On the dev server the SSR markup is visible *before* hydration wires the
-//     on:click handlers, so an early click is silently ignored. The open helpers
-//     therefore retry the click until it actually takes effect (via `toPass`),
-//     which doubles as a hydration gate — no fixed "wait for hydration" sleep.
-//  2. `handleBookClick` / `handleClose` hold a `switching` guard for a hardcoded
-//     420ms (open) / 380+420ms (switch); a click inside that window is dropped.
-//     After each transition we wait the window out (with margin) so the *next*
-//     interaction is never swallowed. These are fixed source constants, so the
-//     waits are deterministic, not races.
-const OPEN_MS = 550; // one open animation (sleep 420) + margin
-const SWITCH_MS = 950; // close + open when swapping books (sleep 380 + 420) + margin
-
-// Open the staged volume (Brinker) via the closed book resting on the podium.
-// Retries until the book actually opens, absorbing the pre-hydration window on
-// a fresh load.
-export async function openStagedBook(page) {
-  const cta = page.locator('.closed-book');
+// Close whatever folio is open; lands on the revealed library wall.
+export async function closeFolio(page) {
+  const close = page.getByTestId('folio-close');
   await expect(async () => {
-    if (await cta.isVisible()) await cta.click();
-    await expect(page.locator('.book-spread')).toBeVisible({ timeout: 1000 });
+    if ((await page.getByTestId('folio').count()) > 0) await close.click();
+    await expect(page).toHaveURL(/\/library$/, { timeout: 1200 });
+    await expect(page.getByTestId('library-wall')).toBeVisible({ timeout: 1200 });
   }).toPass({ timeout: 12_000 });
-  await expect(page.locator('.th-t')).toBeVisible();
-  await page.waitForTimeout(OPEN_MS);
+  await page.waitForTimeout(SETTLE_MS);
 }
 
-// Select a spine by its book title. The spine keeps its `title="<Title> · <sub>"`
-// attribute even when the shelves compact (the visible text is hidden while a
-// book is open), so this works from the landing state and while switching books.
-export function spine(page, title) {
-  return page.locator(`.spine[title^="${title}"]`).first();
-}
-
-// Open a book by title and wait for its table of contents to render. Works while
-// another book is open (that path closes + reopens over ~800ms, which the
-// web-first assertion below rides out).
-export async function openBook(page, title) {
-  const target = new RegExp(escapeRe(title));
-  const th = page.locator('.th-t');
+// Open a volume's folio by clicking its spine. On close-up (short) viewports
+// the room may need to scroll internally to bring the spine into the eye —
+// the page itself never scrolls.
+export async function openVolume(page, slug) {
+  const spine = page.getByTestId(`spine-${slug}`);
   await expect(async () => {
-    // Only click when the target book isn't already the open one — re-clicking
-    // the already-open book's spine would toggle it shut. When the guard is mid-
-    // switch the click is harmlessly ignored, and the title still resolves.
-    const current = (await th.count()) ? (await th.first().textContent()) ?? '' : '';
-    if (!target.test(current)) await spine(page, title).click();
-    await expect(th).toHaveText(target, { timeout: 1200 });
+    if (!new URL(page.url()).pathname.includes(`/library/${slug}`)) {
+      await spine.scrollIntoViewIfNeeded();
+      await spine.click();
+    }
+    await expect(page.getByTestId('folio')).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
-  // Wait out the (possible) close+open switch window before the next click.
-  await page.waitForTimeout(SWITCH_MS);
+  await page.waitForTimeout(DUR.folioTurn + 150);
 }
 
-// From a book's TOC, open the Nth chapter (0-based) and land in the reader.
-export async function openChapter(page, index = 0) {
-  await page.locator('.toc-item').nth(index).click();
-  await expect(page.locator('.reading')).toBeVisible();
-  await expect(page.locator('.page-foot')).toBeVisible();
+// Turn folio panels until the counter shows the expected prefix. Guarded so a
+// click swallowed mid-render is retried, but a click that already landed is
+// never doubled.
+export async function turnFolio(page, buttonId, expectedPrefix) {
+  const counter = page.getByTestId('folio-counter');
+  await expect(async () => {
+    const txt = ((await counter.textContent()) ?? '').trim();
+    if (!txt.startsWith(expectedPrefix)) await page.getByTestId(buttonId).click();
+    await expect(counter).toContainText(expectedPrefix, { timeout: 900 });
+  }).toPass({ timeout: 8_000 });
 }
 
-function escapeRe(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+// The five wings, in shelf order — every plaque must always be in view.
+export const WINGS = [
+  'wing-professional',
+  'wing-physical',
+  'wing-digital',
+  'wing-cognitive',
+  'wing-social',
+];

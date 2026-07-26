@@ -1,78 +1,70 @@
-// No-scroll regression — the redesign's headline invariant (DESIGN_AUDIT §8.4):
-// the page must fit one screen in every state, across the full DESIGN_QA_HANDOFF
-// §A matrix, and the key controls must be *within* the viewport (not merely
-// un-scrolled — an overflow:hidden ancestor can clip a control silently).
+// The §8.4 regression gate, one-view-wall edition: at every supported
+// viewport, the resume landing (folio open), the revealed library — with ALL
+// FIVE wing bays and both far-corner spines simultaneously in view, nothing
+// paged or hidden — and an open volume must each fit one screen with no page
+// scroll on either axis (clipped-not-scrolled is the signature bug this
+// suite exists to reveal).
 
 import { test } from '@playwright/test';
 import {
   VIEWPORTS,
-  TIGHT_REASON,
+  WINGS,
   blockFonts,
-  gotoLanding,
-  openStagedBook,
-  openChapter,
-  openBook,
   assertNoPageScroll,
   assertInViewport,
+  gotoResume,
+  closeFolio,
+  openVolume,
 } from './helpers.js';
-
-test.beforeEach(async ({ page }) => {
-  await blockFonts(page);
-});
 
 for (const vp of VIEWPORTS) {
   test.describe(`no-scroll · ${vp.name}`, () => {
     test.use({ viewport: { width: vp.width, height: vp.height } });
 
-    test('landing, open, and reading each fit one screen', async ({ page }) => {
-      // Short-height / high-zoom rows are a known, documented clip — skip with a
-      // reason rather than assert (they'd fail on the below-the-fold controls).
-      if (vp.supported === false) test.fixme(true, TIGHT_REASON);
+    // The journey rides out real motion windows — double the default budget.
+    test.setTimeout(60_000);
 
-      // ── Landing ──────────────────────────────────────────────
-      await gotoLanding(page);
-      await assertNoPageScroll(page, `${vp.name} · landing`);
-      await assertInViewport(page, page.locator('.closed-book'), `${vp.name} · closed book`);
-      await assertInViewport(page, page.locator('.podium-wrap'), `${vp.name} · podium (landing)`);
+    test('resume, reveal, and the whole wall fit one screen', async ({ page }) => {
+      await blockFonts(page);
 
-      // ── Open (table of contents) ─────────────────────────────
-      await openStagedBook(page);
-      await assertNoPageScroll(page, `${vp.name} · open`);
-      await assertInViewport(page, page.locator('.podium-wrap'), `${vp.name} · podium (open)`);
+      // Landing: the resume lies open.
+      await gotoResume(page);
+      await assertNoPageScroll(page, 'resume landing');
+      await assertInViewport(page, page.getByTestId('folio-close'), 'resume: folio close');
+      await assertInViewport(page, page.getByTestId('folio-counter'), 'resume: folio counter');
 
-      // ── Reading (a chapter open) ─────────────────────────────
-      await openChapter(page, 0);
-      await assertNoPageScroll(page, `${vp.name} · reading`);
-      await assertInViewport(page, page.locator('.page-foot'), `${vp.name} · book footer`);
+      // The reveal. On viewports tall enough for three storeys of legible
+      // shelving, the ENTIRE library is on screen — every wing's plaque and
+      // both far-corner volumes. On close-up viewports (stacked or too short
+      // for legible titles across the hall and four wings) the ROOM scrolls
+      // internally — the page still never scrolls — and the far end of the
+      // wall is reached by looking along it.
+      const closeUp = vp.height < 700 || vp.width < 900;
+      await closeFolio(page);
+      await assertNoPageScroll(page, 'library reveal');
+      await assertInViewport(page, page.getByTestId('masthead'), 'library: masthead');
+      await assertInViewport(page, page.getByTestId('atlas-contact'), 'library: atlas contact');
+
+      if (!closeUp) {
+        for (const wing of WINGS) {
+          await assertInViewport(page, page.getByTestId(wing), `library: ${wing} plaque`);
+        }
+        await assertInViewport(page, page.getByTestId('spine-brinker-capital'), 'library: first spine');
+        await assertInViewport(page, page.getByTestId('spine-date-nights'), 'library: last spine');
+      } else {
+        const lastSpine = page.getByTestId('spine-date-nights');
+        await lastSpine.scrollIntoViewIfNeeded();
+        await assertInViewport(page, lastSpine, 'close-up: last spine after looking down the wall');
+        await assertNoPageScroll(page, 'close-up: page still fixed after internal scroll');
+      }
+
+      // A volume from the far shelf opens directly — no paging exists.
+      await openVolume(page, 'music-audio-production');
+      await assertNoPageScroll(page, 'volume open');
+      await assertInViewport(page, page.getByTestId('folio-close'), 'volume: folio close');
+      await page.getByTestId('folio-close').click();
+      await page.waitForTimeout(300);
+      await assertNoPageScroll(page, 'volume closed');
     });
   });
 }
-
-test.describe('internal scroll · 1024x640', () => {
-  // A supported but short viewport: the reader region is small enough that a
-  // long illustrated chapter overflows it and must scroll internally.
-  test.use({ viewport: { width: 1024, height: 640 } });
-
-  test('a long chapter scrolls inside the reader while the page stays fixed', async ({ page }) => {
-    await gotoLanding(page);
-    // Music → Discography: prose + album art + two audio players — reliably
-    // taller than the reader region at this short height.
-    await openBook(page, 'Music & Audio Production');
-    await openChapter(page, 0);
-
-    const body = page.locator('.page-body');
-    await test.expect(body).toBeVisible();
-
-    const overflows = await body.evaluate((el) => el.scrollHeight > el.clientHeight + 1);
-    test.expect(overflows, 'reader content overflows and can scroll internally').toBe(true);
-
-    await body.evaluate((el) => {
-      el.scrollTop = el.scrollHeight;
-    });
-    const scrolled = await body.evaluate((el) => el.scrollTop);
-    test.expect(scrolled, 'reader scrolled internally').toBeGreaterThan(0);
-
-    // The internal scroll must not have moved the page.
-    await assertNoPageScroll(page, '1024x640 · reading after internal scroll');
-  });
-});

@@ -4,13 +4,40 @@
 **Scope:** Automated-quality tooling for The_Portfolio (SvelteKit, adapter-static).
 ---
 
-> **Update:** The regression gate recommended below has since been implemented in `tests/`
-> (`no-scroll.spec.js`, `helpers.js`), so the "no automated quality gate exists" framing in the
-> Finding is retained only as the original rationale. One known gap remains open and is tracked here:
-> short-height / high-zoom viewports (height ≤ ~533px — landscape phones, 150%/200% zoom) are skipped
-> with `test.fixme` because the **four** always-open shelves push the reader (CTA, podium, book
-> footer) below the fold. Closing it is the owner-owned responsive redesign deferred per
-> `DESIGN_QA_HANDOFF.md` §D; the skipped rows are flagged `supported: false` in `tests/helpers.js`.
+> **Update (2026-07-17):** The regression gate recommended below has since been implemented in
+> `tests/` (`no-scroll.spec.js`, `helpers.js`), so the "no automated quality gate exists" framing
+> in the Finding is retained only as the original rationale.
+>
+> **Update (2026-07-18, Cosmological Library / Orrery Dashboard overhaul):** The one gap that was
+> tracked here — short-height / high-zoom viewports (height ≤ ~533px) skipped with `test.fixme`
+> because the four always-open shelves pushed the reader below the fold — is **closed**. The
+> dashboard's stacked variant (header chip + bottom compass bar + banded scenes) fits every row of
+> the `DESIGN_QA_HANDOFF.md` §A matrix, so all 11 viewport rows now run for real; the
+> `supported: false` machinery was removed from `tests/helpers.js`. The suite has also grown with
+> the overhaul: `hydration.spec.js` (per-route SSR determinism), `reduced-motion.spec.js`
+> (zero running animations under `prefers-reduced-motion`), and `a11y.spec.js` (folio focus trap
+> and focus return, tablist roving keys, compass tab order). At heights ≤ ~420px the orrery
+> renders as a small visual index whose planets fall below the 44px touch-target floor — the
+> adjacent role list carries the accessible 44px links there by design.
+>
+> **Update (owner review pivot — "The Library Among the Stars"):** After preview review the
+> instruments (orrery, constellations, scrolls, compass/sun dashboard) were retired and the site
+> became resume-first: `/` lands with the Brinker volume open over the library wall; closing it
+> reveals the wing-paged library (`/library`, `/library/[slug]`). The suite kept every core
+> assertion and the full 11-row matrix, re-journeyed as resume → reveal → browse: `no-scroll`
+> (per-viewport journey incl. folio-open and shelf-paging states), `flow` (chapter reads, image
+> decode, audio presence, Escape), `hydration` (4 route shapes, starfield determinism),
+> `reduced-motion`, and `a11y` (landing focus, focus trap, focus-return-to-spine, Tab-reachable
+> shelf controls). Local workers are capped at 2 (CI remains 1) so the longer journeys don't
+> starve each other into their timeouts.
+>
+> **Update (library-feel rebuild):** The wall became a room of five standalone themed cases with
+> every book designed by its contents (thickness = page count, binding bands = chapters, ghost
+> bindings for unwritten volumes) and **every title fully lettered, never clipped**. Title
+> legibility outranks all-visible where they physically conflict: on close-up viewports (width
+> <900px or height <560px — the stacked/short variants) the ROOM scrolls internally while the
+> page itself still never scrolls; `no-scroll.spec.js` branches accordingly (full-wall-in-view
+> assertions on large viewports; internal-scroll reachability of the far shelf on close-up rows).
 
 ## Finding
 

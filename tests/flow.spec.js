@@ -1,78 +1,79 @@
-// Functional regression — the full reading flow with no console errors or
-// hydration warnings, exercising an image book (Eddie Bauer) and an audio book
-// (Music), plus a dedicated hard-load hydration/console check.
+// Functional flow at the laptop baseline: the resume lands open, closing it
+// reveals the library, the shelves browse to an image volume and an audio
+// volume, pages turn, Escape closes — with zero console errors and zero
+// hydration warnings across the whole journey.
 
 import { test, expect } from '@playwright/test';
 import {
+  WINGS,
   blockFonts,
   consoleGuard,
-  gotoLanding,
-  openStagedBook,
-  openBook,
-  openChapter,
+  gotoResume,
+  closeFolio,
+  openVolume,
+  turnFolio,
 } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
-test.beforeEach(async ({ page }) => {
-  await blockFonts(page);
-});
+// One long journey on purpose — give it double the default budget.
+test.setTimeout(60_000);
 
-test('reading flow across an image book and an audio book — no console errors', async ({ page }) => {
+test('resume opens, the library reveals, volumes read — no console errors', async ({ page }) => {
+  await blockFonts(page);
   const guard = consoleGuard(page);
 
-  // Landing → open the staged volume via the CTA.
-  await gotoLanding(page);
-  await openStagedBook(page);
-  await expect(page.locator('.th-t')).toHaveText(/Brinker Capital/);
+  // Landing: the Brinker resume, open at its contents.
+  await gotoResume(page);
+  const folio = page.getByTestId('folio');
+  await expect(folio).toContainText('Contents');
+  await expect(folio).toContainText('Workflow Design & Process Automation');
 
-  // Image book: Eddie Bauer → its illustrated chapter.
-  await openBook(page, 'Eddie Bauer');
-  await openChapter(page, 0); // Visual Merchandising
-  const shots = page.locator('.shots img');
-  await expect(shots.first()).toBeVisible();
-  expect(await shots.count(), 'illustrated page has images').toBeGreaterThanOrEqual(1);
-  await shots.first().scrollIntoViewIfNeeded();
-  const imgLoaded = await shots.first().evaluate((img) => img.complete && img.naturalWidth > 0);
-  expect(imgLoaded, 'first Eddie Bauer image actually loaded (asset present)').toBe(true);
+  // Read into a chapter (retried — this is the page's first interaction, so
+  // the click doubles as the hydration gate), then turn a page.
+  await expect(async () => {
+    await folio.getByRole('button', { name: /Trade Execution & Risk Control/ }).click();
+    await expect(page.getByTestId('folio-counter')).toContainText('4 /', { timeout: 900 });
+  }).toPass({ timeout: 12_000 });
+  await expect(folio).toContainText('multi-sleeve UMA portfolios');
+  await turnFolio(page, 'folio-next', '5 /');
 
-  // Back to that book's contents.
-  await page.locator('.pf-btn').click();
-  await expect(page.locator('.toc-list')).toBeVisible();
+  // The reveal: close the resume, the whole library appears at /library —
+  // all five wings on the wall at once.
+  await closeFolio(page);
+  await expect(page.getByTestId('view-library')).toBeVisible();
+  for (const wing of WINGS) {
+    await expect(page.getByTestId(wing)).toBeVisible();
+  }
 
-  // Audio book: Music → its discography chapter (page 1 carries the players).
-  await openBook(page, 'Music & Audio Production');
-  await openChapter(page, 0);
-  const tracks = page.locator('.tracks audio');
-  await expect(tracks.first()).toBeVisible();
-  expect(await tracks.count(), 'discography page has both audio teasers').toBe(2);
-  const srcs = await tracks.evaluateAll((els) => els.map((a) => a.getAttribute('src')));
-  for (const src of srcs) expect(src).toMatch(/\.mp3$/);
+  // An image volume: the Eddie Bauer windows actually load.
+  await openVolume(page, 'eddie-bauer');
+  await folio.getByRole('button', { name: /Visual Merchandising/ }).click();
+  await expect(folio.locator('.shots img').first()).toBeVisible();
+  await expect
+    .poll(async () =>
+      folio.locator('.shots img').first().evaluate((img) => img.complete && img.naturalWidth > 0)
+    )
+    .toBe(true);
+  await page.getByTestId('folio-close').click();
+  await expect(page).toHaveURL(/\/library$/);
 
-  // Page-flip forward and back updates the folio.
-  await page.locator('.pf-turn button', { hasText: 'Next' }).click();
-  await expect(page.locator('.folio')).toHaveText('2 / 2');
-  await page.locator('.pf-turn button', { hasText: 'Prev' }).click();
-  await expect(page.locator('.folio')).toHaveText('1 / 2');
+  // The audio volume opens straight off the Soundstage bay — no paging —
+  // and both mp3 teasers are present.
+  await openVolume(page, 'music-audio-production');
+  await folio.getByRole('button', { name: /Discography/ }).click();
+  const tracks = folio.locator('.tracks audio');
+  await expect(tracks).toHaveCount(2);
+  for (const src of await tracks.evaluateAll((els) => els.map((el) => el.getAttribute('src')))) {
+    expect(src).toMatch(/\.mp3$/);
+  }
 
-  // Close → back to the landing state.
-  await page.locator('.close-btn').click();
-  await expect(page.locator('.stage-empty')).toBeVisible();
+  // Escape closes the folio too.
+  await expect(async () => {
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/library$/, { timeout: 800 });
+  }).toPass({ timeout: 8_000 });
 
-  expect(guard.hydration, 'hydration warnings during flow').toEqual([]);
-  expect(guard.errors, 'console errors during flow').toEqual([]);
-});
-
-test('hard load has no hydration mismatch or console error', async ({ page }) => {
-  const guard = consoleGuard(page); // attach before the first navigation
-  await page.goto('/', { waitUntil: 'networkidle' });
-  await expect(page.locator('.stage-empty')).toBeVisible();
-
-  // The seeded-PRNG starfield must render (SSR markup == client markup). A
-  // hydration repair or a Backdrop throw would drop these deterministic nodes.
-  const stars = page.locator('.backdrop svg.stars circle');
-  expect(await stars.count(), 'seeded starfield rendered').toBeGreaterThan(100);
-
-  expect(guard.hydration, 'hydration warnings on load').toEqual([]);
-  expect(guard.errors, 'console errors on load').toEqual([]);
+  expect(guard.errors, 'console should stay clean').toEqual([]);
+  expect(guard.hydration, 'no hydration warnings').toEqual([]);
 });
