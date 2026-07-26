@@ -14,6 +14,7 @@ import {
   openRole,
   openFolio,
   pageShelf,
+  turnFolio,
 } from './helpers.js';
 
 test.use({ viewport: { width: 1280, height: 800 } });
@@ -106,10 +107,8 @@ test('compass reaches every view and the sun returns home — no console errors'
 
   // Turn pages and watch the counter move.
   await expect(page.getByTestId('folio-counter')).toContainText('2 /');
-  await page.getByTestId('folio-next').click();
-  await expect(page.getByTestId('folio-counter')).toContainText('3 /');
-  await page.getByTestId('folio-prev').click();
-  await expect(page.getByTestId('folio-counter')).toContainText('2 /');
+  await turnFolio(page, 'folio-next', '3 /');
+  await turnFolio(page, 'folio-prev', '2 /');
   await page.getByTestId('folio-close').click();
   await expect(page).toHaveURL(/\/archive$/);
 

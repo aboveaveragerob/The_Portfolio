@@ -69,10 +69,12 @@
     pointer-events: none; /* only the planets take the pointer */
   }
 
+  /* Fill the wrap exactly; xMidYMid meet centers the square drawing, so the
+     rendered scale is always min(w,h)/1000 — the svg can never spill out of
+     its band and land planets over other controls. */
   .orrery {
-    width: min(96vmin, 100%);
-    height: min(96vmin, 100%);
-    overflow: visible;
+    width: 100%;
+    height: 100%;
   }
 
   .planet {
@@ -141,14 +143,12 @@
   }
 
   /* Narrow/short: the orrery compresses into the upper canvas as a visual
-     index (labels off — RoleList carries the text at readable size). */
+     index (labels off — RoleList carries the text at readable size). The
+     bottom inset reserves the role list's band so the two never overlap —
+     an overlaid list would intercept planet clicks. */
   @media (max-width: 899px), (max-height: 559px) {
     .orrery-wrap {
-      inset: var(--chip-h) 0 46% 0;
-    }
-    .orrery {
-      width: min(88vmin, 100%);
-      height: 100%;
+      inset: var(--chip-h) 0 max(46%, calc(var(--bar-h) + 150px)) 0;
     }
     .lbl-org,
     .lbl-dates,

@@ -8,7 +8,6 @@ import { test } from '@playwright/test';
 import {
   VIEWPORTS,
   VIEWS,
-  TIGHT_REASON,
   blockFonts,
   assertNoPageScroll,
   assertInViewport,
@@ -23,13 +22,11 @@ for (const vp of VIEWPORTS) {
   test.describe(`no-scroll · ${vp.name}`, () => {
     test.use({ viewport: { width: vp.width, height: vp.height } });
 
-    const t = vp.supported === false ? test.fixme : test;
-
     // The journey covers all four views plus role/tab/shelf/folio states,
     // each riding out shared motion durations — double the default budget.
     test.setTimeout(60_000);
 
-    t(`home and every view fit one screen${vp.supported === false ? ` — ${TIGHT_REASON}` : ''}`, async ({ page }) => {
+    test('home and every view fit one screen', async ({ page }) => {
       await blockFonts(page);
       await gotoHome(page);
 

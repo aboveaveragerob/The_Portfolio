@@ -14,9 +14,10 @@ import { DUR } from '../src/lib/motion.js';
 // desktops. The zoom rows simulate WCAG browser zoom as the reduced CSS
 // viewport a real browser reports at that zoom on a 1280×800 window.
 //
-// `supported: false` rows run as `test.fixme` pending the stacked-variant
-// audit (the dashboard's chip + bottom-bar layout is expected to promote at
-// least the ≥450px-height rows) — see docs/audits/qa-test-coverage.md.
+// Every row is supported: the dashboard's stacked variant (header chip +
+// bottom compass bar + banded scenes) resolved the old four-shelves clip at
+// heights ≤ ~533px — the whole matrix now runs for real, no fixme rows.
+// History in docs/audits/qa-test-coverage.md.
 export const VIEWPORTS = [
   { name: '390x844 · mobile portrait', width: 390, height: 844 },
   { name: '768x1024 · tablet portrait', width: 768, height: 1024 },
@@ -24,17 +25,12 @@ export const VIEWPORTS = [
   { name: '1440x900 · desktop', width: 1440, height: 900 },
   { name: '1920x1080 · large desktop', width: 1920, height: 1080 },
   { name: '1024x640 · 125% zoom @1280x800', width: 1024, height: 640 },
-  { name: '740x360 · landscape short', width: 740, height: 360, supported: false },
-  { name: '812x375 · landscape short', width: 812, height: 375, supported: false },
-  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450, supported: false },
-  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533, supported: false },
-  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400, supported: false },
+  { name: '740x360 · landscape short', width: 740, height: 360 },
+  { name: '812x375 · landscape short', width: 812, height: 375 },
+  { name: '900x450 · landscape (tightest budget)', width: 900, height: 450 },
+  { name: '853x533 · 150% zoom @1280x800', width: 853, height: 533 },
+  { name: '640x400 · 200% zoom @1280x800', width: 640, height: 400 },
 ];
-
-// Message shown on the skipped short-height rows.
-export const TIGHT_REASON =
-  'Short-height viewports (≤ ~533px) pending the stacked-variant fit audit. ' +
-  'Tracked in docs/audits/qa-test-coverage.md.';
 
 // The four compass views, in compass order (N, E, S, W).
 export const VIEWS = ['orbit', 'constellations', 'scrolls', 'archive'];
@@ -165,6 +161,18 @@ export async function openFolio(page, slug) {
     await expect(page.getByTestId('folio')).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
   await page.waitForTimeout(DUR.folioTurn + 150);
+}
+
+// Turn folio panels until the counter shows the expected prefix. Guarded so a
+// click swallowed mid-render is retried, but a click that already landed is
+// never doubled.
+export async function turnFolio(page, buttonId, expectedPrefix) {
+  const counter = page.getByTestId('folio-counter');
+  await expect(async () => {
+    const txt = ((await counter.textContent()) ?? '').trim();
+    if (!txt.startsWith(expectedPrefix)) await page.getByTestId(buttonId).click();
+    await expect(counter).toContainText(expectedPrefix, { timeout: 900 });
+  }).toPass({ timeout: 8_000 });
 }
 
 // Page the archive shelf carousel by clicking the labeled buttons.

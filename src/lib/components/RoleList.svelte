@@ -35,8 +35,8 @@
       left: 10px;
       right: 10px;
       bottom: calc(var(--bar-h) + 34px);
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 4px;
       z-index: 1;
     }
@@ -45,7 +45,8 @@
   a {
     display: flex;
     align-items: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 4px 10px;
     min-height: 44px;
     padding: 4px 12px;
     border-radius: 10px;
