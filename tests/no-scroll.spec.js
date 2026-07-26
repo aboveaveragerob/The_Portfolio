@@ -33,13 +33,13 @@ for (const vp of VIEWPORTS) {
       await assertInViewport(page, page.getByTestId('folio-close'), 'resume: folio close');
       await assertInViewport(page, page.getByTestId('folio-counter'), 'resume: folio counter');
 
-      // The reveal. On viewports large enough for thirty legible titles, the
-      // ENTIRE library is on screen — every wing's plaque and both far-corner
-      // volumes. On close-up viewports (the stacked/short variants, where
-      // legible titles physically exceed the screen) the ROOM scrolls
+      // The reveal. On viewports tall enough for three storeys of legible
+      // shelving, the ENTIRE library is on screen — every wing's plaque and
+      // both far-corner volumes. On close-up viewports (stacked or too short
+      // for legible titles across the hall and four wings) the ROOM scrolls
       // internally — the page still never scrolls — and the far end of the
       // wall is reached by looking along it.
-      const closeUp = vp.height < 560 || vp.width < 900;
+      const closeUp = vp.height < 700 || vp.width < 900;
       await closeFolio(page);
       await assertNoPageScroll(page, 'library reveal');
       await assertInViewport(page, page.getByTestId('masthead'), 'library: masthead');
