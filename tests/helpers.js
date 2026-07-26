@@ -136,12 +136,16 @@ export async function closeFolio(page) {
   await page.waitForTimeout(SETTLE_MS);
 }
 
-// Open a volume's folio by clicking its spine — every spine is always
-// visible on the one-view wall.
+// Open a volume's folio by clicking its spine. On close-up (short) viewports
+// the room may need to scroll internally to bring the spine into the eye —
+// the page itself never scrolls.
 export async function openVolume(page, slug) {
   const spine = page.getByTestId(`spine-${slug}`);
   await expect(async () => {
-    if (!new URL(page.url()).pathname.includes(`/library/${slug}`)) await spine.click();
+    if (!new URL(page.url()).pathname.includes(`/library/${slug}`)) {
+      await spine.scrollIntoViewIfNeeded();
+      await spine.click();
+    }
     await expect(page.getByTestId('folio')).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 12_000 });
   await page.waitForTimeout(DUR.folioTurn + 150);

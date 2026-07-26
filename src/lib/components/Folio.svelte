@@ -126,6 +126,22 @@
       class:turn-out={phase === 'out'}
       class:turn-in={phase === 'in'}
     >
+      {#if hasPrev}
+        <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+        <div
+          class="edge-turn left"
+          aria-hidden="true"
+          on:click={() => (panelIdx = Math.max(0, panelIdx - 1))}
+        ></div>
+      {/if}
+      {#if hasNext}
+        <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+        <div
+          class="edge-turn right"
+          aria-hidden="true"
+          on:click={() => (panelIdx = Math.min(panels.length - 1, panelIdx + 1))}
+        ></div>
+      {/if}
       {#if current.kind === 'contents'}
         <div class="contents">
           <span class="c-watermark" aria-hidden="true">
@@ -218,12 +234,13 @@
   .scrim {
     position: absolute;
     inset: 0;
-    background: #05030acc;
-    backdrop-filter: blur(6px);
+    background: #05030a66;
+    backdrop-filter: blur(3px);
   }
 
   .folio {
     position: relative;
+    animation: folio-pull 320ms cubic-bezier(0.2, 0.8, 0.3, 1);
     display: flex;
     flex-direction: column;
     width: min(94vw, 720px);
@@ -235,6 +252,20 @@
     box-shadow: 0 40px 90px -30px #000, 0 0 0 1px #ffffff10;
     color: var(--ink);
     overflow: hidden;
+  }
+
+  @keyframes folio-pull {
+    from {
+      transform: translateY(7%) scale(0.72);
+      opacity: 0.15;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .folio { animation: none; }
   }
 
   .fo-head {
@@ -283,11 +314,32 @@
 
   /* ── Vesica page turn ── */
   .fo-body {
+    position: relative;
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+  }
+
+  /* The page edges themselves turn pages — grab the margin like a real
+     leaf. Pointer-only (aria-hidden, no tab stop); the labeled footer
+     buttons remain the keyboard/AT path. */
+  .edge-turn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(16px, 4.5%, 34px);
+    z-index: 2;
+    cursor: pointer;
+  }
+  .edge-turn.left { left: 0; }
+  .edge-turn.right { right: 0; }
+  .edge-turn:hover {
+    background: linear-gradient(90deg, transparent, #00000014);
+  }
+  .edge-turn.left:hover {
+    background: linear-gradient(270deg, transparent, #00000014);
   }
   @keyframes vesica-out {
     from { clip-path: circle(125% at 50% 50%); opacity: 1; }

@@ -30,6 +30,14 @@
 > `reduced-motion`, and `a11y` (landing focus, focus trap, focus-return-to-spine, Tab-reachable
 > shelf controls). Local workers are capped at 2 (CI remains 1) so the longer journeys don't
 > starve each other into their timeouts.
+>
+> **Update (library-feel rebuild):** The wall became a room of five standalone themed cases with
+> every book designed by its contents (thickness = page count, binding bands = chapters, ghost
+> bindings for unwritten volumes) and **every title fully lettered, never clipped**. Title
+> legibility outranks all-visible where they physically conflict: on close-up viewports (width
+> <900px or height <560px — the stacked/short variants) the ROOM scrolls internally while the
+> page itself still never scrolls; `no-scroll.spec.js` branches accordingly (full-wall-in-view
+> assertions on large viewports; internal-scroll reachability of the far shelf on close-up rows).
 
 ## Finding
 

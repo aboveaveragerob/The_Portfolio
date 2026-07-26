@@ -33,17 +33,30 @@ for (const vp of VIEWPORTS) {
       await assertInViewport(page, page.getByTestId('folio-close'), 'resume: folio close');
       await assertInViewport(page, page.getByTestId('folio-counter'), 'resume: folio counter');
 
-      // The reveal: the ENTIRE library is on screen — every wing's plaque,
-      // and the first and last volumes of the collection.
+      // The reveal. On viewports large enough for thirty legible titles, the
+      // ENTIRE library is on screen — every wing's plaque and both far-corner
+      // volumes. On close-up viewports (the stacked/short variants, where
+      // legible titles physically exceed the screen) the ROOM scrolls
+      // internally — the page still never scrolls — and the far end of the
+      // wall is reached by looking along it.
+      const closeUp = vp.height < 560 || vp.width < 900;
       await closeFolio(page);
       await assertNoPageScroll(page, 'library reveal');
       await assertInViewport(page, page.getByTestId('masthead'), 'library: masthead');
-      for (const wing of WINGS) {
-        await assertInViewport(page, page.getByTestId(wing), `library: ${wing} plaque`);
-      }
-      await assertInViewport(page, page.getByTestId('spine-brinker-capital'), 'library: first spine');
-      await assertInViewport(page, page.getByTestId('spine-date-nights'), 'library: last spine');
       await assertInViewport(page, page.getByTestId('atlas-contact'), 'library: atlas contact');
+
+      if (!closeUp) {
+        for (const wing of WINGS) {
+          await assertInViewport(page, page.getByTestId(wing), `library: ${wing} plaque`);
+        }
+        await assertInViewport(page, page.getByTestId('spine-brinker-capital'), 'library: first spine');
+        await assertInViewport(page, page.getByTestId('spine-date-nights'), 'library: last spine');
+      } else {
+        const lastSpine = page.getByTestId('spine-date-nights');
+        await lastSpine.scrollIntoViewIfNeeded();
+        await assertInViewport(page, lastSpine, 'close-up: last spine after looking down the wall');
+        await assertNoPageScroll(page, 'close-up: page still fixed after internal scroll');
+      }
 
       // A volume from the far shelf opens directly — no paging exists.
       await openVolume(page, 'music-audio-production');
